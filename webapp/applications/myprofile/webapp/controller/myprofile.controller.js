@@ -6,6 +6,7 @@ sap.ui.define([
     "sap/m/MessageBox",
     '../utils/formatter'
 ],
+
     /**
          * @param {typeof sap.ui.core.mvc.Controller} Controller
          */
@@ -41,11 +42,11 @@ sap.ui.define([
             setCertificatesSet: function (certificates) {
                 var result = [];
                 if (certificates === "" || certificates === null) {
-                    var obj = {
-                        "name": "",
-                        "rate": 0
-                    }
-                    result.push(obj);
+                    // var obj = {
+                    //     "name": "",
+                    //     "rate": 0
+                    // }
+                    // result.push(obj);
                 } else {
                     var certificatesSet = certificates.split(",");
                     var result = [];
@@ -77,7 +78,7 @@ sap.ui.define([
                 var certificates = this.getView().getModel("certificateModel").getData();
                 var obj = {
                     "name": "",
-                    "rate": 0
+                    "rate": ""
                 }
                 certificates.push(obj);
                 this.getView().getModel("certificateModel").setData(certificates);
@@ -94,12 +95,14 @@ sap.ui.define([
             },
             onSavec: function () {
                 this.setVisibilityc();
-                this.getSkillSetc();
                 this.clearEmptySetc();
+                this.getSkillSetc();              
                 this.postSkillSetc();
             },
             onCancelc: function () {
-                this.setVisibilityc();
+                this.setVisibilityc();   
+                var certificates = this.getView().getModel("userModel").getData().certificates;      
+                this. setCertificatesSet(certificates); 
                 this.clearEmptySetc();
             },
             setVisibilityc: function () {
@@ -155,14 +158,14 @@ sap.ui.define([
             setSkillSet: function (skills) {
                 var result = [];
                 if (skills === "" || skills === null) {
-                    var obj = {
-                        "name": "",
-                        "rate": 0
-                    }
-                    result.push(obj);
+                    // var obj = {
+                    //     "name": "",
+                    //     "rate": 0
+                    // }
+                    // result.push(obj);
                 } else {
                     var skillSet = skills.split(",");
-                    for (var i = 0; i < skillSet.length; i++) {
+                    for (var i = 0; i < skillSet.length; i++) {                     
                         var temp = skillSet[i].split("-");
                         var name = temp[0];
                         var rate = temp[1];
@@ -190,20 +193,27 @@ sap.ui.define([
                 this.byId("editButton").setVisible(false);
                 this.byId("addButton").setVisible(false);
                 this.byId("tableCol1").setVisible(false);
-                this.byId("tableCol4").setVisible(true);
                 this.byId("tableCol2").setVisible(false);
+                this.byId("tableCol4").setVisible(true);        
                 this.byId("tableCol3").setVisible(true);
             },
             onSave: function () {
                 this.setVisibility();
-                this.getSkillSet();
                 this.clearEmptySet();
+                this.getSkillSet();            
                 this.postSkillSet();
             },
             onCancel: function () {
                 this.setVisibility();
+                // this.dataclear();
                 this.clearEmptySet();
+                var skills = this.getView().getModel("userModel").getData().skills;      
+                 this.setSkillSet(skills); 
             },
+            dataclear:function(){
+            this.getView().byId("tableColList12").getData()
+            },
+        
             setVisibility: function () {
                 this.byId("cancelButton").setVisible(false);
                 this.byId("saveButton").setVisible(false);
@@ -245,8 +255,9 @@ sap.ui.define([
                 });
             },
             onAdd: function () {
-                this.onEdit();
-                var skills = this.getView().getModel("skillModel").getData();
+                this.onEdit();     
+             var skills = this.getView().getModel("skillModel").getData();
+                // var i= skills.length;
                 var obj = {
                     "name": "",
                     "rate": 0
@@ -259,7 +270,7 @@ sap.ui.define([
                 for (var i = 0; i < skills.length; i++) {
                     if (skills[i].name === "") {
                         skills.splice(i, 1);
-                    }
+                    }            
                 }
                 this.getView().getModel("skillModel").setData(skills);
             }

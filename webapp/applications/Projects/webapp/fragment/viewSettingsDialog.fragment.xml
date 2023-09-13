@@ -1,7 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<ViewSettingsDialog id="_IDGenViewSettingsDialog1" confirm="onConfirmViewSettingsDialog">
 		<sortItems >
-			<!-- <ViewSettingsItem text="ID" key="id" selected="true"/> -->
 			<ViewSettingsItem id="_IDGenViewSettingsItem1" text="Project Name" key="attributes/name" selected="true"/>
 		</sortItems>
 		<filterItems>
@@ -12,15 +11,6 @@
 					<ViewSettingsItem id="_IDGenViewSettingsItem4" text="New" key="New"/>
 				</items>
 			</ViewSettingsFilterItem>
-	
-			<!-- <ViewSettingsFilterItem text="Priority" key="attributes/priority" multiSelect="false">
-				<items>
-					<ViewSettingsItem text="High" key="High"/>
-					<ViewSettingsItem text="Critical" key="Critical"/>
-					<ViewSettingsItem text="Moderate" key="Moderate"/>
-					<ViewSettingsItem text="Low" key="Low"/>
-				</items>
-			</ViewSettingsFilterItem> -->
 		</filterItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

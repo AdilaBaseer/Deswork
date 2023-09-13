@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns="sap.m">
-	<Dialog id="createDialog" title="{i18n>CreateAppointment}">
+	<Dialog  title="{i18n>CreateAppointment}">
 		<beginButton>
 			<Button text="{i18n>Save}" type="Emphasized" press="handleDialogSaveButton"/>
 		</beginButton>
@@ -7,7 +7,6 @@
 			<Button text="{i18n>Cancel}" press="handleDialogCancelButton"/>
 		</endButton>
 		<l:VerticalLayout class="sapUiContentPadding" width="100%">
-<<<<<<< HEAD
 		<!-- <Label text="{i18n>Project Name}" required="true"/>
 		<Select  forceSelection="false" width="100%" items="{mAppointDetails>/}" change="onSelectName">
 				<core:Item key="{mAppointDetails>id}" text="{mAppointDetails>attributes/name}"/>
@@ -26,29 +25,11 @@
 				<core:Item key="{mUserSubTask>id}" text="{mUserSubTask>attributes/name}"/>
 			</Select>
 			<Label text="{i18n>Start Date}" required="true"/>
-			<!-- <TimePicker
-				id="TP2"
-				valueFormat="{/timePickers/TP2/format}"
-				displayFormat="{/timePickers/TP2/format}"
-				showCurrentTimeButton="true"
-				change="handleChange"
-				maskMode="{= ${/maskMode/state} ? 'On' : 'Off'}"
-				placeholder="{/timePickers/TP2/placeholder}" /> -->
-			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"/>
+			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"  />
 			<Label text="{i18n>End Date}" required="true"/>
 			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange1"/>
 			<Label text="{i18n>Hours taken}" />
 			<Input editable="false"/>
-=======
-			<Label text="{i18n>Title}" required="true"/>
-			<Input />
-			<Label text="{i18n>Description}" />
-			<Input />
-			<Label text="{i18n>StartDate}" required="true"/>
-			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"/>
-			<Label text="{i18n>EndDate}" required="true"/>
-			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange"/>
->>>>>>> 0703dc281f4d2dcb241cd8f623f62a818c39a1d8
 			
 		</l:VerticalLayout>
 	</Dialog>

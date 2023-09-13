@@ -22,10 +22,13 @@ sap.ui.define([
         this.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
         that.getUserDetails();
         that.getAppointmentDetails();
-        // that.getUserProject();
-
+        that.getUserProject();
+        that.checkRepeatedTime();
         that.getUserTask();
       },
+
+
+
       getUserDetails: function () {
         var that = this;
         var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
@@ -65,11 +68,32 @@ sap.ui.define([
           },
           error: function (res) {
             console.log(res);
-            MessageBox.error(res + "Something went wroung");
+            // MessageBox.error(res + "Something went wroung");
           }
 
         });
       },
+      getUserProject: function (oEvent) {
+        var that = this;
+        var loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+        $.ajax({
+          url: "/deswork/api/p-projects?populate=*&filters[users_permissions_users][id]=" + loginId,
+          type: "GET",
+
+          success: function (res) {
+            var response = JSON.parse(res);
+            console.log(response);
+            var theModel = new sap.ui.model.json.JSONModel(response.data);
+            that.getView().setModel(theModel, "myproject");
+            var oModel = that.getView().getModel("myproject");
+          },
+          error: function (res) {
+            console.log(res);
+          }
+        });
+
+      },
+
       onSelectTask: function (oEvent) {
         var that = this;
         this.taskid = oEvent.getParameter("selectedItem").mProperties.key;
@@ -82,15 +106,12 @@ sap.ui.define([
             var response = JSON.parse(res);
             var cModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(cModel, "mUserSubTask");
-
           },
           error: function (res) {
             console.log(res);
-            MessageBox.error(res + "Something went wroung");
+            //MessageBox.error(res + "Something went wroung");
           }
-
         });
-
       },
       //
       getAppointmentDetails: function () {
@@ -108,9 +129,9 @@ sap.ui.define([
             console.log(res);
             MessageBox.error(res + "Something went wroung");
           }
-
         });
       },
+
       //for Edit Name Select
       getAppointmentDetailsEdit: function () {
         var that = this;
@@ -121,13 +142,12 @@ sap.ui.define([
           success: function (res) {
             var response = JSON.parse(res);
             var cModel = new sap.ui.model.json.JSONModel(response.data);
-            that.getView().setModel(cModel, "mAppointDetailsE");
+            that.getView().setModel(cModel, "mAppointDetails");
           },
           error: function (res) {
             console.log(res);
             MessageBox.error(res + "Something went wroung");
           }
-
         });
       },
       //
@@ -135,55 +155,51 @@ sap.ui.define([
         var that = this;
         that.getView().setModel(new JSONModel({}));
       },
+
       handleAppointmentCreate: function (oEvent) {
         var that = this;
-
         if (!this._AddAppointment) {
           this._AddAppointment = sap.ui.xmlfragment("calid", "vaspp.timetracking.fragment.CreateAppointment", this);
           this.getView().addDependent(this._AddAppointment);
         }
-
-        // var mModel = new sap.ui.model.json.JSONModel(this.getView().getModel().getData());
-        // this._AddAppointment.setModel(mModel);
-        // var timecal =  ;
-        // if (timecal === "8hours") {
-        //   console.log("Time Extended")
-        // }
-        //  else {
         this._AddAppointment.open();
         //  }
-
       },
+
       handleAppointmentEdit: function (oEvent) {
         if (!this._EditAppointment) {
           this._EditAppointment = sap.ui.xmlfragment("caleditid", "vaspp.timetracking.fragment.EditAppointment", this);
           this.getView().addDependent(this._EditAppointment);
         }
-
         var mModel = new sap.ui.model.json.JSONModel(this.getView().getModel().getData());
         this._EditAppointment.setModel(mModel);
         this.getAppointmentDetailsEdit();
-        var ch = this.getView().getModel("mAppointDetailsE").getData();
-        this._EditAppointment.getContent()[0].getContent()[1].setValue(ch.attributes.name);
-        this._EditAppointment.getContent()[0].getContent()[3].setValue(ch.attributes.description);
-       // this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_tasks.data[0].id) ? this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_tasks.data[0].id) :"";
-       // this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(ch.attributes.p_sub_tasks.data[0].id) ? this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_sub_tasks.data[0].id): null;
+        var ch = this.getView().getModel("mAppointDetails").getData();
+        // this._EditAppointment.getContent()[0].getContent()[1].setValue(ch.attributes.name);
+        this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[1].setValue(ch.attributes.name)
+        // this._EditAppointment.getContent()[0].getContent()[3].setValue(ch.attributes.description);
+        this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[3].setValue(ch.attributes.description)
+        // this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_tasks.data[0].id) ? this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_tasks.data[0].id) :"";
+        // this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(ch.attributes.p_sub_tasks.data[0].id) ? this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(ch.attributes.p_sub_tasks.data[0].id): null;
         if (ch.attributes.p_tasks.data.length > 0) {
-          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(ch.attributes.p_tasks.data[0].id);
+          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[5].setSelectedKey(ch.attributes.p_tasks.data[0].id);
         } else {
-          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(null);
+          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[5].setSelectedKey(null);
         }
         if (ch.attributes.p_sub_tasks.data.length > 0) {
-          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(ch.attributes.p_sub_tasks.data[0].id);
+          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].setValue(ch.attributes.name).setSelectedKey(ch.attributes.p_sub_tasks.data[0].id);
         } else {
-          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(null);
+          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].setSelectedKey(null);
         }
+        var startDate = UI5Date.getInstance(ch.attributes.startDate);
+        var endDate = UI5Date.getInstance(ch.attributes.endDate)
 
-        this._EditAppointment.getContent()[0].getContent()[9].setValue(ch.attributes.startDate);
-        this._EditAppointment.getContent()[0].getContent()[11].setValue(ch.attributes.endDate);
-        this._EditAppointment.getContent()[0].getContent()[13].setValue(ch.attributes.noOfHours);
+        // this._EditAppointment.getContent()[0].getContent()[9].setValue(startDate).;
+        this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[9].setDateValue(startDate).mProperties.value;
+        this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[11].setDateValue(endDate).mProperties.value
+        // this._EditAppointment.getContent()[0].getContent()[11].setValue(ch.attributes.endDate);
+        this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[13].setValue(ch.attributes.noOfHours);
         this._EditAppointment.open();
-
       },
       handleAppointmentEditA: function () {
         var that = this;
@@ -192,7 +208,6 @@ sap.ui.define([
         this.AppointmentInfo.getContent()[0].getItems()[0].getContent()[9].setVisible(true);
         this.AppointmentInfo.getContent()[0].getItems()[0].getContent()[12].setVisible(true);
         this.AppointmentInfo.getContent()[0].getItems()[0].getContent()[15].setVisible(true);
-
 
         this.AppointmentInfo.getContent()[0].getItems()[0].getContent()[2].setVisible(false);
         this.AppointmentInfo.getContent()[0].getItems()[0].getContent()[5].setVisible(false);
@@ -208,6 +223,11 @@ sap.ui.define([
         that.AppointmentInfo.getContent()[0].getItems()[0].getContent()[6].setEditable(false);
         that.AppointmentInfo.getContent()[0].getItems()[0].getContent()[8].setEditable(false);
       },
+      handleAppointmentCancel1: function () {
+        var that = this;
+        that._EditAppointment.close();
+        that.AppointmentInfo.close();
+      },
       onSelectedEdit: function (oEvent) {
 
       },
@@ -216,7 +236,7 @@ sap.ui.define([
         that.cseltext = oEvent.getParameter("selectedItem").getProperty("key");
         // that.selectedId = oEvent.getParameters().selectedItem.mProperties.key;
         $.ajax({
-          url: "deswork/api/p-appointments/" + that.cseltext + "?populate=*",
+          url: "deswork/api/p-appointments/"+ that.cseltext + "?populate=*",
           type: "GET",
 
           success: function (res) {
@@ -231,7 +251,6 @@ sap.ui.define([
             that._EditAppointment.getContent()[0].getContent()[5].setValue(check.startDate);
             that._EditAppointment.getContent()[0].getContent()[7].setValue(check.endDate);
 
-
           },
           error: function (res) {
             console.log(res);
@@ -242,25 +261,21 @@ sap.ui.define([
       handleDialogEditSaveButton: function () {
         var that = this;
         $.ajax({
-          url: "/deswork/api/p-appointments/" + this.taskId + "?populate=*",
+          url: "/deswork/api/p-appointments/" + that.taskId + "?populate=*",
           type: "PUT",
           headers: {
             "Content-Type": "application/json"
           },
           data: JSON.stringify({
             "data": {
-              // "users_permissions_users": this.loginId,
-              // "startDate": this._EditAppointment.getContent()[0].getContent()[5].getDateValue(),
-              // "endDate": this._EditAppointment.getContent()[0].getContent()[7].getDateValue(),
-              // "description": this._EditAppointment.getContent()[0].getContent()[3].getValue()
-              "users_permissions_users": this.loginId,
-              "name": this._EditAppointment.getContent()[0].getContent()[1].getValue(),
-              "description": this._EditAppointment.getContent()[0].getContent()[3].getValue(),
-              "p_tasks": this._EditAppointment.getContent()[0].getContent()[5].getSelectedKey() ? this._EditAppointment.getContent()[0].getContent()[5].getSelectedKey() : null,
-              "p_sub_tasks": this._EditAppointment.getContent()[0].getContent()[7].getSelectedKey() ? this._EditAppointment.getContent()[0].getContent()[5].getSelectedKey() : null,
-              "startDate": this._EditAppointment.getContent()[0].getContent()[9].getDateValue(),
-              "endDate": this._EditAppointment.getContent()[0].getContent()[11].getDateValue(),
-              "noOfHours": this._EditAppointment.getContent()[0].getContent()[13].getValue()
+              "users_permissions_users": that.loginId,
+              "name": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[1].getValue(),
+              "description": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[3].getValue(),
+              "p_tasks": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[5].getSelectedKey() ? that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[5].getSelectedKey() : null,
+              "p_sub_tasks": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].getSelectedKey() ? that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].getSelectedKey() : null,
+              "startDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[9].getDateValue(),
+              "endDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[11].getDateValue(),
+              "noOfHours": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[13].getValue()
             }
           }),
           success: function (response) {
@@ -270,8 +285,9 @@ sap.ui.define([
               MessageBox.error(resValue.error.message);
             } else {
               that._EditAppointment.close();
+              that.AppointmentInfo.close();
               that.getAppointmentDetails();
-              MessageBox.success("Updated Successfully");
+              MessageBox.success("Appointment Updated Successfully");
               that.getUserDetails();
               that.onInit();
               that.clearSaveEdit();
@@ -284,7 +300,7 @@ sap.ui.define([
         this._EditAppointment.getContent()[0].getContent()[1].setValue(),
           this._EditAppointment.getContent()[0].getContent()[3].setValue(),
           this._EditAppointment.getContent()[0].getContent()[5].setSelectedKey(),
-          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey() ,
+          this._EditAppointment.getContent()[0].getContent()[7].setSelectedKey(),
           this._EditAppointment.getContent()[0].getContent()[9].setDateValue(),
           this._EditAppointment.getContent()[0].getContent()[11].setDateValue(),
           this._EditAppointment.getContent()[0].getContent()[13].setValue()
@@ -310,7 +326,7 @@ sap.ui.define([
             var resValue = JSON.parse(response);
             console.log(resValue.error);
             if (resValue.error) {
-              MessageBox.error(resValue.error.message);
+              //MessageBox.error(resValue.error.message);
             } else {
               that.AppointmentInfo.close();
               that.getAppointmentDetails();
@@ -328,7 +344,9 @@ sap.ui.define([
       handleDialogEditCancelButton: function () {
         var that = this;
         that._EditAppointment.close();
+        that.AppointmentInfo.close();
       },
+
       handleCreateChange: function (oEvent) {
         var that = this;
         var startDate = this._AddAppointment.getContent()[0].getContent()[9].getDateValue();
@@ -361,7 +379,6 @@ sap.ui.define([
                 // Calculate duration in hours
 
                 totalHoursWorked += duration; // Accumulate the duration
-
                 console.log("Appointment duration: " + duration + " hours");
               }
             }
@@ -418,31 +435,7 @@ sap.ui.define([
         }
         this._EditAppointment.getContent()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
       },
-      // handleCreateChange1: function (oEvent) {
-      //   var startDate = this._AddAppointment.getContent()[0].getContent()[9].getDateValue();
-      //   var endDate = this._AddAppointment.getContent()[0].getContent()[11].getDateValue();
 
-      //   if (startDate && endDate) {
-      //     // Calculate the difference in milliseconds
-      //     var timeDiff = endDate.getTime() - startDate.getTime();
-
-      //     // Convert milliseconds to hours
-      //     var hours = Math.floor(timeDiff / (1000 * 60 * 60));
-
-      //     // Calculate the remaining minutes
-      //     var remainingMinutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-
-      //     // Calculate the number of days
-      //     var days = Math.floor(hours / 24);
-
-      //     // Calculate the hours remaining after accounting for full days
-      //     hours = hours % 24;
-
-      //     console.log("Hours taken: " + days + " days, " + hours + " hours, " + remainingMinutes + " minutes");
-
-      //     this._AddAppointment.getContent()[0].getContent()[13].setValue(days + " days, " + hours + " hours, " + remainingMinutes + " minutes");
-      //   }
-      // },
 
       handleDialogSaveButton: function () {
         var that = this;
@@ -460,7 +453,7 @@ sap.ui.define([
                 "name": this._AddAppointment.getContent()[0].getContent()[1].getValue(),
                 "description": this._AddAppointment.getContent()[0].getContent()[3].getValue(),
                 "p_tasks": this._AddAppointment.getContent()[0].getContent()[5].getSelectedKey() ? this._AddAppointment.getContent()[0].getContent()[5].getSelectedKey() : null,
-                "p_sub_tasks": this._AddAppointment.getContent()[0].getContent()[7].getSelectedKey() ? this._AddAppointment.getContent()[0].getContent()[5].getSelectedKey() : null,
+                "p_sub_tasks": this._AddAppointment.getContent()[0].getContent()[7].getSelectedKey() ? this._AddAppointment.getContent()[0].getContent()[7].getSelectedKey() : null,
                 "startDate": this._AddAppointment.getContent()[0].getContent()[9].getDateValue(),
                 "endDate": this._AddAppointment.getContent()[0].getContent()[11].getDateValue(),
                 "noOfHours": this._AddAppointment.getContent()[0].getContent()[13].getValue()
@@ -493,7 +486,7 @@ sap.ui.define([
         this._AddAppointment.getContent()[0].getContent()[1].setValue(),
           this._AddAppointment.getContent()[0].getContent()[3].setValue(),
           this._AddAppointment.getContent()[0].getContent()[5].setSelectedKey(),
-          this._AddAppointment.getContent()[0].getContent()[7].setSelectedKey() ,
+          this._AddAppointment.getContent()[0].getContent()[7].setSelectedKey(),
           this._AddAppointment.getContent()[0].getContent()[9].setDateValue(),
           this._AddAppointment.getContent()[0].getContent()[11].setDateValue(),
           this._AddAppointment.getContent()[0].getContent()[13].setValue()
@@ -502,7 +495,7 @@ sap.ui.define([
         var that = this;
         that.clearSave();
         that._AddAppointment.close();
-        
+
       },
       handleAppointmentSelect: function (oEvent) {
         var that = this;
@@ -514,7 +507,9 @@ sap.ui.define([
 
         var bindingContext = oEvent.getParameter("appointment").getBindingContext();
         var taskData = bindingContext.getObject();
+        that.SelectedId = taskData.id;
         var userInfo = bindingContext.getModel().oData[0].p_appointments;
+
 
         for (var i = 0; i < userInfo.length; i++) {
           if (taskData.id === userInfo[i].id) {
@@ -526,6 +521,7 @@ sap.ui.define([
                 var response = JSON.parse(res);
                 var cModel = new sap.ui.model.json.JSONModel(response.data);
                 that.getView().setModel(cModel, "mAppointDetails");
+
                 var mAppointDetails = that.getView().getModel("mAppointDetails");
                 var p_tasks = null;
                 var p_sub_tasks = null;
@@ -544,7 +540,8 @@ sap.ui.define([
                 var startDate = taskData.startDate;
                 var endDate = taskData.endDate;
                 var noOfHours = taskData.noOfHours;
-
+                var Comment=taskData.Comment;
+                var status=taskData.status;
                 var taskModel = new sap.ui.model.json.JSONModel();
                 taskModel.setData({
                   id: that.taskId,
@@ -554,7 +551,9 @@ sap.ui.define([
                   endDate: endDate,
                   noOfHours: noOfHours,
                   p_tasks: p_tasks,
-                  p_sub_tasks: p_sub_tasks
+                  p_sub_tasks: p_sub_tasks,
+                  Comment:Comment,
+                   status:status
                 });
 
                 that.getView().setModel(taskModel, "taskModel");
@@ -596,28 +595,42 @@ sap.ui.define([
         return Err;
       },
 
-
+      checkRepeatedTime: function () {
+        var that = this;
+        that.getAppointmentDetailsEdit();
+        //  that.getView().getModel("")
+        var startDateTime = that.getView().getModel("mAppointDetails");
+      },
       handleAppointmentDelete: function () {
         var that = this;
-
-        this.taskId;
-        $.ajax({
-          url: "/deswork/api/p-appointments/" + this.taskId + "?populate=*",
-          type: "DELETE",
-          success: function (response) {
-            var resValue = JSON.parse(response);
-            console.log(resValue.error);
-            if (resValue.error) {
-              MessageBox.error(resValue.error.message);
-            } else {
-              that.AppointmentInfo.close();
-              that.getAppointmentDetails();
-              MessageBox.success("Deleted Successfully");
-              that.getUserDetails();
-              that.onInit();
+        //  this.taskData.id;
+        that.SelectedId;
+        MessageBox.confirm("Are you sure you want to Delete  ?", {
+          actions: ["Yes", "No"],
+          emphasizedAction: "Yes",
+          onClose: function (evt) {
+            if (evt == "Yes") {
+              $.ajax({
+                url: "/deswork/api/p-appointments/" + that.SelectedId + "?populate=*",
+                type: "DELETE",
+                success: function (response) {
+                  var resValue = JSON.parse(response);
+                  console.log(resValue.error);
+                  if (resValue.error) {
+                    MessageBox.error(resValue.error.message);
+                  } else {
+                    that.AppointmentInfo.close();
+                    that.getAppointmentDetails();
+                    MessageBox.success("Deleted Successfully");
+                    that.getUserDetails();
+                    that.onInit();
+                  }
+                }
+              })
             }
           }
-        });
+        }
+        );
       },
       timecalculation: function (oEvent) {
         var startDate = this._AddAppointment.getContent()[0].getContent()[9].getDateValue();
@@ -632,11 +645,612 @@ sap.ui.define([
           console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
         }
         this._AddAppointment.getContent()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
-      }
-      // handleSelectionFinish: function (oEvent) {
-      //   var aSelectedKeys = oEvent.getSource().getSelectedKeys();
-      //   this.byId("PC1").setBuiltInViews(aSelectedKeys);
-      // }
+      },
 
+
+      handleAppointmentAddWithContext: function (oEvent) {
+        var that = this
+        var selectedDate = oEvent.getParameters().startDate;
+        var selectedDate1 = new Date(selectedDate);
+        var today = new Date();
+        if (!this._AppointmentContext) {
+          this._AppointmentContext = sap.ui.xmlfragment("calid", "vaspp.timetracking.fragment.AppointmentWithContent", this);
+          this.getView().addDependent(this._AppointmentContext);
+        }
+        if (today >= selectedDate1) {
+          this._AppointmentContext.getContent()[2].getContent()[9].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[2].getContent()[9].setMaxDate(today);
+
+
+          this._AppointmentContext.getContent()[2].getContent()[11].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[2].getContent()[11].setMaxDate(today);
+
+          this._AppointmentContext.getContent()[3].getContent()[1].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[3].getContent()[1].setMaxDate(today);
+
+          this._AppointmentContext.getContent()[5].getContent()[1].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[5].getContent()[1].setMaxDate(today);
+
+          this._AppointmentContext.getContent()[5].getContent()[3].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[5].getContent()[3].setMaxDate(today);
+
+          this._AppointmentContext.getContent()[4].getContent()[3].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[4].getContent()[3].setMaxDate(today);
+
+          this._AppointmentContext.getContent()[4].getContent()[5].setDateValue(selectedDate1);
+          this._AppointmentContext.getContent()[4].getContent()[5].setMaxDate(today);
+          that._AppointmentContext.open();
+        } else {
+          MessageBox.error("Cannot Enter Appointment for Future Date.")
+        }
+      },
+
+      handleCreateChange3: function (oEvent) {
+        var that = this;
+        var newStartDate1 = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var newEndDate1 = new Date(startDate);
+        var newStartDate = new Date(newStartDate1);
+        var newEndDate = new Date(newEndDate1);
+
+
+        var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
+        $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            // var arr = [];
+            response = JSON.parse(response);
+            for (var j = 0; j < response.p_appointments.length; j++) {
+              var eStartDate1 = response.p_appointments[j].startDate;
+              var eEndDate1 = response.p_appointments[j].endDate;
+              var eStartDate = new Date(eStartDate1);
+              var eEndDate = new Date(eEndDate1);
+              if ((newStartDate >= eStartDate && newStartDate <= eEndDate) || (newEndDate >= eStartDate && newEndDate <= eEndDate)) {
+                MessageBox.error("Collision: The selected date and time collide with an existing entry.");
+                return;
+              }
+            }
+          }
+        });
+
+        var startDate = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var endDate = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var formattedDate = inputDate.toISOString().split('T')[0];
+        var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
+        $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            var arr = [];
+            response = JSON.parse(response);
+            var oModel = new sap.ui.model.json.JSONModel();
+
+            var totalHoursWorked = 0; // Variable to store total hours worked
+
+            for (var j = 0; j < response.p_appointments.length; j++) {
+              response.p_appointments[j].startDate = UI5Date.getInstance(response.p_appointments[j].startDate);
+              response.p_appointments[j].endDate = UI5Date.getInstance(response.p_appointments[j].endDate);
+
+              // Check if the startDate matches the formattedDate
+              if (formattedDate === response.p_appointments[j].startDate.toISOString().split('T')[0]) {
+                var startTime = response.p_appointments[j].startDate.getTime();
+                var endTime = response.p_appointments[j].endDate.getTime();
+                var duration = (endTime - startTime) / (1000 * 60 * 60);
+                // Calculate duration in hours
+
+                totalHoursWorked += duration; // Accumulate the duration
+
+                console.log("Appointment duration: " + duration + " hours");
+              }
+            }
+            this.totalHoursWorked = totalHoursWorked;
+            if (totalHoursWorked >= 8) {
+              MessageBox.error("8 hours exceeded");
+              that._AddAppointment.close();
+            }
+            // console.log("Total hours worked on " + formattedDate + ": " + totalHoursWorked + " hours");
+
+            arr.push(response);
+            oModel.setData(arr);
+            that.getView().setModel(oModel);
+          }
+        });
+      },
+
+
+      handleCreateChange4: function (oEvent) {
+        var newStartDate1  = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var  newEndDate1 = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
+        var newStartDate = new Date(newStartDate1);
+        var newEndDate = new Date(newEndDate1);
+
+
+        var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
+        $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            // var arr = [];
+            response = JSON.parse(response);
+            for (var j = 0; j < response.p_appointments.length; j++) {
+              var eStartDate1 = response.p_appointments[j].startDate;
+              var eEndDate1 = response.p_appointments[j].endDate;
+              var eStartDate = new Date(eStartDate1);
+              var eEndDate = new Date(eEndDate1);
+              if ((newStartDate >= eStartDate && newStartDate <= eEndDate) || (newEndDate >= eStartDate && newEndDate <= eEndDate)) {
+                MessageBox.error("Collision: The selected date and time collide with an existing entry.");
+                return;
+              }
+            }
+          }
+        });
+
+        var startDate = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var endDate = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
+        if (startDate && endDate) {
+          // Calculate the difference in milliseconds
+          var timeDiff = endDate.getTime() - startDate.getTime();
+
+          // Convert milliseconds to hours
+          var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+        }
+        if (hours >= 8) {
+          MessageBox.error("8 hours exceeded");
+          this._AppointmentContext.close();
+        }
+        else {
+          this._AppointmentContext.getContent()[2].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
+        }
+      },
+      handleCreateChange5: function (oEvent) {
+        var that = this;
+        // // Assuming existingEntries is an array of existing date and time entries
+        var newStartDate1 = this._AppointmentContext.getContent()[4].getContent()[3].getDateValue();
+        var newEndDate1 = this._AppointmentContext.getContent()[4].getContent()[5].getDateValue();
+        var newStartDate = new Date(newStartDate1);
+        var newEndDate = new Date(newEndDate1);
+
+
+        var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
+        $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            // var arr = [];
+            response = JSON.parse(response);
+            for (var j = 0; j < response.p_appointments.length; j++) {
+              var eStartDate1 = response.p_appointments[j].startDate;
+              var eEndDate1 = response.p_appointments[j].endDate;
+              var eStartDate = new Date(eStartDate1);
+              var eEndDate = new Date(eEndDate1);
+              if ((newStartDate >= eStartDate && newStartDate <= eEndDate) || (newEndDate >= eStartDate && newEndDate <= eEndDate)) {
+                MessageBox.error("Collision: The selected date and time collide with an existing entry.");
+                return;
+              }
+            }
+          }
+        });
+
+        var startDate = this._AppointmentContext.getContent()[4].getContent()[3].getDateValue();
+        var endDate = this._AppointmentContext.getContent()[4].getContent()[5].getDateValue();
+        if (startDate && endDate) {
+          // Calculate the difference in milliseconds
+          var timeDiff = endDate.getTime() - startDate.getTime();
+
+          // Convert milliseconds to hours
+          var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+        }
+        if (hours >= 8) {
+          MessageBox.error("8 hours exceeded");
+          this._AppointmentContext.close();
+        }
+        else {
+          this._AppointmentContext.getContent()[4].getContent()[7].setValue(hours + " hours " + minutes + " minutes");
+        }
+      },
+      handleCreateChange6: function (oEvent) {
+        var  newStartDate1 = this._AppointmentContext.getContent()[5].getContent()[1].getDateValue();
+        var  newEndDate1= this._AppointmentContext.getContent()[5].getContent()[3].getDateValue();
+        var newStartDate = new Date(newStartDate1);
+        var newEndDate = new Date(newEndDate1);
+
+
+        var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
+        $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            // var arr = [];
+            response = JSON.parse(response);
+            for (var j = 0; j < response.p_appointments.length; j++) {
+              var eStartDate1 = response.p_appointments[j].startDate;
+              var eEndDate1 = response.p_appointments[j].endDate;
+              var eStartDate = new Date(eStartDate1);
+              var eEndDate = new Date(eEndDate1);
+              if ((newStartDate >= eStartDate && newStartDate <= eEndDate) || (newEndDate >= eStartDate && newEndDate <= eEndDate)) {
+                MessageBox.error("Collision: The selected date and time collide with an existing entry.");
+                return;
+              }
+            }
+          }
+        });
+        var startDate = this._AppointmentContext.getContent()[5].getContent()[1].getDateValue();
+        var endDate = this._AppointmentContext.getContent()[5].getContent()[3].getDateValue();
+        if (startDate && endDate) {
+          // Calculate the difference in milliseconds
+          var timeDiff = endDate.getTime() - startDate.getTime();
+
+          // Convert milliseconds to hours
+          var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+        }
+        if (hours >= 8) {
+          MessageBox.error("8 hours exceeded");
+          this._AppointmentContext.close();
+        }
+        else {
+          this._AppointmentContext.getContent()[5].getContent()[7].setValue(hours + " hours " + minutes + " minutes");
+        }
+      },
+
+      handleAppDialogCancelButton: function () {
+        var that = this;
+        that.clearSave1();
+        that._AppointmentContext.close();
+      },
+
+      onSelectChange: function (oEvent) {
+        debugger
+        var that = this;
+        var oProjectForm = that._AppointmentContext.getContent()[2];
+        var oOutOfOfficeForm = that._AppointmentContext.getContent()[3];
+        var oInternalForm = that._AppointmentContext.getContent()[4];
+        var oTraining = that._AppointmentContext.getContent()[5];
+        that.SelectedButton = oEvent.getParameters().selectedItem.getKey();
+
+        if (that.SelectedButton === "Projects") {
+          oProjectForm.setVisible(true);
+          oOutOfOfficeForm.setVisible(false);
+          oInternalForm.setVisible(false);
+          oTraining.setVisible(false);
+        } else if (that.SelectedButton === "OutOfOffice") {
+          oProjectForm.setVisible(false);
+          oOutOfOfficeForm.setVisible(true);
+          oInternalForm.setVisible(false);
+          oTraining.setVisible(false);
+        } else if (that.SelectedButton === "Internal") {
+
+          oProjectForm.setVisible(false);
+          oOutOfOfficeForm.setVisible(false);
+          oInternalForm.setVisible(true);
+          oTraining.setVisible(false);
+        } else if (that.SelectedButton === "Training") {
+          oProjectForm.setVisible(false);
+          oOutOfOfficeForm.setVisible(false);
+          oInternalForm.setVisible(false);
+          oTraining.setVisible(true);
+        }
+      },
+
+      clearSave1: function () {
+        var that = this;
+        var oProjectForm = that._AppointmentContext.getContent()[2];
+        var oOutOfOfficeForm = that._AppointmentContext.getContent()[3];
+        var oInternalForm = that._AppointmentContext.getContent()[4];
+        var oTraining = that._AppointmentContext.getContent()[5];
+        console.log(that._AppointmentContext.getContent()[1]); // Check the object in the console
+        console.log(typeof that._AppointmentContext.getContent()[1]); // Check the type of the object
+        that._AppointmentContext.getContent()[1].setSelectedKey(),
+          oProjectForm.setVisible(false);
+        oOutOfOfficeForm.setVisible(false);
+        oInternalForm.setVisible(false);
+        oTraining.setVisible(false)
+        that._AppointmentContext.close(),
+          that._AppointmentContext.getContent()[2].getContent()[1].setSelectedKey(),
+          that._AppointmentContext.getContent()[2].getContent()[3].setValue(),
+          that._AppointmentContext.getContent()[2].getContent()[5].setValue(),
+          that._AppointmentContext.getContent()[2].getContent()[7].setValue(),
+          that._AppointmentContext.getContent()[2].getContent()[9].setDateValue(),
+          that._AppointmentContext.getContent()[2].getContent()[11].setDateValue(),
+          that._AppointmentContext.getContent()[2].getContent()[13].setValue(),
+          oProjectForm.setVisible(false);
+        oOutOfOfficeForm.setVisible(false);
+        oInternalForm.setVisible(false);
+        oTraining.setVisible(false)
+        that._AppointmentContext.close(),
+
+          that._AppointmentContext.getContent()[3].getContent()[1].setSelectedIndex(),
+          oProjectForm.setVisible(false);
+        oOutOfOfficeForm.setVisible(false);
+        oInternalForm.setVisible(false);
+        oTraining.setVisible(false)
+        that._AppointmentContext.close(),
+
+          that._AppointmentContext.getContent()[4].getContent()[1].setValue(),
+          that._AppointmentContext.getContent()[4].getContent()[3].setValue(),
+          oProjectForm.setVisible(false);
+        oOutOfOfficeForm.setVisible(false);
+        oInternalForm.setVisible(false);
+        oTraining.setVisible(false)
+        that._AppointmentContext.close(),
+          that._AppointmentContext.getContent()[5].getContent()[1].setValue(),
+          that._AppointmentContext.getContent()[5].getContent()[3].setValue(),
+          oProjectForm.setVisible(false);
+        oOutOfOfficeForm.setVisible(false);
+        oInternalForm.setVisible(false);
+        oTraining.setVisible(false)
+        that._AppointmentContext.close()
+
+      },
+
+      onHalfDaySelect1: function () {
+        var that = this;
+        that.Selected = "FirstHalf Leave";
+      },
+
+      onHalfDaySelect2: function () {
+        var that = this;
+        that.Selected = "SecondHalf Leave";
+      },
+
+
+      handleAppDialogSaveButton: function () {
+        var that = this;
+
+        if (that.SelectedButton === "OutOfOffice") {
+          var Err = that.validateCreateOutOfOffice();
+          {
+            if (Err == 0) {
+              if (that.Selected === "FirstHalf Leave" ? "FirstHalf Leave" : "SecondHalf Leave ") {
+                $.ajax({
+                  url: "/deswork/api/p-appointments?populate=*",
+                  type: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  data: JSON.stringify({
+                    "data": {
+                      "users_permissions_users": this.loginId,
+                      "name": this._AppointmentContext.getContent()[1].getSelectedKey(),
+                      "description": this._AppointmentContext.getContent()[3].getContent()[5].getValue(),
+                      "startDate": this._AppointmentContext.getContent()[3].getContent()[1].getDateValue(),
+                      "endDate": this._AppointmentContext.getContent()[3].getContent()[1].getDateValue(),
+                      "halfDay": that.Selected,
+                      "noOfHours": "04 Hours",
+                    }
+                  }),
+                  success: function (response) {
+                    var resValue = JSON.parse(response);
+                    console.log(resValue.error);
+                    if (resValue.error) {
+                      MessageBox.error(resValue.error.message);
+                    } else {
+
+                      MessageBox.success("Added Successfully");
+                      that._AppointmentContext.close();
+                      that.getAppointmentDetails();
+                      that.getUserDetails();
+                      that.clearSave1();
+                    }
+                  }
+                });
+              }
+            }
+            else {
+              MessageBox.error("Mandatory Fields are Required");
+            }
+          }
+
+        }
+        else if (that.SelectedButton === "Training") {
+          var Err = that.validateCreateTraining();
+          if (Err == 0) {
+            console.log("T");
+            $.ajax({
+              url: "/deswork/api/p-appointments?populate=*",
+              type: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+
+              data: JSON.stringify({
+                "data": {
+                  "users_permissions_users": this.loginId,
+                  "name": this._AppointmentContext.getContent()[1].getSelectedKey(),
+                  "description": this._AppointmentContext.getContent()[5].getContent()[5].getValue(),
+                  "startDate": this._AppointmentContext.getContent()[5].getContent()[1].getDateValue(),
+                  "endDate": this._AppointmentContext.getContent()[5].getContent()[3].getDateValue(),
+                  "noOfHours": that._AppointmentContext.getContent()[5].getContent()[7].getValue(),
+                }
+              }),
+              success: function (response) {
+                var resValue = JSON.parse(response);
+                console.log(resValue.error);
+                if (resValue.error) {
+                  MessageBox.error(resValue.error.message);
+                } else {
+                  MessageBox.success("Added Successfully");
+                  that._AppointmentContext.close();
+                  that.getAppointmentDetails();
+                  that.getUserDetails();
+                  that.clearSave1();
+                }
+              }
+            });
+          } else {
+            MessageBox.error("Mandatory Fields are Required");
+          }
+        }
+        else if (that.SelectedButton === "Internal") {
+          var Err = that.validateCreateInternal();
+          if (Err == 0) {
+            console.log("In");
+            $.ajax({
+              url: "/deswork/api/p-appointments?populate=*",
+              type: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              data: JSON.stringify({
+                "data": {
+                  "users_permissions_users": this.loginId,
+                  "name": this._AppointmentContext.getContent()[1].getSelectedKey(),
+                  "description": that._AppointmentContext.getContent()[4].getContent()[1].getValue(),
+                  "startDate": this._AppointmentContext.getContent()[4].getContent()[3].getDateValue(),
+                  "endDate": this._AppointmentContext.getContent()[4].getContent()[5].getDateValue(),
+                  "noOfHours": that._AppointmentContext.getContent()[4].getContent()[7].getValue(),
+
+                }
+              }),
+              success: function (response) {
+                var resValue = JSON.parse(response);
+                console.log(resValue.error);
+                if (resValue.error) {
+                  MessageBox.error(resValue.error.message);
+                } else {
+                  MessageBox.success("Added Successfully");
+                  that._AppointmentContext.close();
+                  that.getAppointmentDetails();
+                  that.getUserDetails();
+                  that.clearSave1();
+                }
+              }
+            });
+          } else {
+            MessageBox.error("Mandatory Fields are Required");
+          }
+        }
+        else if (that.SelectedButton === "Projects") {
+          var Err = that.validateCreateProjects();
+          if (Err == 0) {
+            console.log("Projects");
+            $.ajax({
+              url: "/deswork/api/p-appointments?populate=*",
+              type: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              data: JSON.stringify({
+                "data": {
+                  "users_permissions_users": this.loginId,
+                  "name": this._AppointmentContext.getContent()[1].getSelectedKey(),
+                  "description": this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey(),
+                  "project_Information": this._AppointmentContext.getContent()[2].getContent()[3].getValue(),
+                  // "p_projects":this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey()?this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey() : null,
+                  "p_tasks": this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() ? this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() : null,
+                  "p_sub_tasks": this._AppointmentContext.getContent()[2].getContent()[7].getSelectedKey() ? this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() : null,
+                  "startDate": this._AppointmentContext.getContent()[2].getContent()[9].getDateValue(),
+                  "endDate": this._AppointmentContext.getContent()[2].getContent()[11].getDateValue(),
+                  "noOfHours": that._AppointmentContext.getContent()[2].getContent()[13].getValue(),
+
+                }
+              }),
+              success: function (response) {
+                var resValue = JSON.parse(response);
+                  that._AppointmentContext.close();
+                  that.getAppointmentDetails();
+                  MessageBox.success("Added Successfully"),
+                  that.getUserDetails();
+                  that.clearSave1();  
+                
+              }
+            });
+          } else {
+            MessageBox.error("Mandatory Fields are Required");
+          }
+        }
+      },
+      validateCreateOutOfOffice: function () {
+        var Err = 0;
+        if (this._AppointmentContext.getContent()[3].getContent()[1].getDateValue() === "" || this._AppointmentContext.getContent()[3].getContent()[1].getDateValue() == null) {
+          Err++;
+        }
+        else {
+          this._AppointmentContext.getContent()[3].getContent()[1].setValueState("None");
+        }
+        if (this._AppointmentContext.getContent()[3].getContent()[5].getValue() === "") {
+          this._AppointmentContext.getContent()[3].getContent()[5].setValueState("None");
+          Err++;
+        }
+        return Err;
+      },
+      validateCreateTraining: function () {
+        var Err = 0;
+        if (this._AppointmentContext.getContent()[5].getContent()[1].getDateValue() === "" || this._AppointmentContext.getContent()[5].getContent()[1].getDateValue() == null) {
+          Err++;
+        }
+        else {
+          this._AppointmentContext.getContent()[5].getContent()[1].setValueState("None");
+        }
+        if (this._AppointmentContext.getContent()[5].getContent()[3].getValue() === "") {
+          this._AppointmentContext.getContent()[5].getContent()[3].setValueState("None");
+          Err++;
+        }
+        if (this._AppointmentContext.getContent()[5].getContent()[5].getValue() === "") {
+          this._AppointmentContext.getContent()[5].getContent()[5].setValueState("None");
+          Err++;
+        }
+        return Err;
+      },
+      validateCreateInternal: function () {
+        var Err = 0;
+        if (this._AppointmentContext.getContent()[4].getContent()[3].getDateValue() === "" || this._AppointmentContext.getContent()[4].getContent()[3].getDateValue() == null) {
+          Err++;
+        }
+        else {
+          this._AppointmentContext.getContent()[4].getContent()[3].setValueState("None");
+        }
+        if (this._AppointmentContext.getContent()[4].getContent()[5].getValue() === "") {
+          this._AppointmentContext.getContent()[4].getContent()[5].setValueState("None");
+          Err++;
+        }
+        if (this._AppointmentContext.getContent()[4].getContent()[1].getValue() === "") {
+          this._AppointmentContext.getContent()[4].getContent()[1].setValueState("None");
+          Err++;
+        }
+        return Err;
+      },
+      validateCreateProjects: function () {
+        var Err = 0;
+        if (this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey() === "" || this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey() == null) {
+          Err++;
+        }
+        else {
+          this._AppointmentContext.getContent()[2].getContent()[1].setValueState("None");
+        }
+        if (this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() === "") {
+          this._AppointmentContext.getContent()[2].getContent()[5].setValueState("None");
+          Err++;
+        }
+        if (this._AppointmentContext.getContent()[2].getContent()[9].getValue() === "") {
+          this._AppointmentContext.getContent()[2].getContent()[9].setValueState("None");
+          Err++;
+        }
+        if (this._AppointmentContext.getContent()[2].getContent()[11].getValue() === "") {
+          this._AppointmentContext.getContent()[2].getContent()[11].setValueState("None");
+          Err++;
+        }
+        return Err;
+      },
     });
   });    

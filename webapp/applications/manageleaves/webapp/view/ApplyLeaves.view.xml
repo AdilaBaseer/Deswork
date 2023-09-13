@@ -1,34 +1,27 @@
-<mvc:View controllerName="VASPP.manageleaves.controller.ApplyLeaves" 
-xmlns:html="http://www.w3.org/1999/xhtml" 
-xmlns:upload="sap.m.upload"
-displayBlock="true"
-xmlns:mvc="sap.ui.core.mvc"
-xmlns="sap.m" 
-xmlns:l="sap.ui.layout" 
-xmlns:f="sap.ui.layout.form" 
-xmlns:u="sap.ui.unified" 
-xmlns:shellfooter="sap.ushell.ui.footerbar"
-xmlns:core="sap.ui.core">
-	<Page id="applyleave" title="Leave Entry" showNavButton="false">
+<mvc:View controllerName="VASPP.manageleaves.controller.ApplyLeaves" xmlns:html="http://www.w3.org/1999/xhtml" 
+xmlns:upload="sap.m.upload" displayBlock="true" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" 
+xmlns:shellfooter="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core">
+	<Page id="applyleave" title="Leave Entry" showNavButton="false"  navButtonPress="handleNavBack" >
 		<content>
-			<l:Grid id="LRS4_FLX_TOP" width="auto" defaultIndent="L4 M3" defaultSpan="L4 M6 S12" class="s4leaveTypeSelectorFlx">
+			<l:Grid id="LRS4_FLX_TOP" width="auto" defaultIndent="L4 M3" defaultSpan="L4 M6 S12" class="s4leaveTypeSelectorFlx" visible="true">
 				<l:content>
-					<Select id="leaveTypeSelectId" change="onLeaveTypeSelectionChange" required="true" width="100%" >
-						<core:Item id="_IDGenItem1" key="Select" text="Select" />	
-						<core:Item id="casual" key="Casual Leave" text="Casual Leave"/>
-						<core:Item id="sick" key="Sick Leave" text="Sick Leave"/>
-						<core:Item id="maternity" key="Maternity Leave" text="Maternity Leave"/> 
-						<core:Item id="paternity" key="Paternity Leave" text="Paternity Leave"/>
-						<core:Item id="marriage" key="Marriage Leave" text="Marriage Leave"/>
-						<core:Item id="unpaid" key="Unpaid Leave" text="Unpaid Leave"/>
+					<Select id="leaveTypeSelectId" change="onLeaveTypeSelectionChange" 
+						required="true" width="100%" tooltip="Please select leave type">
+						<core:Item id="_IDGenItem1" key="Select" text="Select" tooltip="Select"/>	
+						<core:Item id="casual" key="Casual Leave" text="Casual Leave" tooltip="Casual Leave"/>
+						<core:Item id="sick" key="Sick Leave" text="Sick Leave" tooltip="Sick Leave"/>
+						<core:Item id="maternity" key="Maternity Leave" text="Maternity Leave" tooltip="Maternity Leave"/> 
+						<core:Item id="paternity" key="Paternity Leave" text="Paternity Leave" tooltip="Paternity Leave"/>
+						<core:Item id="marriage" key="Marriage Leave" text="Marriage Leave" tooltip="Marriage Leave"/>
+						<core:Item id="unpaid" key="Unpaid Leave" text="Unpaid Leave" tooltip="Unpaid Leave"/>
 					</Select>
 				</l:content>
 			</l:Grid>
-			<l:Grid id="_IDGenGrid1" defaultSpan="L12 M12 S12" width="auto">
+			<l:Grid id="_IDGenGrid1" defaultSpan="L12 M12 S12" width="auto" visible="true">
 				<l:content>
 					<f:Form id="LRS4_FRM_MAIN">
 						<f:layout>
-							<!--<f:ResponsiveGridLayout labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1"/>-->
 							<f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout1" labelSpanL="3" labelSpanM="3"/>
 						</f:layout>
 						<f:formContainers>
@@ -42,7 +35,8 @@ xmlns:core="sap.ui.core">
 											<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData2"></l:ResponsiveFlowLayoutData>
 										</f:layoutData>
 										<f:fields>
-											<u:Calendar id="calSelectLeaveDates" showWeekNumbers="false" class="s4Calendar" select="handleDateSelection" intervalSelection="false"
+											<u:Calendar id="calSelectLeaveDates" showWeekNumbers="false" class="s4Calendar" 
+												select="handleDateSelection" intervalSelection="false"
 												singleSelection="false" nonWorkingDays="0,6"></u:Calendar>
 											<u:CalendarLegend id="LRS4_LEGEND" class="s4LEGEND">
 												<u:layoutData>
@@ -58,58 +52,158 @@ xmlns:core="sap.ui.core">
 								<f:layoutData>
 									<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData4" linebreak="{= ${device>/system/phone}}" weight="3"></l:ResponsiveFlowLayoutData>
 								</f:layoutData>
-								<f:formElements>
-									
+								<f:formElements>			
 									<f:FormElement id="LRS4_FELEM_NOTE">
 										<f:layoutData>
 											<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData5" linebreak="true"></l:ResponsiveFlowLayoutData>
 										</f:layoutData>
 										<f:fields>
-											<l:Grid id="LRS4_NOTE" width="100%" defaultSpan="L12 M12 S12">
+											<l:Grid id="LRS4_NOTE" width="100%" defaultSpan="L12 M12 S12" visible="true">
 												<l:content>
-													<Label id="_IDGenLabel1" text="Reason" required="false">
+													<Label id="_IDGenLabel1" text="Reason" required="false" tooltip="Reason for leave">
 														<layoutData>
 															<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData6" linebreak="true"></l:ResponsiveFlowLayoutData>
 														</layoutData>
 													</Label>
-													<TextArea id="reasonId" class="s4Notes " width="100%" rows="2" wrapping="None" value="{/reason}">
+													<TextArea id="reasonId" class="s4Notes " width="100%" rows="2" 
+														wrapping="None" value="{/reason}" tooltip="Please enter reason for leave here">
 														<layoutData>
 															<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData7" linebreak="true"></l:ResponsiveFlowLayoutData>
 														</layoutData>
 													</TextArea>
-													<CheckBox id="halfDayCheckBoxId" text="{i18n>LE_HALF_DAY_LEAVE}" select="handleCheckBoxSelection">
+													<CheckBox id="halfDayCheckBoxId" text="{i18n>LE_HALF_DAY_LEAVE}" 
+														select="handleCheckBoxSelection" tooltip="Check the box for half day leave">
 														<layoutData>
 															<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData8" linebreak="true"></l:ResponsiveFlowLayoutData>
 														</layoutData>
 													</CheckBox>
-													
-														<!-- <upload:UploadSet id="upldColAttach" items="{path:'attachmentModel>/', templateShareable: false}" afterItemAdded="onChange" beforeItemRemoved="onFileDeleted" mode="None" noDataDescription="{i18n>no files Description}">
-                                    <upload:items>
-									<upload:UploadSetItem id="_IDGenUploadSetItem1" fileName="{attachmentModel>FileName}" url="{attachmentModel>FileContent}"/>
-                                </upload:items>
-								</upload:UploadSet> -->
-														
+													<!-- <upload:UploadSet id="upldColAttach" items="{path:'attachmentModel>/', templateShareable: false}" afterItemAdded="onChange" beforeItemRemoved="onFileDeleted" mode="None" noDataDescription="{i18n>no files Description}">
+														<upload:items>
+														<upload:UploadSetItem id="_IDGenUploadSetItem1" fileName="{attachmentModel>FileName}" url="{attachmentModel>FileContent}"/>
+													</upload:items>
+													</upload:UploadSet> -->	
 												</l:content>
 											</l:Grid>
 										</f:fields>
 									</f:FormElement>
 								</f:formElements>
-							</f:FormContainer>
-							
+							</f:FormContainer>							
 						</f:formContainers>
-						<f:layout>
-							<f:ResponsiveLayout id="LRS4_FRM_MAIN_LAYOUT"></f:ResponsiveLayout>
-						</f:layout>
 					</f:Form>
 				</l:content>
 			</l:Grid>
+				<Table id="_IDGenTable1"  items="{path: 'leavehistory>/'}" 	mode="Delete" delete="deleteRow" visible="false">
+				<columns>
+					<Column id="_IDGenColumn1"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLuabel1"  text="{i18n>LE_APPLIED_ON}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn2"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel2" text="{i18n>LE_START_DATE}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn3"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel3" text="{i18n>LE_END_DATE}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn4"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel4" text="{i18n>LE_NO_OF_DAYS}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn5"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel5"  text="{i18n>LE_REASON}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn6" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel6"  text="Leave Type"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn7"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel7"  text="Status"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="_IDGenColumnListItem1" >
+					<cells>
+						<Text id="_IDGenText1"  text="{path:'leavehistory>attributes/createdAt',formatter:'.formatter.formatDate'}"></Text>
+						<Text id="_IDGenText2"  text="{path:'leavehistory>attributes/startDate'}"></Text>
+						<Text id="_IDGenText3"  text="{path:'leavehistory>attributes/endDate'}"></Text>
+						<Text id="_IDGenText4" text="{leavehistory>attributes/NoOfDays}"/>
+						<Text id="_IDGenText5"  text="{leavehistory>attributes/reason}"/>
+						<Text id="_IDGenText6"  text="{leavehistory>attributes/type}"/>
+						<Text id="_IDGenText7"  text="{leavehistory>attributes/status}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+
+			<Table id="balanceLeaves" items="{path: 'balanceleave>/'}" visible="false">
+				<columns>
+					<Column id="_IDGenColffumn1" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLfabel1" text="Year"/>
+						</header>
+					</Column>
+					<Column id="_IDGenfColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenfLabel2" text="Default Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGenCoflumn3" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLafbel3" text="Carry Forward Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGefnColumn4" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLafbel4" text="Paid Leaves"/>
+						</header>
+					</Column>
+						<Column id="_IDGenCfolumn5" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabfel5" text="Sick Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGenfColumn6" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabelf6" text="Unpaid Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGenfColumn7" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLfabel7" text="Balance Leave"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="_IDGenColumnListItfem1">
+					<cells>
+						<Text id="_IDGenTfext1" text="{balanceleave>attributes/year}"/>
+						<Text id="_IDGenfText2" text="{balanceleave>attributes/defaultLeaves}"/>
+						<Text id="_IDGenTfext3" text="{balanceleave>attributes/carryForwardLeaves}"/>
+						<Text id="_IDGenTexft4" text="{balanceleave>attributes/paidLeaves}"/>
+						<Text id="_IDGenTexft5" text="{balanceleave>attributes/sickLeaves}"/>
+						<Text id="_IDGenTfext6" text="{balanceleave>attributes/unPaidLeaves}"/>
+						<Text id="_IDGenTefxt7" text="{balanceleave>attributes/balanceLeaves}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+
 		</content>
 		<footer>
 			<Bar id="_IDGenBar1">
 				<contentRight>
-					<Button id="_IDGenButton1" text="Apply Leave" press="applyLeave" type="Emphasized" tooltip="{i18nModel>LE_APPLY}"/>
-					<Button id="_IDGenButton2" text="Balance Leave" press="handlebalancePress" type="Emphasized" tooltip="{i18nModel>LE_BAL_LEAVES}"/>
-					<Button id="_IDGenButton3" text="Leave History" press="handleHistoryPress" type="Emphasized" tooltip="{i18nModel>LE_HISTORY}"/>
+					<Button id="_IDGenButton1" text="Apply Leave" press="applyLeave" 
+						type="Emphasized" tooltip="Apply Leave"/>
+					<Button id="_IDGenButton2" text="Balance Leave" press="handlebalancePress" 
+						type="Emphasized" tooltip="Balance Leave"/>
+					<Button id="_IDGenButton3" text="Leave History" press="handleHistoryPress" 
+						type="Emphasized" tooltip="Leave History"/>
 				</contentRight>
 			</Bar>
 		</footer>

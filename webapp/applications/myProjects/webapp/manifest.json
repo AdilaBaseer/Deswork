@@ -1,7 +1,7 @@
 {
 	"_version": "1.42.0",
 	"sap.app": {
-	  "id": "VASPP.myProjects.view.FlexibleColumnLayout",
+	  "id": "VASPP.myProjects.view.FlexibleColumnLayoutMy",
 	  "type": "application",
 	  "i18n": "i18n/i18n.properties",
 	  "applicationVersion": {
@@ -30,7 +30,7 @@
 	"sap.ui5": {
 		"flexEnabled": true,
         "rootView": {
-			"viewName": "VASPP.myProjects.view.FlexibleColumnLayout",
+			"viewName": "VASPP.myProjects.view.FlexibleColumnLayoutMy",
 			"type": "XML",
 			"async": true,
 			"id": "fcl"
@@ -67,38 +67,32 @@
 			
 			"routes": [
 				{
-					"pattern": "page2",
-					"name": "page2",
-					"target": "page2",
-					"layout": "EndColumnFullScreen"
-				},
-				{
 					"pattern": ":layout:",
-					"name": "master",
+					"name": "masterMyProjects",
 					"target": [
-						"master"
+						"masterMyProjects"
 					]
 				},
 				{
-					"pattern": "detail/{layout}/{product}",
-					"name": "detail",
+					"pattern": "detailMyProjects/{layout}/{product}",
+					"name": "detailMyProjects",
 					"target": [
-						"master",
-						"detail"
+						"masterMyProjects",
+						"detailMyProjects"
 					]
 				}
 				
 				
 			],
 			"targets": {
-				"master": {
-					"name": "Master",
-					"id":"master1",
+				"masterMyProjects": {
+					"name": "MasterMyProjects",
+					"id":"master1MyProjects",
 					"controlAggregation": "beginColumnPages"
 				},
-				"detail": {
-					"name": "Detail",
-					"id":"detail1",
+				"detailMyProjects": {
+					"name": "DetailMyProjects",
+					"id":"detail1MyProjects",
 					"controlAggregation": "midColumnPages"
 				}
 				

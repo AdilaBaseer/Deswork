@@ -51,6 +51,15 @@ xmlns="sap.m">
                 </Select> -->
                 <!-- <Label  text="Reason" required="true" />
                 <Input value="{mTasks>/p_task_reason}" /> -->
+                <Label text="Task Name" />
+
+           
+
+                <Select forceSelection="false" items="{Fragmentcsf>/}"  required="true" change="onPress" >
+
+                <core:Item  key="{Fragmentcsf>id}"  text="{Fragmentcsf>attributes/name}"/>
+
+                </Select>
                <Label text="Sub-Task" />
               
                 <Select forceSelection="false"  items="{csfmodel>/}"  required="true" editable="true" change="onSelectSubtask" >

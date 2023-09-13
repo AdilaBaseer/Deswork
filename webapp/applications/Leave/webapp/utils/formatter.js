@@ -11,6 +11,24 @@ sap.ui.define([], function () {
 			} else {
 				return date;
 			}
+		},
+		getDate: function(NoOfDays){
+			if (NoOfDays == 1) {
+				var days = NoOfDays + " day";
+			}
+			else {
+				var days = NoOfDays + " days";
+			}
+			return days;
+		},
+		
+		formatDate: function (startDate) {
+			var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "dd-MM-YYYY"
+			});
+			var dateFormatted = dateFormat.format(new Date(startDate));
+			return dateFormatted;
 		}
+		
 	};
 });

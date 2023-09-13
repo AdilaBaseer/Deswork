@@ -70,45 +70,33 @@
 			
 			"routes": [
 				{
-					"pattern": "page2",
-					"name": "page2",
-					"target": "page2",
-					"layout": "EndColumnFullScreen"
-				},
-				{
 					"pattern": ":layout:",
-					"name": "master",
+					"name": "masterLeave",
 					"target": [
-						"master"
+						"masterLeave"
 					]
 				},
 				
 				{
-					"pattern": "detail/{product}/{layout}",
-					"name": "detail",
+					"pattern": "detailLeave/{product}/{layout}",
+					"name": "detailLeave",
 					"target": [
-						"master",
-						"detail"
+						"masterLeave",
+						"detailLeave"
 					]
 				}
 				
 			],
 			"targets": {
-				"master": {
-					"name": "Master",
-					"id":"master1",
+				"masterLeave": {
+					"name": "MasterLeave",
+					"id":"master1Leave",
 					"controlAggregation": "beginColumnPages"
 				},
-				"detail": {
-					"name": "Detail",
-					"id":"detail1",
+				"detailLeave": {
+					"name": "DetailLeave",
+					"id":"detail1Leave",
 					"controlAggregation": "midColumnPages"
-				},
-				
-				"page2": {
-					"name": "AboutPage",
-					"id":"aboutpage1",
-					"controlAggregation": "endColumnPages"
 				}
 			}
 		},

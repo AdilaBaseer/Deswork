@@ -1,39 +1,24 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified"
 	xmlns:l="sap.ui.layout">
-<<<<<<< HEAD
 	<Dialog title="" contentWidth="50%" class="sapUiSizeCompact">
 		<beginButton>
-		<Button id ="editApp" text="Edit" visible="true" press="handleAppointmentEdit"/>
+		<Button  text="Edit" visible="true" press="handleAppointmentEdit"/>
 		</beginButton>
 		<endButton>
-		<Button text="{i18n>Delete}"  press="handleAppointmentDelete"/>
-			
-=======
-	<Dialog title="{i18n>Task/MeetingDetails}" contentWidth="50%" class="sapUiSizeCompact">
-		<beginButton>
-		<!-- <Button id ="editApp" text="Edit"  press="handleAppointmentEditA"/> -->
-		<Button id ="editSaveApp" text="{i18n>Save}"  press="handleDialogEditSaveButtonA"/>
-		</beginButton>
-		<endButton>
-		<!-- <Button id ="editSaveApp" text="Save"  press="handleDialogEditSaveButtonA"/> -->
-			<Button text="{i18n>Cancel}" press="handleAppointmentCancel"/>
->>>>>>> 0703dc281f4d2dcb241cd8f623f62a818c39a1d8
+		<Button text="{i18n>Delete}"  press="handleAppointmentDelete"/>	
 		</endButton>
 			<customHeader>
 			<Bar>
 				<contentRight>
-<<<<<<< HEAD
 				<Button  icon="sap-icon://decline" type="Reject"  press="handleAppointmentCancel"/>
 				<!-- <Button text="{i18n>Delete}" type="Reject" press="handleAppointmentDelete"/> -->
-=======
-				<Button id ="editApp" type="Reject" text="{i18n>Edit}"  press="handleAppointmentEditA"/>
-						<Button text="{i18n>Delete}" type="Reject" press="handleAppointmentDelete"/>
->>>>>>> 0703dc281f4d2dcb241cd8f623f62a818c39a1d8
 				</contentRight>
+				<contentLeft>
+				<Text text="{i18n>AppointmentInformation}"/>
+				</contentLeft>
 			</Bar>
 		</customHeader>
 		<VBox>
-<<<<<<< HEAD
 			<f:SimpleForm 	editable="false"
 			layout="ResponsiveGridLayout"
 			labelSpanXL="3"
@@ -50,8 +35,8 @@
 			columnsM="1"
 			singleContainerFullSize="false" >
 				<f:content>
-					<core:Title text="{i18n>AppointmentInformation}"/>
-					<Label text="{i18n>Title }"/>
+					<!-- <core:Title text="{i18n>AppointmentInformation}"/> -->
+					<Label text="{i18n>Title}"/>
 					<Text text="{taskModel>/name}" visible="true"></Text>
 					<Input value="{taskModel>/name}" visible="false" ></Input>
 				
@@ -59,48 +44,31 @@
 					<Text text="{taskModel>/description}" visible="true"/>
 					<Input value="{taskModel>/description}" visible="false" ></Input>
 
-                    <Label text="{i18n>Task }"/>
-					<Text text="{taskModel>/p_tasks}" visible="true"/>
+                    <Label text="{i18n>Task}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Text text="{taskModel>/p_tasks}" visible="{= %{taskModel>/name} === 'Projects'}"/>
 					<Input value="{taskModel>/p_tasks}" visible="false" ></Input>
 
-					<Label text="{i18n>Sub-Task}"/>
-					<Text text="{taskModel>/p_sub_tasks}" visible="true"/>
+					<Label text="{i18n>Sub-Task}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Text text="{taskModel>/p_sub_tasks}" visible="{= %{taskModel>/name} === 'Projects'}"/>
 					<Input value="{taskModel>/p_sub_tasks}" visible="false" ></Input>
 
 					<Label text="{i18n>StartDate }"/>
 					<Text text="{path:'taskModel>/startDate',formatter:'.formatter.getDateFormat'}" visible="true"/>
 					<DateTimePicker value="{taskModel>/startDate}"  visible="false" />
 				
-					<Label text="{i18n>EndDate }"/>
-					<Text text="{path:'taskModel>/endDate',formatter:'.formatter.getDateFormat'}" visible="true"/>
+					<Label text="{i18n>EndDate }" visible="true"/>
+					<Text text="{path:'taskModel>/endDate',formatter:'.formatter.getDateFormat'}"  visible="true"/>
 					<DateTimePicker value="{taskModel>/endDate}"  visible="false" change="timecalculation"/>
 
                     <Label text="{i18n>Hours Taken}"/>
 					<Text text="{taskModel>/noOfHours}" visible="true"/>
 					<Input value="{taskModel>/noOfHours}" visible="false" ></Input>
-=======
-			<f:SimpleForm layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false"
-				emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
-				<f:content>
-					<core:Title text="{i18n>AppointmentInformation}"/>
-					<Label text="{i18n>Name}"/>
-					<!-- <Text text="{taskModel>/name}"></Text> -->
-					<Input value="{taskModel>/name}" editable="false"></Input>
-					<!--<core:Title text="" />-->
-					<Label text="{i18n>Description}"/>
-					<!-- <Text text="{taskModel>/description}"/> -->
-					<Input value="{taskModel>/description}" editable="false" ></Input>
-					<Label text="{i18n>StartDate}"/>
-					<DateTimePicker value="{taskModel>/startDate}" editable="false"  />
-					<!-- <Input value="{taskModel>/startDate}" editable="false" ></Input> -->
-					<Label text="{i18n>EndDate}"/>
-					<DateTimePicker value="{taskModel>/endDate}" editable="false"  />
-					<!-- <Input value="{taskModel>/endDate}" editable="false" ></Input> -->
->>>>>>> 0703dc281f4d2dcb241cd8f623f62a818c39a1d8
-					<!-- <Label text="Meeting Invite"/>
-					<Input value="{/0/meetingLink}" editable="false" /> -->
-					<!-- <Link text="{/0/meetingLink}" href="{/0/meetingLink}" target="_blank"/> -->
-					<!-- <Button id="appointmentEditbutt" icon="sap-icon://edit" type="Transparent" press="onEditLink"/> -->
+
+					<Label text="Comment"/>
+					<Text text="{taskModel>/Comment}" visible="true"/>
+					
+					<Label text="Status"/>
+					<Text text="{taskModel>/status}" visible="true"/>
 				</f:content>
 			</f:SimpleForm>
 		</VBox>

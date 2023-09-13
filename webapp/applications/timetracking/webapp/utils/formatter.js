@@ -14,9 +14,10 @@ sap.ui.define([], function () {
 		// 	}
 		//   },
 		getDateFormat: function (sDate) {
+			debugger;
 			if (sDate !== null && sDate !== undefined) {
 			  var date = new Date(sDate);
-			  var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' };
+			  var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
 			  var formattedDateTime = date.toLocaleString('en-IN', options);
 			  return formattedDateTime;
 			} else {

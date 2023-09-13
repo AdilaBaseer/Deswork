@@ -1,0 +1,80 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout">
+  <Dialog title="{i18n>CreateAppointment}">
+    <beginButton>
+      <Button text="{i18n>Save}" type="Emphasized" visible="true" press="handleAppDialogSaveButton"/>
+    </beginButton>
+    <endButton>
+      <Button text="{i18n>Cancel}" visible="true" press="handleAppDialogCancelButton"/>
+    </endButton>
+    
+    <Label class="sapUiSmallMarginBegin" text="{i18n>Time_Entry_type}"  required="true" />
+      <Select class="sapUiSmallMarginBegin" forceSelection="false" width="90%" selectedKey="" required="true" change="onSelectChange">
+      <core:Item key="Projects" text="Projects" />
+      <core:Item key="OutOfOffice" text="Out Of Office" />
+      <core:Item key="Internal" text="Internal" />
+      <core:Item key="Training" text="Training"/>
+    </Select>
+<!-- //Project -->
+      <f:SimpleForm layout="ResponsiveGridLayout"  visible="false">
+       <Label text="{i18n>Project Name}" required="true"/>
+		   <Select  forceSelection="false" width="100%" items="{myproject>/}" >
+			  <core:Item key="{myproject>attributes/name}" text="{myproject>attributes/name}"/>
+			  </Select>
+        <Label text="More Information"  />
+         <Input />
+         <Label text="{i18n>Task}" required="true"  />
+         	<Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask">
+				<core:Item key="{mUserTasks>id}" text="{mUserTasks>attributes/name}"/>
+			</Select>
+			<Label text="{i18n>Sub-Task}" />
+			<Select  forceSelection="false" width="100%" items="{mUserSubTask>/}" >
+				<core:Item key="{mUserSubTask>id}" text="{mUserSubTask>attributes/name}"/>
+			</Select>
+        <Label text="{i18n>StartTime}" required="true" />
+       <DateTimePicker  displayFormat="short"  required="true" change="handleCreateChange4" />
+       <Label text="{i18n>EndTime}" required="true" />
+       <DateTimePicker  displayFormat="short" required="true" change="handleCreateChange4" />
+       <Label text="{i18n>Hours taken}" />
+		  	<Input editable="false"/> 
+    </f:SimpleForm>
+<!-- //halfday -->
+    <f:SimpleForm layout="ResponsiveGridLayout" visible="false">
+    <Label text="{i18n>Date}" required="true" />
+       <DateTimePicker displayFormat="short" required="true"  />
+     <Label text="Halfday"/>
+      <RadioButtonGroup id="halfDayRadioButtonGroup">
+       <buttons>
+          <RadioButton id="firstHalfRadioButton" text="1st Half-Day" select="onHalfDaySelect3"  />
+            <RadioButton id="secondHalfRadioButton" text="2nd Half-Day" select="onHalfDaySelect3" />
+       </buttons>
+       </RadioButtonGroup>	
+        <Label text="{i18n>Reason}" required="true" />
+       <Input  required="true" />	
+    </f:SimpleForm>
+<!-- Internal -->
+    <f:SimpleForm layout="ResponsiveGridLayout" visible="false">
+     <Label text="Task" required="true" />
+      <Input  required="true" />
+      <Label text="{i18n>StartTime}" required="true" />
+       <DateTimePicker  displayFormat="short" required="true" change="handleCreateChange5" />
+        <Label text="{i18n>EndTime}" required="true" />
+       <DateTimePicker  displayFormat="short" required="true" change="handleCreateChange5" />    
+      <Label text="Time Taken" />
+      <Input/>
+    </f:SimpleForm>
+<!-- Training -->
+     <f:SimpleForm layout="ResponsiveGridLayout" visible="false">
+      <Label text="{i18n>StartTime}" required="true" />
+       <DateTimePicker displayFormat="short" required="true" change="handleCreateChange6" />
+        <Label text="{i18n>EndTime}" required="true" />
+       <DateTimePicker  displayFormat="short" required="true" change="handleCreateChange6" />
+      <Label text="More Information"  required="true"/>
+      <Input />
+      <Label text="Time Taken" />
+      <Input />
+    </f:SimpleForm>
+  </Dialog>
+</core:FragmentDefinition>
+
+
+				

@@ -1,0 +1,39 @@
+<mvc:View displayBlock="true" controllerName="vaspp.Leave.controller.MasterLeave" height="100%"
+	xmlns="sap.m" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc" xmlns:layout= "sap.ui.layout">
+	<f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+				<f:heading>
+					<Title id="_IDGenTitle1" tooltip="Leave Request" text="Leave Request"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<List id="productsTable" mode="SingleSelectMaster" headerText="Leave Application List"
+				itemPress="onListItemPress" items="{mleave>/}">
+				<headerToolbar>
+					<OverflowToolbar id="_IDGenOverflowToolbar1">
+						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+						<SearchField id="_IDGenSearchField1" search="onSearch" tooltip="Search here" 
+							placeholder="Search" class="sapUiSmallMarginEnd"  width="17.5rem"/>
+						<OverflowToolbarButton id="_IDGenOverflowToolbarButton2" icon="sap-icon://sort" 
+							class="sapUiSmallMarginEnd" type="Transparent" press="onSort"/>
+					</OverflowToolbar>	
+				</headerToolbar>
+				<ObjectListItem id="_IDGenColumnListItem1" type="Navigation" title="{mleave>attributes/requestedBy}" number="{path:'mleave>attributes/NoOfDays', formatter:'.formatter.getDate'}" >
+					<firstStatus >
+					<ObjectStatus id="_IDGenObjectAttribute1" title="From" text="{mleave>attributes/startDate}"/>
+					</firstStatus>
+					<secondStatus>
+					<ObjectStatus id="_IDGenObjectAttribute2" title="To" text="{mleave>attributes/endDate}"/>
+					</secondStatus>
+					<!-- <ObjectAttribute id="_IDGenObjectAttribute4" title="" text="{mleave>attributes/requestedBy}"/> -->
+					<attributes>	
+					<ObjectAttribute id="_IDGenObjectAttribute3" text="Type:{mleave>attributes/type}" />
+						</attributes>	
+					<!-- <ObjectAttribute id="_IDGenObjectAttribute5" title="Number of days" text="{mleave>attributes/NoOfDays}" />	 -->
+				</ObjectListItem>			
+			</List>
+		</f:content>		
+	</f:DynamicPage>
+</mvc:View>

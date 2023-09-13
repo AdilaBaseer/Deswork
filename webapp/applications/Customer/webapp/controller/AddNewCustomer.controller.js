@@ -10,24 +10,24 @@ sap.ui.define([
       var that = this;
       this.oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
       this.getOwnerComponent().getRouter().getRoute("AddNewCustomer").attachPatternMatched(this.onObjectMatched, this);
-      $.get("/deswork/api/p-customers?populate=*", function (response) {
-        response = JSON.parse(response);
-        var oModel = new sap.ui.model.json.JSONModel(response.data);
-        that.getOwnerComponent().setModel(oModel, "mcustomer");
-        that.getOwnerComponent().getModel("mcustomer").updateBindings(true);
-      })
+      $.get("/deswork/api/p-customers?populate=*",function(response){
+				response = JSON.parse(response);
+				var oModel = new sap.ui.model.json.JSONModel(response.data);			
+				that.getOwnerComponent().setModel(oModel, "mcustomer");
+				that.getOwnerComponent().getModel("mcustomer").updateBindings(true);
+			})
     },
     handleClose: function () {
-      var sNextLayout = this.oModel.getProperty("/actionButtonsInfo/midColumn/closeColumn");
-      this.oRouter.navTo("master", { layout: sNextLayout });
-    },
+			var sNextLayout = this.oModel.getProperty("/actionButtonsInfo/midColumn/closeColumn");
+			this.oRouter.navTo("master", { layout: sNextLayout });
+		},
     onObjectMatched: function (oEvent) {
       var that = this;
       if (typeof oEvent == "number") {
-        var task = oEvent;
-      } else {
-        var task = oEvent.getParameter("arguments").AddCust;
-      }
+				var task = oEvent;
+			  } else {
+          var task = oEvent.getParameter("arguments").AddCust;
+			  }
       // var task = oEvent.getParameter("arguments").AddCust;
       that.isAdd = task;
       if (task !== "Edit") {
@@ -51,11 +51,8 @@ sap.ui.define([
           "cpDesignation": usersModel.attributes.cpDesignation,
           "cpPhone": usersModel.attributes.cpPhone,
           "cpEmail": usersModel.attributes.cpEmail
-
         };
         this.getView().setModel(new JSONModel(usersMod));
-
-
       }
     },
     handleGetCustomer: function () {
@@ -73,10 +70,8 @@ sap.ui.define([
             var oModel = new sap.ui.model.json.JSONModel(resv.data);
             that.getOwnerComponent().setModel(oModel, "mcustomer");
             that.getOwnerComponent().getModel("mcustomer").updateBindings(true);
-
           }
         }
-
       })
     },
     //ADDING AND UPDATING CUSTOMER DETAILS
@@ -100,7 +95,6 @@ sap.ui.define([
                 MessageBox.error(resValue.error.message);
               } else {
                 that.handleGetCustomer();
-
                 that.getView().getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
                 that.getOwnerComponent().getRouter().navTo("master", {
                   AddCust: "Edit"
@@ -110,7 +104,6 @@ sap.ui.define([
                 });
                 that.onObjectMatched();
                 that.onInit();
-
               }
             }
           });
@@ -140,8 +133,6 @@ sap.ui.define([
                 "cpDesignation": that.getView().byId("idProjectId13").getValue(),
                 "cpPhone": that.getView().byId("idProjectId14").getValue(),
                 "cpEmail": that.getView().byId("idProjectId15").getValue(),
-
-
               }
             }),
           };
@@ -149,26 +140,15 @@ sap.ui.define([
           $.ajax(settings).done(function (response) {
             response = JSON.parse(response);
             if (response.error) {
-              var error = response.error.details.errors;
-              for (var i = 0; i < error.length; i++) {
-                MessageBox.error("Customer with this " + error[i].message );
-              }
-              // MessageBox.error("Customer with this " + error[i].message + " already exist");
+              MessageBox.error( response.error.details.errors[0].message );
             } else {
               MessageBox.success("Customer Added Successfully");
-
               var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
               oRouter.navTo("master", { "AddCust": "Add" });
-
               that.handleGetCustomer();
-           
-
             }
-
           });
         }
-
-
       }
       else {
         this.getView().setBusy(false);
@@ -219,6 +199,7 @@ sap.ui.define([
         thisView.byId("idProjectId15").setValueState("None");
         Err++;
       }
+
       return Err;
     },
     //CANCELING THE DATA GETTING ADDED OR UPDATED 

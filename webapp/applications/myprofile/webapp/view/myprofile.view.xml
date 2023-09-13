@@ -22,8 +22,8 @@ xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns="sap.uxap" class="
                             <m:Text id="_IDGenText16457" text="{userModel>/department}" />
                             <m:Label id="_ID677" text="Designation " />
                             <m:Text id="_I677" text="{userModel>/designation}" />      
-                            <m:Label id="_IDGenLabel127" text="Telephone " />
-                            <m:Text id="_IDGenText127" text="{userModel>/phone}" />    
+                            <m:Label id="_IDGenLabel127" text="Experience" />
+                            <m:Text id="_IDGenText127" text="{userModel>/noOfExperience} year" />    
                             <m:Label id="_IDGenLabel1367" text="Email " />
                             <m:Text id="_IDGenText1637" text="{userModel>/email}" />
                             <m:Label id="_IDGenLabel13647" text="Contact No." />
@@ -116,7 +116,7 @@ xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns="sap.uxap" class="
                                     <m:cells>
                                         <m:Text text="{certificateModel>name}" id="tableColList11c"/>
                                         <m:Input value="{certificateModel>name}" id="tableColList12c"/>
-                                      <m:Text text="{certificateModel>rate}" id="tableColList13c"/>
+                                        <m:Text text="{certificateModel>rate}" id="tableColList13c"/>
                                         <m:Input value="{certificateModel>rate}" id="tableColList14c"/>
                                         <!-- <m:RatingIndicator value="{skillModel>rate}" id="tableColList13" editable="false"/>
                                         <m:RatingIndicator value="{skillModel>rate}" id="tableColList14" editable="true"/> -->

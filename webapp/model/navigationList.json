@@ -55,6 +55,25 @@
         ]
     },
     {
+        "applicationid": "APP100609",
+        "title": "Manager Projects",
+        "icon": "sap-icon://add-activity-2",
+        "expanded": false,
+        "key": "managerProjects",
+        "componentName": "VASPP.managerProjects",
+        "permittedRoles": [
+            "manager",
+            "technici"
+        ],
+        "permissions": {
+            "create": false,
+            "read": true,
+            "update": false,
+            "delete": false
+        },
+        "items": []
+    },
+    {
         "applicationid": "APP10001",
         "title": "My Projects",
         "icon": "sap-icon://add-activity-2",
@@ -220,6 +239,22 @@
                 "expanded": false,
                 "key": "dayleavetracking",
                 "componentName": "vaspp.dayleavetracking",
+                "permittedRoles": [
+                    "everyone"
+                ],
+                "permissions": {
+                    "create": false,
+                    "read": true,
+                    "update": false,
+                    "delete": false
+                }
+            },
+            {
+                "applicationid": "APP100090",
+                "title": "Leave Balance ",
+                "expanded": false,
+                "key": "leavebalance",
+                "componentName": "vaspp.leavebalance",
                 "permittedRoles": [
                     "everyone"
                 ],

@@ -8,23 +8,18 @@ sap.ui.define([
 		onInit: function () {
 			this.oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			this.getOwnerComponent().getRouter().getRoute("AddNewEmployee").attachPatternMatched(this.onObjectMatched, this);
-			//this.getView().setBusy(true);
 			this.mrolesuser();
 		},
 		onObjectMatched: function (oEvent) {
 			var that = this;
 			that.isAdd = oEvent.getParameter("arguments").AddCust;
-			// that.getView().byId("idProjectId3").getSelected(false);
 			that.getView().byId("idProjectId5").getSelectedKey("");
 			that.empid = oEvent.getParameter("arguments").listindex;
 			if (that.isAdd !== "Edit") {
 				that.getView().setModel(new JSONModel({}));
-				//this.getView().setModel(new JSONModel({}));
 				that.getView().setBusy(false);
 			} else {
 				var usersModel = this.getOwnerComponent().getModel("custUpdateDetails").getData();
-				// that.getView().byId("idProjectId").setVisible(false);
-				// that.getView().byId("_IDGenLabe1l110").setVisible(false);
 				var multiComboBox = this.getView().byId("idProjectIdmultirole");
 				var selectedKeys = [];
 
@@ -42,7 +37,6 @@ sap.ui.define([
 
 					"firstName": usersModel.firstName,
 					"lastName": usersModel.lastName,
-					//"lastName": Name.split(" ")[1] ? Name.split(" ")[1] : "",
 					"gender": this.getView().byId("idProjectId3").getSelectedIndex(),
 					"department": usersModel.department,
 					"designation": usersModel.designation,
@@ -63,8 +57,6 @@ sap.ui.define([
 					"rate_card": usersModel.rate_card
 				};
 				this.getView().setModel(new JSONModel(data));
-				// this.getView().getModel("memployee").getData().EmployeeCollection.splice(prodd, 1, data);
-				// this.getView().getModel("memployee").updateBindings(true);
 			}
 		},
 		mrolesuser: function () {
@@ -82,8 +74,6 @@ sap.ui.define([
 						var oModel = new sap.ui.model.json.JSONModel(resv.data);
 						that.getOwnerComponent().setModel(oModel, "mrolesuser");
 						that.getOwnerComponent().getModel("mrolesuser").updateBindings(true);
-						//MessageBox.success("Employee has been created successfully!");
-
 					}
 				}
 
@@ -107,7 +97,7 @@ sap.ui.define([
 						that.getOwnerComponent().getModel("memployee").updateBindings(true);
 						MessageBox.success("Employee has been created successfully!");
 						var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-						oRouter.navTo("master", { "AddCust": "Add" });
+						oRouter.navTo("masterEmployee", { "AddCust": "Add" });
 					}
 				}
 
@@ -136,16 +126,13 @@ sap.ui.define([
 				"provider": "local",
 				"confirmed": true,
 				"blocked": false,
-				// "firstName": Name.split(" ")[0],
-				// "lastName": Name.split(" ")[1] ? Name.split(" ")[1] : "",
 				"firstName": that.getView().byId("idProjectId1").getValue(),
 				"lastName": that.getView().byId("idProjectIdln").getValue(),
 				"gender": genderVal,
-				//	"designation": that.getView().byId("idProjectId51").getValue(),
 				"designation": that.getView().byId("idProjectId51").getSelectedKey(),
 				"department": department.getSelectedKey() ? department.getSelectedKey() : "",
-				"emergencyContName": that.getView().byId("idProjectId11").getValue(),
-				"emergencyContPhone": that.getView().byId("idProjectId12").getValue(),
+				"emergencyContName": that.getView().byId("idProjectId11").getValue()? that.getView().byId("idProjectId11").getValue() : null,
+				"emergencyContPhone": that.getView().byId("idProjectId12").getValue()? that.getView().byId("idProjectId12").getValue() : null,
 				"phone": that.getView().byId("idProjectId7").getValue(),
 				"address": that.getView().byId("idProjectId18").getValue(),
 				"city": that.getView().byId("idProjectId23").getValue(),
@@ -153,20 +140,12 @@ sap.ui.define([
 				"zipcode": that.getView().byId("idProjectId25").getValue() ? that.getView().byId("idProjectId25").getValue() : null,
 				//"password": "Vaspp@123",
 				"password": that.getView().byId("idProjectId").getValue(),
-				"appPermission": {
-					// "applicationid": "APP10001",
-					// "name": "Manage_Projects",
-					// "create": true,
-					// "read": true,
-					// "update": true,
-					// "delete": true
-				},
-				//"p_team_role_users":JSON.parse(that.rolesusers),
+				"appPermission": {},
 				"p_team_role_users": that.rolesusers,
-				"rate_card": that.getView().byId("idProjectIdrc").getValue(),
-				"bankName": that.getView().byId("idProjectId13").getValue() ? that.getView().byId("idProjectId13").getValue() : null,
-				"IFCScode": that.getView().byId("idProjectId14").getValue() ? that.getView().byId("idProjectId14").getValue() : null,
-				"bankAccNo": that.getView().byId("idProjectId15").getValue() ? that.getView().byId("idProjectId15").getValue() : null,
+				"rate_card": that.getView().byId("idProjectIdrc").getValue() ? that.getView().byId("idProjectIdrc").getValue(): null,
+				"bankName": that.getView().byId("idProjectId13").getValue() ,
+				"IFCScode": that.getView().byId("idProjectId14").getValue(),
+				"bankAccNo": that.getView().byId("idProjectId15").getValue(),
 				"uan": that.getView().byId("idProjectId16").getValue() ? that.getView().byId("idProjectId16").getValue() : null,
 			}
 			if (that.isAdd == "Add") {
@@ -193,7 +172,6 @@ sap.ui.define([
 						} else {
 							that.handleGetUser();
 						}
-
 					},
 					error: function (err) {
 						MessageBox.error(err.responseJSON.error.message);
@@ -207,193 +185,71 @@ sap.ui.define([
 		},
 		//CHECK DATA VALIDATION
 		ValidateCreateCust: function () {
-
             var Err = 0;
-
             var thisView = this.getView();
-
             if (thisView.byId("idProjectId1").getValue() === "") {
-
                 thisView.byId("idProjectId1").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId5").getSelectedKey() === "") {
-
-
-
-
                 thisView.byId("idProjectId5").setValueState("None");
-
                 Err++;
-
-
-
-
             }
-
             if (thisView.byId("idProjectId3").getSelectedButton() === "") {
-
                 thisView.byId("idProjectId3").setValueState("None");
-
                 Err++;
-
             }
-
-            if (thisView.byId("idProjectId").getValue() === "") {
-
+			 if (thisView.byId("idProjectId").getValue() === "") {
                 thisView.byId("idProjectId").setValueState("None");
-
                 Err++;
-
             }
-
-           
-
             if (thisView.byId("idProjectIdln").getValue() === "") {
-
                 thisView.byId("idProjectIdln").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId51").getSelectedKey() === "") {
-
                 thisView.byId("idProjectId51").setValueState("None");
-
                 Err++;
-
             }
-
-            // if (thisView.byId("_IDGenItem1").getSelectedKey() === "") {
-
-            //  thisView.byId("_IDGenItem1").setValueState("None");
-
-            //  Err++;
-
-            // }
-
-            if (thisView.byId("idProjectId11").getValue() === "") {
-
-                thisView.byId("idProjectId11").setValueState("None");
-
+			if (thisView.byId("idProjectIdmultirole").getSelectedKeys()['length'] === 0) {
+                thisView.byId("idProjectIdmultirole").setValueState("None");
                 Err++;
-
             }
-
-            if (thisView.byId("idProjectId12").getValue() === "") {
-
-                thisView.byId("idProjectId12").setValueState("None");
-
-                Err++;
-
-            }
-
             if (thisView.byId("idProjectId13").getValue() === "") {
-
                 thisView.byId("idProjectId13").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId14").getValue() === "") {
-
                 thisView.byId("idProjectId14").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId15").getValue() === "") {
-
                 thisView.byId("idProjectId15").setValueState("None");
-
                 Err++;
-
             }
-
-            if (thisView.byId("idProjectId16").getValue() === "") {
-
-                thisView.byId("idProjectId16").setValueState("None");
-
+            if (thisView.byId("idProjectId18").getValue() === "") {
+                thisView.byId("idProjectId18").setValueState("None");
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId7").getValue() === "") {
-
                 thisView.byId("idProjectId7").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId8").getValue() === "") {
-
                 thisView.byId("idProjectId8").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId22").getValue() === "") {
-
                 thisView.byId("idProjectId22").setValueState("None");
-
                 Err++;
-
             }
-
             if (thisView.byId("idProjectId23").getValue() === "") {
-
                 thisView.byId("idProjectId23").setValueState("None");
-
                 Err++;
-
             }
-
-
-
-
-
-
             return Err;
-
         },
-		// ValidateCreateCust: function () {
-		// 	var Err = 0;
-		// 	var thisView = this.getView();
-		// 	// if (thisView.byId("idProjectId1").getValue() === "") {
-		// 	// 	thisView.byId("idProjectId1").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-		// 	// if (thisView.byId("idProjectId5").getSelectedKey() === "") {
-		// 	// 	thisView.byId("idProjectId5").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-		// 	// if (thisView.byId("idProjectId8").getValue() === "") {
-		// 	// 	thisView.byId("idProjectId8").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-		// 	// if (thisView.byId("idProjectId3").getValue() === "") {
-		// 	// 	thisView.byId("idProjectId3").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-		// 	// if (thisView.byId("idProjectId15").getValue() === "") {
-		// 	// 	thisView.byId("idProjectId15").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-		// 	// if (thisView.byId("idProjectId22").getValue() === "") {
-		// 	// 	thisView.byId("idProjectId22").setValueState("None");
-		// 	// 	Err++;
-		// 	// }
-
-		// 	return Err;
-		// },
+		
 
 		//CANCELING THE DATA GETTING ADDED OR UPDATED 
 		handleWizardCancel: function () {
@@ -406,7 +262,7 @@ sap.ui.define([
 					onClose: function (oEvent) {
 						if (oEvent == "Yes") {
 							var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-							oRouter.navTo("master");
+							oRouter.navTo("masterEmployee");
 						}
 					}
 				});

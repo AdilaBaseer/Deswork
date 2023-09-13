@@ -54,16 +54,6 @@
 								</TileContent>
 							</VBox>
 						</VBox>
-						<!-- <VBox class="kpiTile" width="24rem" id="Delayed">
-							<Link id="_IDGenLink3" text="Projects Delayed" class="link" press="onKpiLinkPress"/>
-							<VBox id="_IDGenVBox10" class="top">
-								<TileContent id="_IDGenTileContent3" unit="">
-									<content>
-										<NumericContent id="_IDGenNumericContent3" scale="" value="{/ProjectsDelayed}"/>
-									</content>
-								</TileContent>
-							</VBox>
-						</VBox> -->
 						<VBox class="kpiTile" width="24rem" id="InProgress">
 							<Link id="_IDGenLink4" text="Projects In-Progress" class="link" press="onKpiLinkPress"/>
 							<VBox id="_IDGenVBox1" class="top">
@@ -150,53 +140,7 @@
 									</commons:ChartContainerContent>
 								</commons:content>
 							</commons:ChartContainer>
-						</l:BlockLayoutCell>
-
-
-<!-- bar chart -->
-						<!-- <l:BlockLayoutCell id="_IDGenBlockLayoutCell1" class="chartCard">
-							<commons:ChartContainer id="chartContainer1" showLegend="true" showZoom="false" visible="true" showFullScreen="true"
-								showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" personalizationPress="attachPersonalizationPress"
-								contentChange="attachContentChange" title="Projects By Milestone">
-							
-								<commons:content>
-									<commons:ChartContainerContent id="_IDGenChartContainerContent1" icon="sap-icon://vertical-bar-chart" title="Column Chart">
-										<commons:content>
-											<viz:VizFrame id="idVizFrame2" uiConfig="{applicationSet:'fiori'}" class="titlestyle sapUiLargeMarginTop"
-												vizProperties="{title:{visible:false,class:'textstyle',alignment:'left'},legend:{visible:true,title:{visible:false}},legendGroup:{layout: {position:'top',alignment:'center'}} ,plotArea:{window:{start:{valueAxis:null,valueAxis2:null}, end:{valueAxis:null,valueAxis2:null}},background:{visible:false},gridline:{visible:false}, dataLabel :{visible:true},colorPalette:['#1F618D','#D4E6F1','#5499C7','#2471A3']},valueAxis:{title:{visible:false,text:' Value Axis Value'}},categoryAxis:{title:{visible:false,text:'Category Axis Value'}}}"
-												height='22rem' width="100%" vizType='stacked_bar' deselectData="onDeSelectChartData" selectData="onSelectChartData">
-												<viz:dataset>
-													<viz.data:FlattenedDataset id="_IDGenFlattenedDataset1" data="{modelProjectMilestones>/chartData/}">
-														<viz.data:dimensions>
-															<viz.data:DimensionDefinition id="_IDGenDimensionDefinition1" name="Type" value="{modelProjectMilestones>name}" />
-														</viz.data:dimensions>
-														
-														<viz.data:measures>
-															<viz.data:MeasureDefinition id="_IDGenMeasureDfinition4" name="Total Milestone Completed" value="{modelProjectMilestones>Completed}"/>
-														</viz.data:measures>
-														<viz.data:measures>
-															<viz.data:MeasureDefinition id="_IDGenMeasureDfinition84" name="Milestone New" value="{modelProjectMilestones>New}"/>
-														</viz.data:measures>
-														<viz.data:measures>
-															<viz.data:MeasureDefinition id="_IDGenMeasureDfiniti9on4" name="Milestone In-Progress" value="{modelProjectMilestones>In-Progress}"/>
-														</viz.data:measures>
-													</viz.data:FlattenedDataset>
-												</viz:dataset>
-												<viz:feeds>
-												
-													<viz.feeds:FeedItem id="_IDGenFeedIte1" uid="valueAxis" type="Measure" values="Total Milestone Completed"/>
-													<viz.feeds:FeedItem id="_IDGenFeedIem1" uid="valueAxis" type="Measure" values="Milestone New"/>
-													<viz.feeds:FeedItem id="_IDGenFeedte1" uid="valueAxis" type="Measure" values="Milestone In-Progress"/>
-													<viz.feeds:FeedItem id="_IDGenFeedItem2" uid="categoryAxis" type="Dimension" values="Type"/>
-												</viz:feeds>
-											</viz:VizFrame>
-										</commons:content>
-									</commons:ChartContainerContent>
-								</commons:content>
-							</commons:ChartContainer>
-						</l:BlockLayoutCell> -->
-						
-						
+						</l:BlockLayoutCell>	
 					</l:BlockLayoutRow>
 					<l:BlockLayoutRow id="_IDGenBlockLayoutRow2">
 						<l:BlockLayoutCell id="_IDGenBlockLayoutCell3">
@@ -204,46 +148,7 @@
 						</l:BlockLayoutCell>
 					</l:BlockLayoutRow>
 					<l:BlockLayoutRow id="_IDGenBlockLayoutRow3">
-						<!-- <l:BlockLayoutCell id="_IDGenBlockLayoutCell4" class="chartCard">
-							<commons:ChartContainer id="chartContainer2" showLegend="false" showZoom="false" visible="true" showFullScreen="true"
-								showPersonalization="false" autoAdjustHeight="false" showLegendButton="false" personalizationPress="attachPersonalizationPress"
-								contentChange="attachContentChange" title="Project Progress">
-								<commons:toolbar>
-									<OverflowToolbar id="_IDGenOverflowToolbar3">
-										<ToolbarSpacer id="_IDGenToolbarSpacer4"/>
-										<commons:ChartContainerToolbarPlaceholder id="_IDGenChartContainerToolbarPlaceholder3"></commons:ChartContainerToolbarPlaceholder>
-									</OverflowToolbar>
-								</commons:toolbar>
-								<commons:customIcons>
-									
-								</commons:customIcons>
-								<commons:content>
-									<commons:ChartContainerContent id="_IDGenChartContainerContent3" icon="sap-icon://vertical-bar-chart" title="Column Chart">
-										<commons:content>
-											<viz:VizFrame id="idVizFrame3" uiConfig="{applicationSet:'fiori'}" class="titlestyle sapUiLargeMarginTop"
-												vizProperties="{title:{visible:false,class:'textstyle',alignment:'left'},legend:{visible:true,title:{visible:false}},legendGroup:{layout: {position:'top',alignment:'center'}} ,plotArea:{window:{start:{valueAxis:null,valueAxis2:null}, end:{valueAxis:null,valueAxis2:null}},background:{visible:false},gridline:{visible:false}, dataLabel :{visible:true},colorPalette:['#1F618D','#D4E6F1','#5499C7','#2471A3']},valueAxis:{title:{visible:false,text:' Value Axis Value'}},categoryAxis:{title:{visible:false,text:'Category Axis Value'}}}"
-												height='19rem' width="100%" vizType='bar' deselectData="onDeSelectChartData" selectData="onSelectChartData">
-												<viz:dataset>
-													<viz.data:FlattenedDataset id="_IDGenFlattenedDataset3" data="{mreportchartprogress>/chartData/}">
-														<viz.data:dimensions>
-															<viz.data:DimensionDefinition id="_IDGenDimensionDefinition3" name="Type"  value="{mreportchartprogress>name}"/>
-														</viz.data:dimensions>
-														<viz.data:measures>
-															<viz.data:MeasureDefinition id="_IDGenMeasureDefinition3" name="Count" value="{mreportchartprogress>progress}"/>
-														</viz.data:measures>
-													</viz.data:FlattenedDataset>
-												</viz:dataset>
-												<viz:feeds>
-													<viz.feeds:FeedItem id="_IDGenFeedItem5" uid="valueAxis" type="Measure" values="Count"/>
-													<viz.feeds:FeedItem id="_IDGenFeedItem6" uid="categoryAxis" type="Dimension" values="Type"/>
-												</viz:feeds>
-											</viz:VizFrame>
-										</commons:content>
-									</commons:ChartContainerContent>
-								</commons:content>
-							</commons:ChartContainer>
-						</l:BlockLayoutCell> -->
-						<l:BlockLayoutCell id="_IDGenBlockLayoutCell5" class="chartCard">
+					<l:BlockLayoutCell id="_IDGenBlockLayoutCell5" class="chartCard">
 							<commons:ChartContainer id="chartContainer3" showZoom="false" visible="true" showLegend="true" showFullScreen="true"
 								showPersonalization="false" autoAdjustHeight="false" personalizationPress="attachPersonalizationPress" contentChange="attachContentChange"
 								title="Projects Received">
@@ -281,24 +186,8 @@
 								</commons:content>
 							</commons:ChartContainer>
 						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-						<!-- <l:BlockLayoutRow id="_IDGenBlockLaoutRow1" accentCells="Accent1">
-
-
-             				
-</l:BlockLayoutRow> -->
-						
-						
-							
+					</l:BlockLayoutRow>			
 				</l:BlockLayout>
-				
-
-
-
-
- 
-
-
 			</content>
 		</Page>
 	</App>

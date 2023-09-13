@@ -34,7 +34,7 @@
                 <Label   text="Estimated End Date" required="true"/>
                 <DatePicker  value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit" />
 
-                <Label   text="Actual End Date" required="true"/>
+                <Label   text="Actual End Date" />
                 <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeTaskEditIfExtended" />
 
 			    <Label   text="No Of Days" />
@@ -81,7 +81,7 @@
                 <Label    text="Estimated End Date" required="true"/>
                 <DatePicker   value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
 
- <Label   text="Actual End Date" required="true"/>
+ <Label   text="Actual End Date" />
                 <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEditIfExtended"/>
 
 <Label id="_IDGenLabel15"  text="No Of Days" />

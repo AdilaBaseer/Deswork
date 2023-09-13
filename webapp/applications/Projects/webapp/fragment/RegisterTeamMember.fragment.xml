@@ -111,14 +111,6 @@ xmlns="sap.m">
                 <Label id="_IDGenLabel3"  text="Rate Card" />
                 <Input id="_IDGenInput2" value="{/rate_card}" editable="false"/> 
 
-                <!-- <Label  text="Rate Card" />
-                <Input value="{/rate_card}" editable="false"/>  -->
-
-                <!-- <Label  text="Start Date" />
-                <DatePicker  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
-
-                <Label  text="Estimated End Date" required="true"/>
-                <DatePicker value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" /> -->
                      
                 </f:SimpleForm>
             </VBox>

@@ -12,7 +12,7 @@ sap.ui.define([], function () {
 				return "Applied";
 			else return "";
 		},
-
+		
 		formatStatusColor: function (satus) {
 			if (satus === "Approved")
 				return "Success";
@@ -52,28 +52,6 @@ sap.ui.define([], function () {
 			} else
 				return false;
 		},
-		
-		/*arrayToList: function (sourceArray) {
-			var listStr = "";
-			if(sourceArray) {
-				sourceArray.forEach(function (arrayItem, index) {
-					if (index < sourceArray.length-1)
-						listStr += arrayItem.fileName + ", ";
-					else
-						listStr += arrayItem.fileName;
-				});
-			}
-			return listStr;
-		},*/
-
-		/*takenVacationLeaves: function (takenVacLeaves) {
-			var tVLeaves = parseFloat(takenVacLeaves);
-			if (isNaN(tVLeaves)) {
-				return "";
-			} else {
-				return tVLeaves;
-			}
-		},*/
 
 		remainingLeave: function (totlLeaves, tkenVacLeaves) {
 			var totalLeaves = parseFloat(totlLeaves);

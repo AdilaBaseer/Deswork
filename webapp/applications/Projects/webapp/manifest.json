@@ -67,43 +67,32 @@
 			
 			"routes": [
 				{
-					"pattern": "page2",
-					"name": "page2",
-					"target": "page2",
-					"layout": "EndColumnFullScreen"
-				},
-				{
 					"pattern": ":layout:",
-					"name": "master",
+					"name": "masterProjects",
 					"target": [
-						"master"
+						"masterProjects"
 					]
 				},
 				{
-					"pattern": "detail/{layout}/{product}",
-					"name": "detail",
+					"pattern": "detailProjects/{layout}/{product}",
+					"name": "detailProjects",
 					"target": [
-						"master",
-						"detail"
+						"masterProjects",
+						"detailProjects"
 					]
-				}
-				
-				
+				}				
 			],
 			"targets": {
-				"master": {
-					"name": "Master",
-					"id":"master1",
+				"masterProjects": {
+					"name": "MasterProjects",
+					"id":"master1Projects",
 					"controlAggregation": "beginColumnPages"
 				},
-				"detail": {
-					"name": "Detail",
-					"id":"detail1",
+				"detailProjects": {
+					"name": "DetailProjects",
+					"id":"detail1Projects",
 					"controlAggregation": "midColumnPages"
-				}
-				
-				
-				
+				}	
 			}
 		},
 		"models": {

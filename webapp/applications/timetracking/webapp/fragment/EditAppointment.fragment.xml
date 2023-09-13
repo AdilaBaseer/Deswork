@@ -1,46 +1,69 @@
-<core:FragmentDefinition xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns="sap.m">
-	<Dialog id="createDialog" title="Create Appointment">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified"
+	xmlns:l="sap.ui.layout">
+	<Dialog title="Update Appointment" contentWidth="50%" class="sapUiSizeCompact">
 		<beginButton>
-			<Button text="{i18n>Save}" type="Emphasized" press="handleDialogEditSaveButton"/>
+		<Button  text="Save" visible="true" press="handleDialogEditSaveButton"/>
 		</beginButton>
 		<endButton>
-			<Button text="{i18n>Cancel}" press="handleDialogEditCancelButton"/>
+		<Button text="{i18n>Cancel}"  press="handleDialogEditCancelButton"/>	
 		</endButton>
-		<l:VerticalLayout class="sapUiContentPadding" width="100%">
-<<<<<<< HEAD
-			<Label text="{i18n>Title}" required="true"/>
+			<customHeader>
+			<Bar>
+				<contentRight>
+				<Button  icon="sap-icon://decline" type="Reject"  press="handleAppointmentCancel1"/>
+				<!-- <Button text="{i18n>Delete}" type="Reject" press="handleAppointmentDelete"/> -->
+				</contentRight>
+				<contentLeft>
+				<Text text="{i18n>AppointmentInformation}"/>
+				</contentLeft>
+			</Bar>
+		</customHeader>
+		<VBox>
+			<f:SimpleForm 	editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+				<f:content>
+            <Label text="{i18n>Title}" required="true"/>
 			<Input />
+
 			<Label text="{i18n>Description}" required="true"/>
 			<Input />
-			<Label text="{i18n>Task}" />
-			<Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask">
+
+			<Label text="{i18n>Task}" visible="{= %{taskModel>/name} === 'Projects'}" />
+			<Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask" visible="{= %{taskModel>/name} === 'Projects'}">
 				<core:Item key="{mUserTasks>id}" text="{mUserTasks>attributes/name}"/>
 			</Select>
-			<Label text="{i18n>Sub-Task}" />
-			<Select  forceSelection="false" width="100%" items="{mUserSubTask>/}" >
+
+			<Label text="{i18n>Sub-Task}" visible="{= %{taskModel>/name} === 'Projects'}" />
+			<Select  forceSelection="false" width="100%" items="{mUserSubTask>/}" visible="{= %{taskModel>/name} === 'Projects'}">
 				<core:Item key="{mUserSubTask>id}" text="{mUserSubTask>attributes/name}"/>
 			</Select>
+
 			<Label text="{i18n>Start Date}" required="true"/>
-			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"/>
+			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange"/>
 
 			<Label text="{i18n>End Date}" required="true"/>
-			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChangeEdit"/>
-			
+			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChangeEdit"/>	
+
 			<Label text="{i18n>Hours taken}" />
-			<Input editable="false"/>
-=======
-			<Label text="Title: " required="true"/>
-			<Select  forceSelection="false" width="100%" items="{mAppointDetails>/}" change="onSelectName">
-				<core:Item key="{mAppointDetails>id}" text="{mAppointDetails>attributes/name}"/>
-			</Select>
-			<Label text="Description " />
-			<Input />
-			<Label text="Startdate " required="true"/>
-			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"/>
-			<Label text="Enddate " required="true"/>
-			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange"/>
->>>>>>> 0703dc281f4d2dcb241cd8f623f62a818c39a1d8
-			
-		</l:VerticalLayout>
+			<Input editable="false"/>  
+
+				</f:content>
+			</f:SimpleForm>
+		</VBox>
+		
+		
 	</Dialog>
 </core:FragmentDefinition>

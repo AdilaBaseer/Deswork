@@ -363,71 +363,10 @@ sap.ui.define([
 			var sideBarMenuModel = new sap.ui.model.json.JSONModel(obj);
 			that.byId("sideBarMenu").setModel(sideBarMenuModel);
 			that.byId("sideBarMenu").setSelectedItem(that.byId("sideBarMenu").getItem().getItems()[0]);
-			that.setPermissions();
+			//that.setPermissions();
 		},
 
-		setPermissions: function () {
-			var sideBarMenuData = this.byId("sideBarMenu").getModel().getData().navigation,
-				userData = this.getOwnerComponent().getModel("loggedOnUserModel").getData(),
-				permissionData = userData.appPermission,
-				userRole = userData.designation,
-				permittedAppName;
-			for (var appIndex = 0; appIndex < permissionData.length; appIndex++) {
-				permittedAppName = permissionData[appIndex].appName;
-				// Manipulating permissions for main menu items
-				for (var itemIndex = 0; itemIndex < sideBarMenuData.length; itemIndex++) {
-
-					if (sideBarMenuData[itemIndex].id === permissionData[appIndex].applicationid || sideBarMenuData[itemIndex].title ===
-						permittedAppName) {
-						sideBarMenuData[itemIndex].permissions.create = permissionData[appIndex].create === "true" || permissionData[appIndex].create ===
-							true;
-						sideBarMenuData[itemIndex].permissions.read = permissionData[appIndex].read === "true" || permissionData[appIndex].read ===
-							true;
-						sideBarMenuData[itemIndex].permissions.update = permissionData[appIndex].update === "true" || permissionData[appIndex].update ===
-							true;
-						sideBarMenuData[itemIndex].permissions.delete = permissionData[appIndex].delete === "true" || permissionData[appIndex].delete ===
-							true;
-					}
-
-					// Manipulating permissions for sub menu items
-					if (sideBarMenuData[itemIndex].items.length) {
-						for (var subItemIndex = 0; subItemIndex < sideBarMenuData[itemIndex].items.length; subItemIndex++) {
-							if (sideBarMenuData[itemIndex].items[subItemIndex].id === permissionData[appIndex].applicationid || sideBarMenuData[
-								itemIndex]
-								.items[
-								subItemIndex].title === permittedAppName) {
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.create = permissionData[appIndex].create === "true" ||
-									permissionData[appIndex].create === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.read = permissionData[appIndex].read === "true" ||
-									permissionData[
-										appIndex].read === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.update = permissionData[appIndex].update === "true" ||
-									permissionData[appIndex].update === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.delete = permissionData[appIndex].delete === "true" ||
-									permissionData[appIndex].delete === true;
-							}
-						}
-					}
-				}
-			}
-
-			// If the super admin has logged on then giving all the permissions for the Users Management app
-			if (userRole.toLowerCase() === "superadmin") {
-				for (var itemIndex = 0; itemIndex < sideBarMenuData.length; itemIndex++) {
-					if (sideBarMenuData[itemIndex].key === "UsersManagement") { // Specially setting permissions for the Users Management app
-						sideBarMenuData[itemIndex].permissions.create = true;
-						sideBarMenuData[itemIndex].permissions.read = true;
-						sideBarMenuData[itemIndex].permissions.update = true;
-						sideBarMenuData[itemIndex].permissions.delete = true;
-						break;
-					}
-				}
-			} else if (permissionData.length === 0) { // If no application is given access to the user yet (except super admin)
-				//MessageBox.information(this.oResourceBundle.getText("notAppPermitted"));
-			}
-
-			this.byId("sideBarMenu").getModel().updateBindings(true);
-		},
+		
 
 		performLogout: function () {
 			var that = this;
@@ -680,13 +619,13 @@ sap.ui.define([
 					else if (oMenuItem.key == 'ManageProjects') {
 						return true;
 					}
-					else if (oMenuItem.key == 'UsersManagement') {
-						return true;
-					}
+					// else if (oMenuItem.key == 'UsersManagement') {
+					// 	return true;
+					// }
 					else if (oMenuItem.key == 'LeavesManagement') {
 						return true;
 					}
-					else if (oMenuItem.key == 'MyProjects') {
+					else if (oMenuItem.key == 'managerProjects') {
 						return true;
 					}
 					else if (oMenuItem.key == 'Timesheets') {
@@ -779,15 +718,18 @@ sap.ui.define([
 					else if (oMenuItem.key == 'MyProfile') {
 						return true;
 					}
-					else if (oMenuItem.key == 'Manage Employee') {
+					else if (oMenuItem.key == 'managerProjects') {
 						return true;
 					}
+					// else if (oMenuItem.key == 'Manage Employee') {
+					// 	return true;
+					// }
 					else if (oMenuItem.key == 'dayleavetracking') {
 						return true;
 					}
-					else if (oMenuItem.key == 'ApproveLeaveRequests') {
-						return true;
-					}
+					// else if (oMenuItem.key == 'ApproveLeaveRequests') {
+					// 	return true;
+					// }
 					else if (oMenuItem.key == 'publicholiday') {
 						return true;
 					}
