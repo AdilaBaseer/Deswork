@@ -1,0 +1,43 @@
+<mvc:View displayBlock="true" controllerName="vaspp.Customer.controller.MasterCustomer" height="100%"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc">
+	<f:DynamicPage id="dynamicPageId"
+				   toggleHeaderOnTitleClick="false">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+				<f:heading>
+					<Title id="_IDGenTitle1" text="Customer Details"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Content -->
+		<f:content>
+			<List
+				id="productsTable"
+				mode="SingleSelectMaster"
+				headerText="Leave Application List"
+				itemPress="onListItemPress"
+				items="{mcustomer>/}"
+				>
+				<headerToolbar>
+					<OverflowToolbar id="_IDGenOverflowToolbar1">
+						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+						<SearchField id="_IDGenSearchField1" search="onSearch" placeholder="Search" class="sapUiSmallMarginEnd"  width="17.5rem"/>
+						<OverflowToolbarButton id="_IDGenOverflowToolbarButton3" icon="sap-icon://add" type="Transparent" press="onAddNewCustomer"/>
+						<OverflowToolbarButton id="_IDGenOverflowToolbarButton2" icon="sap-icon://sort" class="sapUiSmallMarginEnd" type="Transparent" press="onSort"/>
+					</OverflowToolbar>
+				</headerToolbar>
+				<ObjectListItem id="_IDGenColumnListItem1" title="{mcustomer>attributes/name}" type="Navigation" >
+					<firstStatus >
+						<ObjectStatus id="_IDGenObjectStatus1" title="Projects" text="{mcustomer>attributes/p_projects/data/length}"
+				 />
+					</firstStatus>
+					<ObjectAttribute id="_IDGenObjectAttribute1" title="Country" text="{mcustomer>attributes/country}" />
+				</ObjectListItem>
+			</List>
+		</f:content>
+		<!-- DynamicPage Footer -->
+	</f:DynamicPage>
+</mvc:View>

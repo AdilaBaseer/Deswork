@@ -363,71 +363,10 @@ sap.ui.define([
 			var sideBarMenuModel = new sap.ui.model.json.JSONModel(obj);
 			that.byId("sideBarMenu").setModel(sideBarMenuModel);
 			that.byId("sideBarMenu").setSelectedItem(that.byId("sideBarMenu").getItem().getItems()[0]);
-			that.setPermissions();
+			//that.setPermissions();
 		},
 
-		setPermissions: function () {
-			var sideBarMenuData = this.byId("sideBarMenu").getModel().getData().navigation,
-				userData = this.getOwnerComponent().getModel("loggedOnUserModel").getData(),
-				permissionData = userData.appPermission,
-				userRole = userData.designation,
-				permittedAppName;
-			for (var appIndex = 0; appIndex < permissionData.length; appIndex++) {
-				permittedAppName = permissionData[appIndex].appName;
-				// Manipulating permissions for main menu items
-				for (var itemIndex = 0; itemIndex < sideBarMenuData.length; itemIndex++) {
-
-					if (sideBarMenuData[itemIndex].id === permissionData[appIndex].applicationid || sideBarMenuData[itemIndex].title ===
-						permittedAppName) {
-						sideBarMenuData[itemIndex].permissions.create = permissionData[appIndex].create === "true" || permissionData[appIndex].create ===
-							true;
-						sideBarMenuData[itemIndex].permissions.read = permissionData[appIndex].read === "true" || permissionData[appIndex].read ===
-							true;
-						sideBarMenuData[itemIndex].permissions.update = permissionData[appIndex].update === "true" || permissionData[appIndex].update ===
-							true;
-						sideBarMenuData[itemIndex].permissions.delete = permissionData[appIndex].delete === "true" || permissionData[appIndex].delete ===
-							true;
-					}
-
-					// Manipulating permissions for sub menu items
-					if (sideBarMenuData[itemIndex].items.length) {
-						for (var subItemIndex = 0; subItemIndex < sideBarMenuData[itemIndex].items.length; subItemIndex++) {
-							if (sideBarMenuData[itemIndex].items[subItemIndex].id === permissionData[appIndex].applicationid || sideBarMenuData[
-								itemIndex]
-								.items[
-								subItemIndex].title === permittedAppName) {
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.create = permissionData[appIndex].create === "true" ||
-									permissionData[appIndex].create === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.read = permissionData[appIndex].read === "true" ||
-									permissionData[
-										appIndex].read === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.update = permissionData[appIndex].update === "true" ||
-									permissionData[appIndex].update === true;
-								sideBarMenuData[itemIndex].items[subItemIndex].permissions.delete = permissionData[appIndex].delete === "true" ||
-									permissionData[appIndex].delete === true;
-							}
-						}
-					}
-				}
-			}
-
-			// If the super admin has logged on then giving all the permissions for the Users Management app
-			if (userRole.toLowerCase() === "superadmin") {
-				for (var itemIndex = 0; itemIndex < sideBarMenuData.length; itemIndex++) {
-					if (sideBarMenuData[itemIndex].key === "UsersManagement") { // Specially setting permissions for the Users Management app
-						sideBarMenuData[itemIndex].permissions.create = true;
-						sideBarMenuData[itemIndex].permissions.read = true;
-						sideBarMenuData[itemIndex].permissions.update = true;
-						sideBarMenuData[itemIndex].permissions.delete = true;
-						break;
-					}
-				}
-			} else if (permissionData.length === 0) { // If no application is given access to the user yet (except super admin)
-				//MessageBox.information(this.oResourceBundle.getText("notAppPermitted"));
-			}
-
-			this.byId("sideBarMenu").getModel().updateBindings(true);
-		},
+		
 
 		performLogout: function () {
 			var that = this;
@@ -552,7 +491,7 @@ sap.ui.define([
 		goToHomePage: function () {
 			if (!this.byId("app").getSideExpanded()) {
 				this.byId("app").setSideExpanded(true);
-			//	this.byId("sideNavigationToggleButton").setTooltip(this.oResourceBundle.getText("collapseMenu"));
+				//	this.byId("sideNavigationToggleButton").setTooltip(this.oResourceBundle.getText("collapseMenu"));
 			}
 			if (this.byId("sideBarMenu").getItem().getItems().length) {
 				this.byId("sideBarMenu").setSelectedItem(this.byId("sideBarMenu").getItem().getItems()[0]);
@@ -607,7 +546,7 @@ sap.ui.define([
 				this.getView().getModel("appView").setProperty("/layout", "MidColumnFullScreen");
 				var oRouter1 = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter1.navTo("applicationlist");
-			} else if (sKey === "Manage_Projects") {
+			} else if (sKey === "Projects") {
 				this.getView().getModel("appView").setProperty("/layout", "MidColumnFullScreen");
 				var oRouter1 = sap.ui.core.UIComponent.getRouterFor(this);
 				oRouter1.navTo("Master");
@@ -617,6 +556,191 @@ sap.ui.define([
 				oRouter1.navTo("Targetmain");
 			}
 		},
+
+		isMainAppVisible: function (oMenuItem) {
+			if (oMenuItem) {
+				var userRole = this.getOwnerComponent().getModel("loggedOnUserModel").getData();
+				if (userRole.designation === "SuperAdmin") {
+					//return true;
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Projects') {
+						return true;
+					}
+					else if (oMenuItem.key == 'UsersManagement') {
+						return true;
+					}
+					else if (oMenuItem.key == 'LeavesManagement') {
+						return true;
+					}
+					// else if (oMenuItem.key == 'MyProjects') {
+					// 	return true;
+					// }
+					else if (oMenuItem.key == 'Timesheets') {
+						return true;
+					}
+				}
+
+				else if (userRole.designation === "IT") {
+					// anu changed
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'LeavesManagement') {
+						return true;
+					}
+					else if (oMenuItem.key == 'MyProjects') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Timesheets') {
+						return true;
+					}
+				}
+				else if (userRole.designation === "HR") {
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'LeavesManagement') {
+						return true;
+					}
+					else if (oMenuItem.key == 'UsersManagement') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Timesheets') {
+						return true;
+					}
+				}
+
+				else if (userRole.designation === "Manager") {
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'ManageProjects') {
+						return true;
+					}
+					// else if (oMenuItem.key == 'UsersManagement') {
+					// 	return true;
+					// }
+					else if (oMenuItem.key == 'LeavesManagement') {
+						return true;
+					}
+					else if (oMenuItem.key == 'managerProjects') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Timesheets') {
+						return true;
+					}
+				}
+			}
+			return false;
+
+		},
+		isAppVisible: function (oMenuItem) {
+			if (oMenuItem) {
+				var userRole = this.getOwnerComponent().getModel("loggedOnUserModel").getData();
+				if (userRole.designation === "SuperAdmin") {
+					//return true;
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'MyProfile') {
+						return true;
+					}
+					
+					else if (oMenuItem.key == 'dayleavetracking') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Manage Employee') {
+						return true;
+					}
+					else if (oMenuItem.key == 'ManageCustomers') {
+						return true;
+					}
+					else if (oMenuItem.key == 'ApproveLeaveRequests') {
+						return true;
+					}
+					else if (oMenuItem.key == 'EmployeeTimesheets') {
+						return true;
+					}
+					else if (oMenuItem.key == 'publicholiday') {
+						return true;
+					}
+				} else if (userRole.designation === "IT") {
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'MyProfile') {
+						return true;
+					}
+					else if (oMenuItem.key == 'mypublicholidayslist') {
+						return true;
+					}
+					else if(oMenuItem.key == 'LeaveEntry'){						
+							return true;		
+					}
+					else if (oMenuItem.key == 'MyTimesheet') {
+						return true;
+					}
+				}
+				else if (userRole.designation === "HR") {
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'MyProfile') {
+						return true;
+					}
+					else if (oMenuItem.key == 'Manage Employee') {
+						return true;
+					}
+					else if (oMenuItem.key == 'LeaveEntry') {
+						return true;
+					}
+					else if (oMenuItem.key == 'dayleavetracking') {
+						return true;
+					}
+					else if (oMenuItem.key == 'ApproveLeaveRequests') {
+						return true;
+					}
+					else if (oMenuItem.key == 'publicholiday') {
+						return true;
+					}
+					else if (oMenuItem.key == 'EmployeeTimesheets') {
+						return true;
+					}
+					
+				}
+
+				else if (userRole.designation === "Manager") {
+					if (oMenuItem.key == 'ProjectStatisticalReport') {
+						return true;
+					}
+					else if (oMenuItem.key == 'MyProfile') {
+						return true;
+					}
+					else if (oMenuItem.key == 'managerProjects') {
+						return true;
+					}
+					// else if (oMenuItem.key == 'Manage Employee') {
+					// 	return true;
+					// }
+					else if (oMenuItem.key == 'dayleavetracking') {
+						return true;
+					}
+					// else if (oMenuItem.key == 'ApproveLeaveRequests') {
+					// 	return true;
+					// }
+					else if (oMenuItem.key == 'publicholiday') {
+						return true;
+					}
+					else if (oMenuItem.key == 'EmployeeTimesheets') {
+						return true;
+					}
+				}
+			}
+			return false;
+		},
+
 		onItemClose: function (oEvent) {
 			var oItem = oEvent.getSource(),
 				oList = oItem.getParent();

@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:core="sap.ui.core">
-	<Dialog  title="Log On to DESWORK" contentHeight="24rem" contentWidth="30rem" draggable="true">
+	<Dialog  title="Log On to DESWORK"  contentHeight="24rem" contentWidth="30rem" draggable="true">
 		<content>
 			<VBox  alignItems="Center" class="sapUiSmallMargin">
 				<ObjectStatus  text="The email ID or password is incorrect, retry please!" state="Error" visible="false" />
@@ -13,7 +13,7 @@
 					<Label  text="password:" required="true" />
 					<Input type="Password" placeholder="Password" tooltip="passwordTooltip" liveChange="hideErrMsgs" submit="performLogin"  />
 					<HBox  justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
-						<CheckBox  text="rememberMe" selected="true" tooltip="rememberMeChkBxTooltip" />
+						<CheckBox  text="RememberMe" selected="true" tooltip="rememberMeChkBxTooltip" />
 						<!-- <Link  text="Forgot your password?"  tooltip="Request new password" press="getOTP" /> -->
 					</HBox>
 				</VBox>
@@ -22,8 +22,8 @@
 		<beginButton>
 			<Button  text="Log On" tooltip="Click here to Login" press="performLogin"/>
 		</beginButton>
-		<endButton>
+		<!-- <endButton>
 			<Button  text="Cancel" tooltip="" press="cancelLogin"/>
-		</endButton>
+		</endButton> -->
 	</Dialog>
 </core:FragmentDefinition>

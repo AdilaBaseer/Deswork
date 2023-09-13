@@ -7,7 +7,7 @@ sap.ui.define([
 
 	Opa5.extendConfig({
 		arrangements: new Startup(),
-		viewNamespace: "vaspp.project31.view.",
+		viewNamespace: "vaspp.Customer.view.",
 		autoWait: true
 	});
 });

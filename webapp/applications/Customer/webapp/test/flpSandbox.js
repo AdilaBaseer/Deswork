@@ -40,7 +40,7 @@ sap.ui.define([
 								"tileType": "sap.ushell.ui.tile.StaticTile",
 								"properties": {
 									"title": "mproject",
-									"targetURL": "#vasppproject31-display"
+									"targetURL": "#vasppCustomer-display"
 								}
 							}]
 						}]
@@ -51,8 +51,8 @@ sap.ui.define([
 				"adapter": {
 					"config": {
 						"inbounds": {
-							"vasppproject31-display": {
-								"semanticObject": "vasppproject31",
+							"vasppCustomer-display": {
+								"semanticObject": "vasppCustomer",
 								"action": "display",
 								"description": "A Fiori application.",
 								"title": "mproject",
@@ -61,8 +61,8 @@ sap.ui.define([
 								},
 								"resolutionResult": {
 									"applicationType": "SAPUI5",
-									"additionalInformation": "SAPUI5.Component=vaspp.project31",
-									"url": sap.ui.require.toUrl("vaspp/project31")
+									"additionalInformation": "SAPUI5.Component=vaspp.Customer",
+									"url": sap.ui.require.toUrl("vaspp/Customer")
 								}
 							}
 						}

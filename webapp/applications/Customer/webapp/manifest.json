@@ -1,7 +1,7 @@
 {
 	"_version": "1.42.0",
 	"sap.app": {
-	  "id": "vaspp.Customer.view.FlexibleColumnLayout",
+	  "id": "vaspp.Customer",
 	  "type": "application",
 	  "i18n": "i18n/i18n.properties",
 	  "applicationVersion": {
@@ -68,25 +68,19 @@
 			
 			"routes": [
 				{
-					"pattern": "page2",
-					"name": "page2",
-					"target": "page2",
-					"layout": "EndColumnFullScreen"
-				},
-				{
 					"pattern": ":layout:",
-					"name": "master",
+					"name": "masterCustomer",
 					"target": [
-						"master"
+						"masterCustomer"
 					]
 				},
 				
 				{
 					"pattern": "detail/{product}/{layout}",
-					"name": "detail",
+					"name": "detailCustomer",
 					"target": [
-						"master",
-						"detail"
+						"masterCustomer",
+						"detailCustomer"
 					]
 				},
 				{
@@ -98,14 +92,14 @@
 				}
 			],
 			"targets": {
-				"master": {
-					"name": "Master",
-					"id":"master1",
+				"masterCustomer": {
+					"name": "MasterCustomer",
+					"id":"master1Customer",
 					"controlAggregation": "beginColumnPages"
 				},
-				"detail": {
-					"name": "Detail",
-					"id":"detail1",
+				"detailCustomer": {
+					"name": "DetailCustomer",
+					"id":"detail1Customer",
 					"controlAggregation": "midColumnPages"
 				},
 				"AddNewCustomer": {
@@ -131,7 +125,7 @@
 					  
 			"": {
 			  "dataSource": "mainService",
-			  "preload": true,
+			  "preload": false,
 			  "settings": {}
 			}
 		  }

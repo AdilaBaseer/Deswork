@@ -1,0 +1,49 @@
+<mvc:View controllerName="vaspp.userlogin.controller.App" xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true" xmlns="sap.m" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc" xmlns:tnt="sap.tnt" class="sapUiSizeCompact coverImage">
+    <tnt:ToolPage id="app" sideExpanded="{= !${device>/system/phone}}" class="sapUiDemoToolPage sapUiSizeCompact" visible="false">
+        <tnt:header>
+            <tnt:ToolHeader id="_IDGenToolHeader1">
+                <Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press="toggleSideMenuExpandCollapse" tooltip="collapseMenu">
+                    <layoutData>
+                        <OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData1" priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Image id="logo" src="image/Vaspp_logo.png" height="85%" class="glowOnHover" />
+
+                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                <Image id="logo1" src="image/DesworkLogo.png" height="200%" class="glowOnHover" />
+                <ToolbarSpacer id="_IDGenToolbarSpacer2" />
+                <f:Avatar id="_IDGenAvatarde1" src="{loggedOnUserModel>/profilePhoto}" press="showUserDetails" displaySize="XS" backgroundColor="Random" class="sapUiTinyMarginEnd" />
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation id="sideBarMenu" visible="true" expanded="false">
+                <tnt:NavigationList id="_IDGenNavigationList1" items="{path: '/navigation', templateShareable: false }">
+                    <tnt:items>
+                        <tnt:NavigationListItem
+                            id="_IDGenNavigationListItem1"
+                            class="mousechange"
+                            text="{path:'title', formatter:'.formatter.get_i18n_value'}"
+                            icon="{icon}"
+                            items="{path: 'items', templateShareable: false }"
+                            expanded="{expanded}"
+                            key="{title}"
+                            hasExpander="true"
+                            select="launchApp"
+                            visible="{'.isAppVisible'}"
+                        >
+                            <tnt:items>
+                                <tnt:NavigationListItem id="_IDGenNavigationListItem2" text="{path:'title'}" key="{title}" select="launchApp" visible="{ '.isAppVisible'}" />
+                            </tnt:items>
+                            
+                        </tnt:NavigationListItem>
+                    </tnt:items>
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <App backgroundColor="Transparent" id="mainContents">
+                <f:FlexibleColumnLayout id="layout" layout="{appView>/layout}" backgroundDesign="Translucent" />
+            </App>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

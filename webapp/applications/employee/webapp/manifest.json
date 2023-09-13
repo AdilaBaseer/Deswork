@@ -69,25 +69,18 @@
 			
 			"routes": [
 				{
-					"pattern": "page2",
-					"name": "page2",
-					"target": "page2",
-					"layout": "EndColumnFullScreen"
-				},
-				{
 					"pattern": ":layout:",
-					"name": "master",
+					"name": "masterEmployee",
 					"target": [
-						"master"
+						"masterEmployee"
 					]
 				},
-				
 				{
-					"pattern": "detail/{layout}/{product}",
-					"name": "detail",
+					"pattern": "detailEmployee/{layout}/{product}",
+					"name": "detailEmployee",
 					"target": [
-						"master",
-						"detail"
+						"masterEmployee",
+						"detailEmployee"
 					]
 				},
 				{
@@ -96,18 +89,17 @@
 					"target": [
 						"AddNewEmployee"
 					]
-				}
-				
+				}	
 			],
 			"targets": {
-				"master": {
-					"name": "Master",
-					"id":"master1",
+				"masterEmployee": {
+					"name": "MasterEmployee",
+					"id":"master1Employee",
 					"controlAggregation": "beginColumnPages"
 				},
-				"detail": {
-					"name": "Detail",
-					"id":"detail1",
+				"detailEmployee": {
+					"name": "DetailEmployee",
+					"id":"detail1Employee",
 					"controlAggregation": "midColumnPages"
 				},
 				"AddNewEmployee": {
@@ -136,7 +128,7 @@
 					  
 			"": {
 			  "dataSource": "mainService",
-			  "preload": true,
+			  "preload": false,
 			  "settings": {}
 			}
 		  }

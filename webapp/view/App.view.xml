@@ -12,6 +12,7 @@
                 <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                 <Image id="logo1" src="image/DesworkLogo.png" height="200%" class="glowOnHover" />
                 <ToolbarSpacer id="_IDGenToolbarSpacer2" />
+                  <Text id="text1" text="{loggedOnUserModel>/firstName} {loggedOnUserModel>/lastName}" />
                 <f:Avatar id="_IDGenAvatarde1" src="{loggedOnUserModel>/profilePhoto}" press="showUserDetails" displaySize="XS" backgroundColor="Random" class="sapUiTinyMarginEnd" />
             </tnt:ToolHeader>
         </tnt:header>
@@ -29,10 +30,10 @@
                             key="{title}"
                             hasExpander="true"
                             select="launchApp"
-                            visible="{'.isAppVisible'}"
+                            visible="{path: '', formatter: '.isMainAppVisible'}"
                         >
                             <tnt:items>
-                                <tnt:NavigationListItem id="_IDGenNavigationListItem2" text="{path:'title'}" key="{title}" select="launchApp" visible="{ '.isAppVisible'}" />
+                                <tnt:NavigationListItem id="_IDGenNavigationListItem2" text="{path:'title'}" key="{title}" select="launchApp" visible="{path: '', formatter: '.isAppVisible'}" />
                             </tnt:items>
                             
                         </tnt:NavigationListItem>

@@ -1,0 +1,29 @@
+<mvc:View controllerName="vaspp.mypublicholidays.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="_IDGenPage2" title="Holiday Calendar">
+	<content>
+			<Table id="leavesTracking"  mode="None"  items="{path: 'publicholiday>/'}">
+				<columns>
+					<Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel1" text="Holiday"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel2" text="Date"/>
+						</header>
+					</Column>    
+				</columns>
+				<ColumnListItem id="_IDGenColumnListItem1"   press="onPressEditHoliday">
+					<cells>
+						<Text id="_IDGenText6" text="{publicholiday>attributes/reason}"/>
+                        <Text id="_IDGenText7" text="{path: 'publicholiday>attributes/date', formatter:'.formatter.formatDate'}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+		</content>
+		
+		</Page>
+</mvc:View>

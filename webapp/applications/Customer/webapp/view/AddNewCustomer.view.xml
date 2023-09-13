@@ -9,22 +9,21 @@
 				<steps>
         <!-- STEP1:- GENERAL INFORMATION OF customer-->
 
-					<WizardStep id="_IDGenWizardStep1" title="General Information" validated="true">
-						<form:SimpleForm id="_IDGenSimpleForm1" editable="true">			
+			<WizardStep id="_IDGenWizardStep1" title="General Information" validated="true">
+				<form:SimpleForm id="_IDGenSimpleForm1" editable="true">			
 				<Label id="_IDGenLabel1" text="Customer Name" required="true"/>
                 <Input value="{/name}" id="idProjectId1" width="50%"/>
-                 <Label id="_IDGenLabel2" text="Description" />
+                <Label id="_IDGenLabel2" text="Description" />
                 <Input value="{/description}" id="idProjectId2" width="50%"/>
-                 <Label id="_IDGenLabel3" text="Business Type" />
+                <Label id="_IDGenLabel3" text="Business Type" />
                 <Input value="IT" id="idProjectId3" width="50%" editable="false"/>
-                  <Label id="_IDGenLabel4" text="E-mail" required="true"/>
-                <Input value="{/email}" id="idProjectId4" width="50%"/>
-                 <Label id="_IDGenLabel71" text="Telephone" required="true"/>
-              <Input value="{/phone}" id="idProjectId5" width="50%"/>
-							
-						</form:SimpleForm>
+                <Label id="_IDGenLabel4" text="E-mail" required="true"/>
+                <Input value="{/email}" id="idProjectId4" width="50%" type="Email"/>
+                <Label id="_IDGenLabel71" text="Telephone" required="true"/>
+                <Input value="{/phone}" id="idProjectId5" width="50%" type="Number" />	
+					</form:SimpleForm>
 					</WizardStep>
-          <!-- STEP2:- LOCATION OF CUSTOMER-->
+          <!-- STEP2:- LOCATION OF CUSTOMER -->
 					<WizardStep id="_IDGenWizardStep2" title="Location" validated="true">
 						<form:SimpleForm id="_IDGenSimpleForm2" editable="true">
 				<Label id="_Il167" text="Country" required="true"/>
@@ -35,7 +34,6 @@
                 <Input value="{/address}" id="idProjectId8" width="50%" />
                 <Label id="_IDG72" text=" Zipcode" required="true"/>
                   <Input value="{/zipCode}" id="idProjectId9" width="50%" />
-							
 						</form:SimpleForm>
 					</WizardStep>
           <!-- STEP3:- Contact Person DETAILS OF CUSTOMER -->
@@ -50,10 +48,9 @@
 				<Label id="_IDGenL4" text="Contact Designation"  />
                 <Input value="{/cpDesignation}" id="idProjectId13" width="50%"  />
                  <Label id="_I1" text="Contact Person Moblie"   required="true"/>
-                <Input value="{/cpPhone}" id="idProjectId14" width="50%"/>
+                <Input value="{/cpPhone}" id="idProjectId14" width="50%" type="Number"/>
                  <Label id="_I3" text="Contact Person Email"  required="true"/>
-                <Input value="{/cpEmail}" id="idProjectId15" width="50%"/>
-                
+                <Input value="{/cpEmail}" id="idProjectId15" width="50%" type="Email"/>
 						</form:SimpleForm>
 					</WizardStep>
 				</steps>

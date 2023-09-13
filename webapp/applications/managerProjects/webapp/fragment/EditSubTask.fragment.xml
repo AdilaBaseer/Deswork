@@ -1,0 +1,101 @@
+
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified">
+	<Dialog title="EDIT" contentWidth="30%" class="sapUiSizeCompact" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
+		<endButton>
+			<Button  text="{i18n>Cancel}" press="handleEditAddTaskCancelS"/>
+		</endButton>
+		<beginButton>
+			<Button  text="{i18n>Add}"  press="handleEditAddTaskS"/>
+		</beginButton>
+		<SegmentedButton   width="100%"  selectionChange="handleSubSelectionChange">
+			<items>
+				<SegmentedButtonItem   icon="sap-icon://create" text="EDIT TASK"></SegmentedButtonItem>
+				<SegmentedButtonItem  icon="sap-icon://create" text="EDIT SUB-TASK"></SegmentedButtonItem>
+			</items>
+		</SegmentedButton>
+		<f:SimpleForm id="_IDGenSimpleForm1" visible="true" minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3"
+			labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+			<f:content>
+            <!-- <Label text="Task Name" />
+               <Select forceSelection="false"   items="{mCsfDetails>/}" required="true" change="onPressTask">
+                <core:Item   key="{mCsfDetails>id}"  text="{mCsfDetails>attributes/name}"/>
+                 </Select> -->
+                 <Label   text="Task Name"  />	
+                <Select  forceSelection="false"   items="{mcsf>/}" required="true" change="onPressTask">
+                <core:Item   key="{mcsf>id}"  text="{mcsf>attributes/name}"/>
+                </Select>
+             
+                 <Label   text="Task Description" />
+                <Input  value="{mTasks>/description}" /> 
+
+                <Label  text="Start Date" required="true"/>
+                <DatePicker   value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+
+                <Label   text="Estimated End Date" required="true"/>
+                <DatePicker  value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit" />
+
+                <Label   text="Actual End Date" required="true"/>
+                <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeTaskEditIfExtended" />
+
+			    <Label   text="No Of Days" />
+                <Input  value="{mTasks>/noOfDays}" editable="false"/>
+
+                <Label text="Status" />
+                <Select  forceSelection="false"  selectedKey="{mTasks>/status}"  required="true">
+                <core:Item   key="New"  text="New"/>
+                <core:Item  key="In-Progress"  text="In-Progress"/>
+                <core:Item  key="Completed"  text="Completed"/>
+                </Select>
+
+                <Label  text="Priority" required="true" />
+                <Select  forceSelection="false"  selectedKey="{mTasks>/priority}">
+                 <core:Item  key="Low"  text="Low"  />
+                <core:Item  key="Moderate" text="Moderate" />
+                <core:Item  key="High" text="High" />
+                <core:Item  key="Critical"  text="Critical" />
+                </Select>
+
+                 <Label   text="Responsible" required="true" />
+                <Select  forceSelection="false" selectedKey=""  items="{pTeams>/}" required="true">
+                <core:Item   key="{pTeams>id}"  text="{pTeams>firstName}"/>
+                </Select>
+				
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm  visible="false" minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3"
+			labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+			<f:content>
+				
+               
+             <Label   text="Sub-Task Name"  />	
+                <Select forceSelection="false"   items="{mSubcsf>/}" required="true" change="onPress">
+                <core:Item    key="{mSubcsf>id}"  text="{mSubcsf>attributes/name}"/>
+                </Select>  
+                
+<Label  text="Sub-Task Description" />
+                <Input  value="{mSubTasks>/description}" /> 
+
+                <Label    text="Start Date" required="true"/>
+                <DatePicker   value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+
+                <Label    text="Estimated End Date" required="true"/>
+                <DatePicker   value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
+
+ <Label   text="Actual End Date" required="true"/>
+                <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEditIfExtended"/>
+
+<Label id="_IDGenLabel15"  text="No Of Days" />
+                <Input  value="{mSubTasks>/noOfDays}" editable="false"/>
+
+            <Label   text="Status" />
+                <Select  forceSelection="false"  selectedKey="{mSubTasks>/status}"  required="true">
+                <core:Item    key="New"  text="New"/>
+                <core:Item    key="In-Progress"  text="In-Progress"/>
+                <core:Item   key="Completed"  text="Completed"/>
+                </Select>
+       
+			</f:content>
+		</f:SimpleForm>
+		
+	</Dialog>
+</core:FragmentDefinition>

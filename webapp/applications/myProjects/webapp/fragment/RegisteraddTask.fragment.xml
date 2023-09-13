@@ -1,0 +1,102 @@
+<core:FragmentDefinition 
+xmlns:f="sap.ui.layout.form" 
+xmlns:core="sap.ui.core"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns="sap.m">
+
+    <Dialog  title="ADD TIME EXTENSION" draggable="true" resizable="true" afterClose="dialogAfterclose" >
+        <content>
+            <VBox class="sapUiTinyMarginBeginEnd">
+                <f:SimpleForm >
+             
+                <!-- <Label text="Task Name" />
+            
+                <Select forceSelection="false" items="{mcsf>/}"  required="true" change="onPress" >
+                <core:Item  key="{mcsf>id}"  text="{mcsf>attributes/name}"/>
+                </Select> -->
+             <!-- <Label text="Sub-Task" />
+              
+                <Select forceSelection="false" items="{mCsfDetails>/}" selectedKey="{mTasks>/status}"  required="true" change="onPress" >
+                <core:Item  key="{mCsfDetails>id}"  text="{mCsfDetails>attributes/name}"/>
+                </Select> -->
+                 <!-- <Label  text="Task Description" />
+                <Input value="{mTasks>/description}" editable="false" />  -->
+
+                <!-- <Label  text="Start Date" required="true"/>
+                <DatePicker  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" editable="false"/>
+
+                <Label  text="End Date" required="true"/>
+                <DatePicker value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" editable="false"/> -->
+
+                <!-- <Label  text="Extended End Date" required="true"/>
+                <DatePicker value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" /> -->
+
+               
+
+                
+<!-- <Label  text="Status" />
+                <Select forceSelection="false"  selectedKey="{mTasks>/status}"  required="true" editable="false">
+                <core:Item  key="New"  text="New"/>
+                <core:Item  key="In-Progress"  text="In-Progress"/>
+                <core:Item  key="Completed"  text="Completed"/>
+                </Select>
+               
+                <Label  text="Priority" required="true" />
+                <Select forceSelection="false"  selectedKey="{mTasks>/priority}" editable="false">
+                 <core:Item key="Low"  text="Low"  />
+                <core:Item key="Moderate" text="Moderate" />
+                <core:Item key="High" text="High" />
+                <core:Item key="Critical"  text="Critical" />
+                </Select> -->
+                <!-- <Label  text="Reason" required="true" />
+                <Input value="{mTasks>/p_task_reason}" /> -->
+                <Label text="Task Name" />
+
+           
+
+                <Select forceSelection="false" items="{Fragmentcsf>/}"  required="true" change="onPress" >
+
+                <core:Item  key="{Fragmentcsf>id}"  text="{Fragmentcsf>attributes/name}"/>
+
+                </Select>
+               <Label text="Sub-Task" />
+              
+                <Select forceSelection="false"  items="{csfmodel>/}"  required="true" editable="true" change="onSelectSubtask" >
+                <core:Item  key="{csfmodel>id}"  text="{csfmodel>attributes/name}"/>
+                </Select>
+                 <Label  text="Start Date" required="true"/>
+                <DatePicker  value="" valueFormat="yyyy-MM-dd" editable="false"/>
+
+                <Label  text="End Date" required="true"/>
+                <DatePicker value="" valueFormat="yyyy-MM-dd" editable="false"/>
+
+                <Label  text="Extended End Date" required="true"/>
+                <DatePicker value="" valueFormat="yyyy-MM-dd" editable="true"/>
+
+                <Label  text="Status" />
+                <Select forceSelection="false"  selectedKey=""  required="true" editable="true">
+                <core:Item  key="New"  text="New"/>
+                <core:Item  key="In-Progress"  text="In-Progress"/>
+                <core:Item  key="Completed"  text="Completed"/>
+                </Select>
+
+                <Label  text="Reason" required="true" />
+                <Input value="" />
+                 <!-- <Label  text="Responsible" required="true" />
+                <Select forceSelection="false"  selectedKey="{mTasks>/users_permissions_user}" items="{pUsers>/}" required="true" editable="false">
+                <core:Item  key="{pUsers>id}"  text="{pUsers>firstName}"/>
+                </Select> -->
+                
+                        
+                </f:SimpleForm>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button  text="Save" press="onSaveTaskDialog" type="Emphasized"/>
+        </beginButton>
+        <endButton>
+            <Button  text="Cancel" press="onCloseTaskDialog" type="Emphasized"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

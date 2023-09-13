@@ -1,0 +1,177 @@
+<mvc:View controllerName="vaspp.dayleavetracking.controller.leaveBalance"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+	<Page id="_IDGenPage2" title="Leave Balance" showNavButton="false"  navButtonPress="handleNavBack">
+		<content>	
+			<OverflowToolbar id="_IDGenOverflowToolbar1">
+				<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+				<OverflowToolbarButton id="iconadd" icon="sap-icon://add" type="Transparent" 
+					press="onAddleaves"/>
+                <OverflowToolbarButton id="iconrevise" icon="sap-icon://enter-more" type="Transparent" press="onPressLeaveBalance"/> 
+      	    </OverflowToolbar>
+		  <Table id="leavesTracking" items="{path: 'balanceleave>/'}">
+				<columns>
+					<Column id="_IDGenColrumn1" hAlign="Center" width="60%">
+						<header>
+							<Label id="_IDGenLarbel1" text="Employee Name"/>
+						</header>
+					</Column>
+					<Column id="_IDGenCrolumn2" hAlign="Center" width="40%">
+						<header>
+							<Label id="_IDGernLabel2" text="Default Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGenCorlumn3" hAlign="Center" width="50%">
+						<header>
+							<Label id="_IDGenLarbel3" text="Carry Forward Leaves"/>
+						</header>
+					</Column>
+                    <Column id="_IDGenColurmn4" hAlign="Center" width="40%">
+						<header>
+							<Label id="_IDGenLrabel4" text="Sick Leaves"/>
+						</header>
+					</Column>
+                    <Column id="_IDGenrColumn6" hAlign="Center" width="40%">
+						<header>
+							<Label id="_IDGenrLabel6" text="Paid Leaves"/>
+						</header>
+					</Column>
+                    <Column id="_IDGenColumn7" hAlign="Center" width="40%">
+						<header>
+							<Label id="_IDGenLabel7" text="Unpaid Leaves"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn8" hAlign="Center" width="10%">
+						<header>
+							<Label id="_IDGenLabel8" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn9" hAlign="Center" width="10%">
+						<header>
+							<Label id="_IDGenLabel9" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn10" hAlign="Center" width="10%">
+						<header>
+							<Label id="_IDGenLabel10" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn11" hAlign="Center" width="10%">
+						<header>
+							<Label id="_IDGenLabel11" text=""/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="_IDGenColumnrListItem1">
+					<cells>
+						<Select id="_IDGenSelect1" editable="{editableModel>/editable}"
+							items="{path: 'userModel>/', templateShareable: false}" required="true" 
+							forceSelection="false" change="onSelectUserId"  width="60%"
+							selectedKey="{balanceleave>attributes/userId}">
+							<core:Item id="_IDGenItem1"  key="{userModel>id}"  
+								text="{userModel>username}"/> 
+						</Select>
+                        <Input id="_IDGenrText2" editable="{editableModel>/editable}" 
+							value="{balanceleave>attributes/defaultLeaves}"/>
+						<Input id="_IDGenrText3" editable="{editableModel>/editable}" 
+							value="{balanceleave>attributes/carryForwardLeaves}"/>
+                        <Input id="_IDGenrText5" editable="{editableModel>/editable}" 
+							value="{balanceleave>attributes/sickLeaves}"/>
+						<Input id="_IDGernText6" editable="{editableModel>/editable}" 
+							value="{balanceleave>attributes/paidLeaves}"/>
+                        <Input id="_IDGenText7" editable="{editableModel>/editable}" 
+							value="{balanceleave>attributes/unPaidLeaves}"/>
+						<Button id="_IDGenText10" icon="sap-icon://edit" type="Transparent" 
+							press="onEditleaves" visible="{editableModel>/editButton}"/>
+						<Button id="_IDGenText8" icon="sap-icon://save" type="Transparent" 
+							press="onSaveleaves" visible="{editableModel>/editable}"/>
+						<Button id="_IDGenText9" icon="sap-icon://cancel" type="Transparent" 
+							press="onCancelleaves" visible="{editableModel>/editable}"/>
+						<Button id="_IDGenText11" icon="sap-icon://delete" type="Transparent" 
+							press="onDeleteleaves" visible="true"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+			<Table id="dayTracking" items="{path: 'dayLeaveTrack>/'}" visible="false">
+				<columns>
+					<Column id="_IDGenCoulumn1" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLajbel1" text="{i18n>LE_Employee_name}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenCojlumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenjLabel2" text="{i18n>type}"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn22" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel22" text="{i18n>reason}"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="_IDGenColumnLhistItem1">
+					<cells>
+						<Text id="_IDGenTrext1" text="{dayLeaveTrack>attributes/requestedBy}"/>
+                        <Text id="_IDGenTjext2" text="{dayLeaveTrack>attributes/type}"/>
+						<Text id="_IDGenTejxt3" text="{dayLeaveTrack>attributes/reason}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+			
+			  <Table id="weekTracking" items="{path: 'weeLeaveTrack>/'}" visible="false">
+				<columns>
+					<Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel1" text="Name"/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel2" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn3" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel3" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn4" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel4" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn5" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel5" text=""/>
+						</header>
+					</Column>
+					<Column id="_IDGenColumn6" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<header>
+							<Label id="_IDGenLabel6" text=""/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="_IDGenColumnListItem1">
+					<cells>
+						<Text id="_IDGenText1" text="{weeLeaveTrack>name}"/>
+                        <Text id="_IDGenText2" text="{path: 'weeLeaveTrack>date1'}"/>
+						<Text id="_IDGenText3" text="{path: 'weeLeaveTrack>date2'}"/>
+						<Text id="_IDGenText4" text="{path: 'weeLeaveTrack>date3'}"/>
+						<Text id="_IDGenText5" text="{path: 'weeLeaveTrack>date4'}"/>
+						<Text id="_IDGenText6" text="{path: 'weeLeaveTrack>date5'}"/>
+						
+					</cells>
+				</ColumnListItem>
+			</Table>
+		</content>
+		<footer>
+			<Bar id="_IDGenBar1">
+				<contentRight>
+					<Button id="_IDGenButton1" text="Day tracking" press="onPressDayTracking" type="Emphasized" tooltip="Day tracking"/>
+                    <Button id="_IDGenButton2" text="Week tracking" press="onPressWeekTracking" type="Emphasized" tooltip="Week tracking"/>
+				</contentRight>
+			</Bar>
+		</footer>
+		</Page>
+</mvc:View>

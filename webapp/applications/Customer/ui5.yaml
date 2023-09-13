@@ -2,7 +2,7 @@
 
 specVersion: "2.5"
 metadata:
-  name: vaspp.project31
+  name: vaspp.Customer
 type: application
 server:
   customMiddleware:
@@ -27,5 +27,5 @@ server:
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
-        component: vaspp.project31
+        component: vaspp.Customer
         ui5Theme: sap_horizon

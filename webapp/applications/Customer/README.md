@@ -8,7 +8,7 @@
 |**Template Used**<br>simple|
 |**Service Type**<br>None|
 |**Service URL**<br>N/A
-|**Module Name**<br>project31|
+|**Module Name**<br>Customer|
 |**Application Title**<br>mproject|
 |**Namespace**<br>vaspp|
 |**UI5 Theme**<br>sap_horizon|
@@ -17,7 +17,7 @@
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
 
-## project31
+## Customer
 
 A Fiori application.
 

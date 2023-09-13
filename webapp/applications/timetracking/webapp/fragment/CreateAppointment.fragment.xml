@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog  title="{i18n>CreateAppointment}">
+		<beginButton>
+			<Button text="{i18n>Save}" type="Emphasized" press="handleDialogSaveButton"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>Cancel}" press="handleDialogCancelButton"/>
+		</endButton>
+		<l:VerticalLayout class="sapUiContentPadding" width="100%">
+		<!-- <Label text="{i18n>Project Name}" required="true"/>
+		<Select  forceSelection="false" width="100%" items="{mAppointDetails>/}" change="onSelectName">
+				<core:Item key="{mAppointDetails>id}" text="{mAppointDetails>attributes/name}"/>
+			</Select> -->
+			
+			<Label text="{i18n>Title}" required="true"/>
+			<Input />
+			<Label text="{i18n>Description}" required="true"/>
+			<Input />
+			<Label text="{i18n>Task}" />
+			<Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask">
+				<core:Item key="{mUserTasks>id}" text="{mUserTasks>attributes/name}"/>
+			</Select>
+			<Label text="{i18n>Sub-Task}" />
+			<Select  forceSelection="false" width="100%" items="{mUserSubTask>/}" >
+				<core:Item key="{mUserSubTask>id}" text="{mUserSubTask>attributes/name}"/>
+			</Select>
+			<Label text="{i18n>Start Date}" required="true"/>
+			<DateTimePicker displayFormat="short" required="true" change="handleCreateChange"  />
+			<Label text="{i18n>End Date}" required="true"/>
+			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange1"/>
+			<Label text="{i18n>Hours taken}" />
+			<Input editable="false"/>
+			
+		</l:VerticalLayout>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,184 @@
+<mvc:View controllerName="vaspp.Leave.controller.DetailLeave" height="100%" xmlns="sap.uxap" class="viewPadding"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:vbm="sap.ui.vbm" xmlns:layout="sap.ui.layout" 
+	displayBlock="true" xmlns:table="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" 
+	xmlns:core="sap.ui.core" xmlns:upload="sap.m.upload" xmlns:form="sap.ui.layout.form">
+	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true"
+		upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+				<expandedHeading>
+					<m:Title id="_IDGenTitle1" text="" wrapping="true" class="sapUiSmallMarginEnd"/>
+				</expandedHeading>
+				<snappedHeading>
+				</snappedHeading>
+				<navigationActions>
+					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" 
+						press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" 
+						visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }"/>
+					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" 
+						press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" 
+						visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }"/>
+					<m:OverflowToolbarButton id="_IDGenOverflowToolbarButton1" type="Transparent" 
+						icon="sap-icon://decline" press="handleClose"  tooltip="Close middle column" 
+						visible="{= ${/actionButtonsInfo/midColumn/closeColumn} !== null }"/>
+				</navigationActions>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+		<headerContent>
+			<m:ObjectHeader id="_IDGenObjectHeader1" class="objHeaderClass" title="{mleave>/attributes/requestedBy}">
+                <m:statuses>
+                    <m:ObjectStatus id="_IDGenObjectStatus1" title="Start Date" 
+						text="{mleave>/attributes/startDate}"/>
+                    <m:ObjectStatus id="_IDGenObj1ectStatus1" title="End Date" 
+						text="{mleave>/attributes/endDate}"/>    
+                </m:statuses>
+                <m:attributes>
+                    <m:ObjectAttribute id="_IDGenObjectAttribute1" title="Name" 
+						text="{mleave>/attributes/requestedBy}" visible="true"/>
+                    <m:ObjectAttribute id="_IDGenObjectAttribute2" title="Type" 
+						text="{mleave>/attributes/type}" visible="true"/>
+                </m:attributes>
+            </m:ObjectHeader>
+		</headerContent>		
+		<sections>                                  
+			<ObjectPageSection id="_IDGenObjectPageSection11" title="General Information" tooltip="General Information" 
+			   class="sapUiResponsiveContentPadding">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection11">
+						<!-- <form:SimpleForm id="SimpleFormDisplay480_12120" layout="ResponsiveGridLayout" 
+							labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4" 
+							adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" 
+							emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" 
+							singleContainerFullSize="false" class="removeTitle" >
+							<form:content>		
+								<m:Label id="_IDGenLabel8" text="Type of Leave " />
+								<m:Text id="_IDGenText12" text="{mleave>/attributes/type}"/>
+								<m:Label id="_IDGenLabel2" text="No of Days"   />
+								<m:Text id="_IDGenText2" text="{mleave>/attributes/NoOfDays}"/>
+								<m:Label id="_IDGenLabel6" text="Reason"  />
+								<m:Text id="_IDGenText10" text="{mleave>/attributes/reason}"/>				
+							</form:content>
+						</form:SimpleForm>
+						<form:SimpleForm id="SimpleFoDisplay480_12120" editable="false" layout="ResponsiveGridLayout"
+							labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4" 
+							adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+							emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+							singleContainerFullSize="false" >
+							<form:content>
+								<m:Label id="abel51" text="Default Leaves "/>
+								<m:Text id="nText31" text="{balanceleave>/data/0/attributes/defaultLeaves}"/>
+								<m:Label id="_IDGenLabel51" text="Balance Leaves "/>
+								<m:Text id="_IDGenText31" text="{balanceleave>/data/0/attributes/balanceLeaves}"/>
+								<m:Label id="Label2" text="Carry Forward Leaves "/>
+								<m:Text id="_IDGeext2" text="{balanceleave>/data/0/attributes/carryForwardLeaves}"/>
+								<m:Label id="Label02" text="Sick Leaves  "/>
+								<m:Text id="_IDGeext02" text="{balanceleave>/data/0/attributes/sickLeaves}"/>
+								<m:Label id="Label002" text="Paid Leaves  "/>
+								<m:Text id="_IDGeex0t02" text="{balanceleave>/data/0/attributes/paidLeaves}"/>
+								<m:Label id="Label0029" text="Unpaid Leaves"/>
+								<m:Text id="_IDGeex0t002" text="{balanceleave>/data/0/attributes/unPaidLeaves}"/>
+							</form:content>
+						</form:SimpleForm> -->
+						<form:SimpleForm id="_IDGenSimpleForm1" editable="false" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4"
+											adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+											singleContainerFullSize="false" visible="true" class="removeTitle">
+							<form:content>
+								<!-- <core:Title id="_IDGenTitle3" text="Leave Details"/> -->
+								<m:Label id="_IDGenLabel8" text="Type of Leave " />
+								<m:Text id="_IDGenText12" text="{mleave>/attributes/type}"/>
+								<m:Label id="_IDGenLabel2" text="No of Days"   />
+								<m:Text id="_IDGenText2" text="{mleave>/attributes/NoOfDays}"/>
+								<m:Label id="_IDGenLabel6" text="Reason"  />
+								<m:Text id="_IDGenText10" text="{mleave>/attributes/reason}"/>	
+								<!-- <core:Title id="_IDGenTitle4" text=""/> -->
+								<m:Label id="abel51" text="Default Leaves "/>
+								<m:Text id="nText31" text="{balanceleave>/data/0/attributes/defaultLeaves}"/>
+								<m:Label id="_IDGenLabel51" text="Balance Leaves "/>
+								<m:Text id="_IDGenText31" text="{balanceleave>/data/0/attributes/balanceLeaves}"/>
+								<m:Label id="Label2" text="Carry Forward Leaves "/>
+								<m:Text id="_IDGeext2" text="{balanceleave>/data/0/attributes/carryForwardLeaves}"/>
+								<m:Label id="Label02" text="Sick Leaves  "/>
+								<m:Text id="_IDGeext02" text="{balanceleave>/data/0/attributes/sickLeaves}"/>
+								<m:Label id="Label002" text="Paid Leaves  "/>
+								<m:Text id="_IDGeex0t02" text="{balanceleave>/data/0/attributes/paidLeaves}"/>
+								<m:Label id="Label0029" text="Unpaid Leaves"/>
+								<m:Text id="_IDGeex0t002" text="{balanceleave>/data/0/attributes/unPaidLeaves}"/>
+							</form:content>
+						</form:SimpleForm>
+					</ObjectPageSubSection>	
+				</subSections>	
+			</ObjectPageSection>
+			<!-- <ObjectPageSection id="_IDGenObjectPageSection1" visible="false" title="Attachments" 
+				class="sapUiResponsiveContentPadding">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+						<upload:UploadSet id="UploadSet" instantUpload="true" showIcons="true" 
+							uploadEnabled="false" fileTypes="txt,doc,png" maxFileNameLength="30" 
+							maxFileSize="200" mediaTypes="text/plain,application/msword,image/jpeg"
+							items="{path:'mDocuments>/',templateShareable: false}">
+							<upload:toolbar> 
+								<m:OverflowToolbar id="_IDGenObjectPageSubSection1OverflowToolbar">
+									<m:Button text="Download Attachment" iconFirst="true" 
+									press="handleDocumentDownload" id="handleDocumentDownload"/>
+								</m:OverflowToolbar>
+							</upload:toolbar>
+							<upload:items>
+								<upload:UploadSetItem id="agrigation" fileName="{mDocuments>attributes/name}"
+									mediaType="{mDocuments>attributes/ext}" url="{mDocuments>attributes/url}">
+								</upload:UploadSetItem>
+							</upload:items>
+						</upload:UploadSet>				
+					</ObjectPageSubSection>				
+				</subSections>			
+			</ObjectPageSection> -->
+			<ObjectPageSection id="_IDGenObjectPageSection21" title="Leave History" tooltip="Leave History" class="sapUiResponsiveContentPadding">
+                <subSections>
+                    <ObjectPageSubSection id="_IDGenObjectPageSubSection21">
+                        <blocks>
+							<m:Table id="leaveTableId" items="{path: 'leaveHistory>/'}" visible="true">
+								<m:columns>
+									<m:Column id="_IDGenColumn1">
+											<m:Text id="cdbh" text="Balance Leave"/>
+										</m:Column>
+										<m:Column id="_IDGenColumn11">
+											<m:Text id="cdb1h" text="Last Leave Applied On"/>
+										</m:Column>
+										<m:Column id="_IDGenColumn121">
+											<m:Text id="cdb1h2" text=" No Of Days" />
+										</m:Column>
+										<m:Column id="_IDGenColumn131">
+											<m:Text id="cdb13h" text="Type Of Leave"/>
+										</m:Column>
+										<m:Column id="_IDGenColumn141">
+											<m:Text id="cdb14h" text="Status"/>
+										</m:Column>	
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem id="cloumnListItemId">
+										<m:cells>
+											<m:Text id="_IDGenText1" text="{leaveHistory>attributes/leave_balance}"/>
+											<m:Text id="_IDGenTex11" text="{path:'leaveHistory>attributes/startDate'}"/>							
+											<m:Text id="_IDGenText14" text="{leaveHistory>attributes/NoOfDays}"/>
+											<m:Text id="_IDGenText3" text="{leaveHistory>attributes/type}"/>
+											<m:Text id="_IDGenText15" text="{leaveHistory>attributes/status}"/>
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+		</sections>
+		<footer>
+            <m:OverflowToolbar id="_IDGenOverflowToolbar1">
+                <m:ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+                <m:Button id="_IDGenButton6" text="Approve" tooltip="Approve Leave" class="sapUiSmallMargin" 
+					press="onInitialFocusOnAccept"/>            
+		        <m:Button id="_IDGenButton8" text="Reject" tooltip="Reject Leave" class="sapUiSmallMargin" 
+					press="onInitialFocusOnReject"/>	
+            </m:OverflowToolbar>	
+        </footer>	
+	</ObjectPageLayout>
+</mvc:View>

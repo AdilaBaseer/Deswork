@@ -1,0 +1,43 @@
+<mvc:View controllerName="vaspp.timetracking.controller.timetracking"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:unified="sap.ui.unified"
+	
+	xmlns="sap.m">
+	<VBox class="sapUiSmallMargin" id="VBoxtimetracking">
+		<PlanningCalendar
+			id="PC1" appointmentsVisualization="Filled"
+			viewChange="viewChange" viewKey="One Month"
+			appointmentSelect="handleAppointmentSelect"
+			showEmptyIntervalHeaders="false"
+			showWeekNumbers="true"
+			intervalSelect="handleAppointmentAddWithContext"
+			rows="{path: '/'}">
+			<toolbarContent>
+				<Title text="{i18n>MyTimesheet}" titleStyle="H4" id="Titletimetracking"/>
+				<!-- <Button id="_IDGenButton1" icon="sap-icon://add" press="handleAppointmentCreate" tooltip="Add"/> -->
+			</toolbarContent>
+			<rows>
+				<PlanningCalendarRow id="PlanningCalendarRowtimetracking" 
+					title="{firstName} {lastName}" text="{designation}"
+					appointments="{path : 'p_appointments', templateShareable:false}"
+					intervalHeaders="{path: 'p_appointments', templateShareable: false}" >
+					<appointments>
+						<unified:CalendarAppointment id="CalendarAppointmenttimetracking"
+							startDate="{startDate}" endDate="{endDate}" title="{name}" text="{description}"
+							type="Type02" tentative="false" >
+						</unified:CalendarAppointment>
+					</appointments>
+					<intervalHeaders>
+						<unified:CalendarAppointment
+						id="CalendarIntervaltimetracking"
+								startDate="{startDate}" endDate="{endDate}" title="{name}" text="{description}"
+							type="Type02" tentative="false"
+							>
+						</unified:CalendarAppointment>
+					</intervalHeaders>
+				</PlanningCalendarRow>
+			</rows>
+		</PlanningCalendar>
+	</VBox>
+</mvc:View>

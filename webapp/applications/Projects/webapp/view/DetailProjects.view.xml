@@ -1,0 +1,271 @@
+<mvc:View
+    displayBlock="true"
+    controllerName="VASPP.Projects.controller.DetailProjects"
+	xmlns="sap.uxap"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:x="sap.ui.table"
+	xmlns:z="sap.suite.ui.commons"
+	xmlns:semantic="sap.f.semantic"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:objHead="sap.m.ObjectHeader"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:core="sap.ui.core"
+	xmlns:coree="sap.uxap.ObjectPageHeader"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:svm="sap.ui.comp.smartvariants"
+	xmlns:u="sap.ui.unified"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:upload="sap.m.upload"
+>
+	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+				<navigationActions>
+					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }" />
+					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }" />
+					<m:OverflowToolbarButton id="_IDGenOverflowToolbarButton1" type="Transparent" icon="sap-icon://decline" press="handleClose" tooltip="Close middle column" visible="{= ${/actionButtonsInfo/midColumn/closeColumn} !== null }" />
+				</navigationActions>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+		<headerContent>
+			<m:ObjectHeader id="_IDGenObjectHeader1"  title="{mprojects>/attributes/name}" number="{parts: ['mprojects>/attributes/estimatedEndDate'], formatter: '.formatter.getDueDate'}" class="objHeaderClass">
+				<m:statuses>
+					<m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"
+								state="{ parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}], formatter:'.formatter.getStatusIndication' }"/>
+					
+				</m:statuses>
+				<m:attributes >
+					<m:ObjectAttribute id="_IDGenObjectAttribute1" title="Start Date" text="{path:'mprojects>/attributes/startDate',formatter:'.formatter.formattingDate'}" visible="true" />
+					<m:ObjectAttribute id="_IDGenObjectAttribute2" title="Estimated End Date" text="{path:'mprojects>/attributes/estimatedEndDate',formatter:'.formatter.formattingDate'}" visible="true" />
+					<m:ObjectAttribute id="_IDGenObjectAttribute7" title="Actual End Date" text="{path:'mprojects>/attributes/actualEndDate',formatter:'.formatter.formattingDate'}" visible="true" />
+				</m:attributes>
+			</m:ObjectHeader>
+		</headerContent>
+		<sections>
+			<ObjectPageSection id="_IDGenObjectPageSection1" title="Basic Information" class="sapUiResponsiveContentPadding">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+						<form:SimpleForm id="simpleFormProjectTab" title="" editable="false" class="editableForm sapUiSmallMarginTopBottom">
+							<form:content>
+								<m:Label id="_IDGenLabel5" text="Project Name" width="90%" />
+								<m:Text id="_IDGenText4" text="{mprojects>/attributes/name}" />
+								<m:Label id="_IDGenLabel7" text="Description" width="90%" />
+								<m:Text id="_IDGenText6" text="{mprojects>/attributes/description}" />
+								<m:Label id="startdate" text="Type" width="90%" />
+								<m:Text id="textsd" text="{mprojects>/attributes/type}" />
+								<m:Label id="_IDGenLabel10" text="Priority" width="90%" />
+								<m:Text id="_IDGenText9" text="{mprojects>/attributes/priority}" />
+								<!-- <m:Label id="_IDGenLabel8" text="Effort" width="90%" />
+								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}" /> -->
+								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
+								<m:Text id="_IDGenText8" text="{mprojects>/attributes/estimated_budget}" />
+								<m:Label id="esenddate" text="Actual Budget" width="90%" />
+								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" />
+							</form:content>
+						</form:SimpleForm>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection id="_IDGenObjectPageSection2" title="Customer Information">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection2">
+						<form:SimpleForm id="_IDGenSimpleForm11" title="" editable="false" class="editableForm sapUiSmallMarginTopBottom" >
+							<form:content>
+								<m:Label id="_IDGenLabel41" text="Business Owner" width="90%" />
+								<m:Text id="_IDGenText31" text="{mprojects>/attributes/p_customer/data/attributes/name}" />
+								<m:Label id="_IDGenLabel71" text="E-mail" width="90%" />
+								<m:Text id="_IDGenText611" text="{mprojects>/attributes/p_customer/data/attributes/email}" />
+								<m:Label id="_IDGenLabel51" text="Contact" width="90%" />
+								<m:Text id="_IDGenText41" text="{mprojects>/attributes/p_customer/data/attributes/phone}" />
+								<m:Label id="_IDGenLabel101" text="Country" width="90%" />
+								<m:Text id="_IDGenText91" text="{mprojects>/attributes/p_customer/data/attributes/country}" />
+								<m:Label id="_IDGenLabel191" text="Region" width="90%" />
+								<m:Text id="_IDGenText81" text="{mprojects>/attributes/p_customer/data/attributes/region}" />
+							</form:content>
+						</form:SimpleForm>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection id="_IDGenObjectPageSection4" title="Team Member">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection4">
+						<blocks>
+							<m:VBox id="ddd">
+								<m:HBox id="ee1ee" alignItems="End" alignContent="End" justifyContent="End" fitContainer="false">
+									<m:Button id="_IDGenBu1tton11" text="" type="Transparent" icon="sap-icon://add" press="addTeamMember" class="sapUiSmallMarginEnd" />
+									<m:Button id="_IDGenBu1tton112" text="" type="Transparent" icon="sap-icon://delete" press="deleteTeamMemberDailog" />
+								</m:HBox>
+								<m:HBox id="fffff">
+									<m:Table id="suppliersTable3b" mode="MultiSelect"  itemPress="handleItemPress" items="{path : 'mTeamMember>/'}">
+										<m:columns>
+											<m:Column id="_IDGenColumn50b">
+												<m:Text id="text002b" text="First Name" />
+											</m:Column>
+											<m:Column id="_IDGenColumn20b">
+												<m:Text id="text003b" text="Last Name" />
+											</m:Column>
+											<m:Column id="_IDGenColumn2b1">
+												<m:Text id="text004b" text="E-mail" />
+											</m:Column>
+											<m:Column id="_IDGenColumn2b12">
+												<m:Text id="text0044b" text="Contact" />
+											</m:Column>
+											<m:Column id="RateId">
+												<m:Text id="RatetextID" text="Rate Card" />
+											</m:Column>
+											<m:Column id="_IDGenColumn2b16">
+												<m:Text id="text0044d" text="Role" />
+											</m:Column>
+										</m:columns>
+										<m:items>
+											<m:ColumnListItem id="_IDGenColumnListItem4b">
+												<m:cells>
+													<m:ObjectIdentifier id="_IDGenObjectIdentifier5b1" text="{mTeamMember>attributes/users_permissions_user/data/attributes/firstName}" />
+												</m:cells>
+												<m:cells>
+													<m:ObjectIdentifier id="_IDGenObjectIdentifier52b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/lastName}" />
+												</m:cells>
+												<m:cells>
+													<m:ObjectIdentifier id="_IDGenObjectIdentifier530b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/email}" />
+												</m:cells>
+												<m:cells>
+													<m:ObjectIdentifier id="_IDGenObjectIdentifier53b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/phone}" />
+												</m:cells>
+												<m:cells>
+													<m:ObjectIdentifier id="Cellrate" text="{mTeamMember>attributes/users_permissions_user/data/attributes/rate_card}" />
+												</m:cells>
+												<m:cells>
+													<m:ObjectIdentifier id="_IDGenObject1Identifier53b" text="{mTeamMember>attributes/p_team_role}" />
+												</m:cells>
+											</m:ColumnListItem>
+										</m:items>
+									</m:Table>
+								</m:HBox>
+							</m:VBox>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection id="_IDGenObjectPageSection5" title="Task Information">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection5">
+						<blocks>
+						<!-- <m:FlexBox> -->
+								<!-- <m:HBox> -->
+							<x:TreeTable
+                    id="TreeTableBasic"
+                    rows="{path:'csfData>/'}"
+                    selectionMode="MultiToggle"
+                    enableSelectAll="false"
+                   
+                    ariaLabelledBy="title">
+								<x:extension>
+									<m:OverflowToolbar id="_IDGenOverflowToolbar3" style="Clear">
+										<m:ToolbarSpacer id="_IDGenToolbarSpacer3"/>
+										<!-- <m:Button id="_IDGenButton2" type="Transparent" text="Add Task" icon="sap-icon://add" press="addTaskDailog"/> -->
+										<m:Button id="_IDGenButton2" type="Transparent" text="" icon="sap-icon://edit" press="editSubTaskDailog"/>
+										<m:Button id="_IDGe1nBu1tton11" text="" type="Transparent" icon="sap-icon://add" press="addSubTaskDailog" />
+										<m:Button id="_IDGe1nBu1tton112" text="" type="Transparent" icon="sap-icon://delete" press="deleteTaskDailog" />
+										<!-- <m:Button text="Approve Time Extension" id="quotationApproveId" type="Emphasized" visible="true" press="onApproveProjects" />
+										<m:Button text="Reject Time Extension" id="quotationRejectId" type="Emphasized" visible="true" press="OnRejectProjects" /> -->
+									</m:OverflowToolbar>
+								</x:extension>
+								
+							
+								<x:columns>
+									<x:Column id="_IDGenColumn1" width="10rem"  >
+										<m:Label id="_IDGenLabel11" text="Name" wrapping="true"/>
+										<x:template>
+											<m:Text id="_IDGenText10" text="{csfData>name}" wrapping="true"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGenColumn2" width="14rem">
+										<m:Label id="_IDGenLabel12" text="Description" wrapping="true"/>
+										<x:template>
+											<m:Text id="_IDGenCurrency1" text="{csfData>description}" wrapping="true" />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGenColu00mn61" width="6rem">
+										<m:Label id="_I6DGe6nLa0bel11" text="Start Date" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID0Gen6Text10" wrapping="true" text="{path:'csfData>startDate',formatter:'.formatter.formattingDate'}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Co6lu0mn1" width="6rem">
+										<m:Label id="_ID6Ge6nLa0bel11" text="End Date" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID60GenTe6xt10" wrapping="true" text="{path:'csfData>endDate',formatter:'.formatter.formattingDate'}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Colu0mn1" width="6rem">
+										<m:Label id="_IDGe6nLa0bel11"  wrapping="true" text="Extended Date"/>
+										<x:template>
+											<m:Text id="_ID0G6enText1" wrapping="true" text="{path:'csfData>extended_end_date', formatter:'.formatter.getTaskStatus' }"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Colu00mn1" width="6rem">
+										<m:Label id="_IDGe6nLa00bel11" text="No Of Days" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID60Ge0nText10" wrapping="true" text="{csfData>noOfDays}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGenColu00mn1" width="6rem">
+										<m:Label id="_IDGenLa0be9l11" text="Status" wrapping="true"/>
+										<x:template>
+											<!-- <m:Text id="_ID0G6enText10" text="{path:'csfData>status'}"  /> -->
+											<m:Text id="_ID0G6enText10" wrapping="true" text="{parts:[{path:'csfData>status'},{path:'csfData>startDate'},{path:'csfData>endDate'},{path:'csfData>extended_end_date'}], formatter:'.formatter.getTaskStatus' }"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGenColu0mn1" width="6rem">
+										<m:Label id="_IDGenLa0bel11" text="Priority" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID0GenText10" wrapping="true" text="{path:'csfData>priority'}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Co6lu60mn1" width="6rem">
+										<m:Label id="_ID6Ge6n6La0bel11" text="Responsible" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID60GenTe6xt610" wrapping="true" text="{csfData>firstName}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Co69lu60mn1" width="8rem">
+										<m:Label id="_ID6Ge60n6La0bel11" text="Reason"/>
+										<x:template>
+											<m:Text id="_ID60Gen0Te6xt610" wrapping="true" text="{csfData>p_task_reason}"  />
+										</x:template>
+									</x:Column>
+									<x:Column id="_IDGen6Co690lu60mn1" width="8rem">
+										<m:Label id="_ID6Ge690n6La0bel11" text="Approver Status" wrapping="true"/>
+										<x:template>
+											<m:Text id="_ID60Gen0T7e6xt610" wrapping="true" text="{csfData>p_approver_status}"  />
+										</x:template>
+									</x:Column>
+								</x:columns>
+								<!-- <x:footer> -->
+									<x:extension>
+									<m:OverflowToolbar id="_IDGenOverflowToolba0r3" style="Clear">
+										<m:ToolbarSpacer id="_IDGenToolbarSpac9er3"/>
+										<m:Button text="Approve Time Extension" id="quotationApproveId" type="Emphasized" visible="true" press="onApproveProjects" />
+										<m:Button text="Reject Time Extension" id="quotationRejectId" type="Emphasized" visible="true" press="OnRejectProjects" />
+									</m:OverflowToolbar>
+								</x:extension>								
+							</x:TreeTable>						
+						</blocks>
+						<blocks>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			</sections>
+		<footer>
+			<m:OverflowToolbar id="_IDGenOverflowToolbar1">
+				<m:ToolbarSpacer id="_IDGenToolbarSpacer1" />
+				<m:Button text="Edit" id="quotationSaveId" type="Emphasized" visible="true" press="onEditProjects" />
+				<m:Button text="Delete" id="quotationCancelId" type="Emphasized" visible="true" press="OnDeleteProjects" />
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
+</mvc:View>
+

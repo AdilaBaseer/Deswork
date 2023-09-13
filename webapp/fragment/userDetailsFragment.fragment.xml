@@ -11,12 +11,12 @@
 		<footer>
 			<OverflowToolbar >
 				<ToolbarSpacer />
-				<Button
+				<!-- <Button
 					
 					text=""
 					icon="sap-icon://user-settings"
 					tooltip="User Settings"
-					press="OnUserSettingPress" />
+					press="OnUserSettingPress" /> -->
 					<Button
 					
 					text="Log Out "

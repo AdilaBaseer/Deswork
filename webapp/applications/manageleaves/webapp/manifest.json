@@ -110,21 +110,8 @@
           "target": [
             "TargetApplyLeaves"
           ]
-        },
-        {
-          "name": "RouteAppliedLeaves",
-          "pattern": "RouteAppliedLeaves",
-          "target": [
-            "TargetAppliedLeaves"
-          ]
-        },
-        {
-          "name": "RouteBalanceLeaves",
-          "pattern": "RouteBalanceLeaves",
-          "target": [
-            "RouteBalanceLeaves"
-          ]
         }
+       
       ],
       "targets": {
         "TargetApplyLeaves": {
@@ -133,20 +120,6 @@
           "clearControlAggregation": false,
           "viewId": "ApplyLeaves",
           "viewName": "ApplyLeaves"
-        },
-        "TargetAppliedLeaves": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "AppliedLeaves",
-          "viewName": "AppliedLeaves"
-        },
-        "RouteBalanceLeaves": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "BalanceLeaves",
-          "viewName": "BalanceLeaves"
         }
       }
     },

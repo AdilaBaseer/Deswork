@@ -1,0 +1,78 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified"
+	xmlns:l="sap.ui.layout">
+	<Dialog title="" contentWidth="50%" class="sapUiSizeCompact">
+		<beginButton>
+		<Button  text="Edit" visible="true" press="handleAppointmentEdit"/>
+		</beginButton>
+		<endButton>
+		<Button text="{i18n>Delete}"  press="handleAppointmentDelete"/>	
+		</endButton>
+			<customHeader>
+			<Bar>
+				<contentRight>
+				<Button  icon="sap-icon://decline" type="Reject"  press="handleAppointmentCancel"/>
+				<!-- <Button text="{i18n>Delete}" type="Reject" press="handleAppointmentDelete"/> -->
+				</contentRight>
+				<contentLeft>
+				<Text text="{i18n>AppointmentInformation}"/>
+				</contentLeft>
+			</Bar>
+		</customHeader>
+		<VBox>
+			<f:SimpleForm 	editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+				<f:content>
+					<!-- <core:Title text="{i18n>AppointmentInformation}"/> -->
+					<Label text="{i18n>Title}"/>
+					<Text text="{taskModel>/name}" visible="true"></Text>
+					<Input value="{taskModel>/name}" visible="false" ></Input>
+				
+					<Label text="{i18n>Description }"/>
+					<Text text="{taskModel>/description}" visible="true"/>
+					<Input value="{taskModel>/description}" visible="false" ></Input>
+
+                    <Label text="{i18n>Task}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Text text="{taskModel>/p_tasks}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Input value="{taskModel>/p_tasks}" visible="false" ></Input>
+
+					<Label text="{i18n>Sub-Task}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Text text="{taskModel>/p_sub_tasks}" visible="{= %{taskModel>/name} === 'Projects'}"/>
+					<Input value="{taskModel>/p_sub_tasks}" visible="false" ></Input>
+
+					<Label text="{i18n>StartDate }"/>
+					<Text text="{path:'taskModel>/startDate',formatter:'.formatter.getDateFormat'}" visible="true"/>
+					<DateTimePicker value="{taskModel>/startDate}"  visible="false" />
+				
+					<Label text="{i18n>EndDate }" visible="true"/>
+					<Text text="{path:'taskModel>/endDate',formatter:'.formatter.getDateFormat'}"  visible="true"/>
+					<DateTimePicker value="{taskModel>/endDate}"  visible="false" change="timecalculation"/>
+
+                    <Label text="{i18n>Hours Taken}"/>
+					<Text text="{taskModel>/noOfHours}" visible="true"/>
+					<Input value="{taskModel>/noOfHours}" visible="false" ></Input>
+
+					<Label text="Comment"/>
+					<Text text="{taskModel>/Comment}" visible="true"/>
+					
+					<Label text="Status"/>
+					<Text text="{taskModel>/status}" visible="true"/>
+				</f:content>
+			</f:SimpleForm>
+		</VBox>
+		
+		
+	</Dialog>
+</core:FragmentDefinition>

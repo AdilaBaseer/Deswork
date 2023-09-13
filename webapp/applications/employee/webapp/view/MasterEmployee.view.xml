@@ -1,0 +1,51 @@
+<mvc:View displayBlock="true" controllerName="VASPP.employee.controller.MasterEmployee" height="100%"
+	  xmlns="sap.m"
+	  xmlns:f="sap.f"
+	  xmlns:mvc="sap.ui.core.mvc">
+	<f:DynamicPage id="dynamicPageId"
+				   toggleHeaderOnTitleClick="false">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+				<f:heading>
+					<Title id="_IDGenTitle1" text="Employee Details"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+
+		<!-- DynamicPage Content -->
+		<f:content>
+			<List
+				id="productsTable"
+				mode="SingleSelectMaster"
+				headerText="Leave Application List"
+				itemPress="onListItemPress"
+				items="{memployee>/}"
+				>
+				<headerToolbar>
+		
+
+					<OverflowToolbar id="_IDGenOverflowToolbar1">
+					
+						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+						<!-- SEARCH,SORT AND ADD BUTTON -->
+						<SearchField id="_IDGenSearchField1" search="onSearch" placeholder="Search" class="sapUiSmallMarginEnd"  width="17.5rem"/>
+							<OverflowToolbarButton id="addid" icon="sap-icon://add" type="Transparent" press="onAddNewEmployee"/>
+						
+						<OverflowToolbarButton id="_IDGenOverflowToolbarButton2" icon="sap-icon://sort" class="sapUiSmallMarginEnd" type="Transparent" press="onSort"/>
+					</OverflowToolbar>
+					
+				</headerToolbar>
+			
+				
+			<ObjectListItem id="_IDGenColumnListItem1" title="{memployee>firstName} {memployee>lastName}" type="Navigation" >
+			<firstStatus >
+			<ObjectStatus id="_IDGenObjectStatus1" title="Available" text="{memployee>availability}" />
+
+		    </firstStatus>
+			<ObjectAttribute id="_IDGenObjectAttribute1" title="" text="{memployee>designation}" />
+			</ObjectListItem>
+			</List>
+		</f:content>	
+	</f:DynamicPage>
+</mvc:View>

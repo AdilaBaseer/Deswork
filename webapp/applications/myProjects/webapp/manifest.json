@@ -1,0 +1,154 @@
+{
+	"_version": "1.42.0",
+	"sap.app": {
+	  "id": "VASPP.myProjects.view.FlexibleColumnLayoutMy",
+	  "type": "application",
+	  "i18n": "i18n/i18n.properties",
+	  "applicationVersion": {
+		"version": "0.0.1"
+	  },
+	  "title": "{{appTitle}}",
+	  "description": "{{appDescription}}",
+	  "resources": "resources.json",
+	  "sourceTemplate": {
+		"id": "@sap/generator-fiori:basic",
+		"version": "1.8.0",
+		"toolsId": "083007b7-a859-4eac-bbfc-333db91db9f7"
+	  },
+	  "dataSources": {
+		"mainService": {
+		  "uri": "/sap/opu/odata/",
+		  "type": "OData",
+		  "settings": {
+			"annotations": [],
+			"localUri": "localService/metadata.xml",
+			"odataVersion": "2.0"
+		  }
+		}
+	  }
+	},
+	"sap.ui5": {
+		"flexEnabled": true,
+        "rootView": {
+			"viewName": "VASPP.myProjects.view.FlexibleColumnLayoutMy",
+			"type": "XML",
+			"async": true,
+			"id": "fcl"
+		},
+		"dependencies": {
+			"minUI5Version": "1.98.0",
+			"libs": {
+				"sap.ui.core": {
+				},
+				"sap.m": {
+				},
+				"sap.f": {
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		  },
+		
+		"config": {
+			"fullWidth": true
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.f.routing.Router",
+				"type": "View",
+				"viewType": "XML",
+				"path": "VASPP.myProjects.view",
+				"controlId": "fcl",
+				"transition": "slide",
+				"async": true
+			},
+			
+			"routes": [
+				{
+					"pattern": ":layout:",
+					"name": "masterMyProjects",
+					"target": [
+						"masterMyProjects"
+					]
+				},
+				{
+					"pattern": "detailMyProjects/{layout}/{product}",
+					"name": "detailMyProjects",
+					"target": [
+						"masterMyProjects",
+						"detailMyProjects"
+					]
+				}
+				
+				
+			],
+			"targets": {
+				"masterMyProjects": {
+					"name": "MasterMyProjects",
+					"id":"master1MyProjects",
+					"controlAggregation": "beginColumnPages"
+				},
+				"detailMyProjects": {
+					"name": "DetailMyProjects",
+					"id":"detail1MyProjects",
+					"controlAggregation": "midColumnPages"
+				}
+				
+				
+				
+			}
+		},
+		"models": {
+			"i18n": {
+			  "type": "sap.ui.model.resource.ResourceModel",
+			  "settings": {
+				"bundleName": "VASPP.myProjects.i18n.i18n"
+			  				}
+					},
+			"mprod":{
+			  "type": "sap.ui.model.json.JSONModel",
+			  "uri": "model/projectInfo.json"
+			},
+			"mprojects":{
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/UpdatedProjects.json"
+			  },
+			"employees":{
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/employees.json"
+			  },
+			  "vendors":{
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/vendors.json"
+			  },
+			  "mpt":{
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/timeentry.json"
+			  },
+			
+			"": {
+			  "dataSource": "mainService",
+			  "preload": true,
+			  "settings": {}
+			}
+		  }
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+		  "icon": "",
+		  "favIcon": "",
+		  "phone": "",
+		  "phone@2": "",
+		  "tablet": "",
+		  "tablet@2": ""
+		},
+		"deviceTypes": {
+		  "desktop": true,
+		  "tablet": true,
+		  "phone": true
+		}
+	  }
+}

@@ -7,15 +7,13 @@
 	<Page id="_IDGenPage1" showHeader="false" backgroundDesign="Solid" class="sapUiContentPadding" title="{i18n>title}" 
 		>
 		<content>
-		<!-- i have set header text in page as true if it doesnt work set it has false -->
-				<!-- <ScrollContainer id="scollContainerId5" horizontal="true" vertical="true"></ScrollContainer> -->
-			<Table id="drillDownTableIdproject" headerText="Total Projects"  visible="false" inset="false" items="{mreport>/}">
+		<Table id="drillDownTableIdproject" headerText="Total Projects"  visible="false" inset="false" items="{mreport>/}">
 				<Title id="_IDGenTitle1" text="Products" visible="true"></Title>
 				<headerToolbar>
 					<Toolbar id="_IDGenToolbar2">
 					<Button id="_IDGenButton1" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
 						<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
-						<Button id="_IDGenButton4" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportproject"/>
+						<Button id="_IDGenButton4" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProject"/>
 					</Toolbar>
 				</headerToolbar>
 				<columns>
@@ -29,7 +27,10 @@
 						<Text id="_IDGenText8" text="StartDate"/>
 					</Column>
 					<Column id="_IDGenColumn4">
-						<Text id="_IDGenText9" text="EndDate"/>
+						<Text id="_IDGenText9" text="Actual End Date"/>
+					</Column>
+					<Column id="_IDGenColuomn101" >
+						<Text id="_IDGenText31"  text="Estimated EndDate"/>
 					</Column>
 					<Column id="_IDGenColumn5">
 					    <Text id="_IDGenText10" text="Status"/>
@@ -42,6 +43,7 @@
 							<Text id="_IDGenText12" text="{mreport>attributes/description}"/>
 							<Text id="_IDGenText13" text="{mreport>attributes/startDate}"/>
 							<Text id="_IDGenText14" text="{mreport>attributes/actualEndDate}"/>
+							<Text id="_IDGenText1" text="{mreport>attributes/estimatedEndDate}"/>
 							<Text id="_IDGenText15" text="{mreport>attributes/status}"/>
 							
 						</cells>
@@ -49,7 +51,7 @@
 				</items>
 			</Table>
 				<!-- <ScrollContainer id="scollContainerId1" horizontal="true" vertical="true"></ScrollContainer> -->
-			<Table id="drillDownTableIdtask" visible="false" inset="false" items="{mreport>/}">
+			<Table id="drillDownTableIdtask" visible="false" inset="false" items="{mreportTask>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenToolbar3">
 					<Button id="_IDGenButton2" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
@@ -59,7 +61,7 @@
 				</headerToolbar>
 				<columns>
 					<Column id="_IDGenColumn6">
-						<Text id="_IDGenText16" text="Project Name"/>
+						<Text id="_IDGenText16" text="Task Name"/>
 					</Column>
 					<Column id="_IDGenColumn7">
 						<Text id="_IDGenText17" text="Description"/>
@@ -70,11 +72,8 @@
 					<Column id="_IDGenColumn15">
 						<Text id="_IDGenText178" text="End Date"/>
 					</Column>
-					<Column id="_IDGenColumn8">
-						<Text id="_IDGenText18" text="Total Milestone"/>
-					</Column>
 					<Column id="_IDGenColumn9">
-						<Text id="_IDGenText19" text="Total Task"/>
+						<Text id="_IDGenText19" text="Project Name"/>
 					</Column>
 					<Column id="_IDGenColumn10">
 						<Text id="_IDGenText20" text="Status"/>
@@ -84,25 +83,23 @@
 				<items>
 					<ColumnListItem id="_IDGenColumnListItem2">
 						<cells>
-							<Text id="_IDGenText21" text="{mreport>attributes/name}"/>
-							<Text id="_IDGenText22" text="{mreport>attributes/description}"/>
-							<Text id="_IDGenText23" text="{mreport>attributes/startDate}"/>
-							<Text id="_IDGenText24" text="{mreport>attributes/endDate}"/>
-							<Text id="_IDGenText26" text="{mreport>attributes/p_milestones/data/id}"/>
-							<Text id="_IDGenText27" text="{mreport>attributes/p_tasks/data/attributes}"/>
-							<Text id="_IDGenText25" text="{mreport>attributes/status}"/>
+							<Text id="_IDGenText21" text="{mreportTask>attributes/name}"/>
+							<Text id="_IDGenText22" text="{mreportTask>attributes/description}"/>
+							<Text id="_IDGenText23" text="{mreportTask>attributes/startDate}"/>
+							<Text id="_IDGenText24" text="{mreportTask>attributes/endDate}"/>
+							<Text id="_IDGenText26" text="{mreportTask>attributes/p_project/data/attributes/name}"/>
+							<Text id="_IDGenText25" text="{mreportTask>attributes/status}"/>
 							
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-				<!-- <ScrollContainer id="scollContainerId2" horizontal="true" vertical="true"></ScrollContainer> -->
-			<Table id="drillDownTableIdprojectsubmitted" visible="false" inset="false" items="{/Projectsubmitted}">
+			<Table id="drillDownTableIdprojectsubmitted" visible="false" inset="false" items="{mreportCompleted>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenToolbar4">
 					<Button id="_IDGenButton" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
 						<ToolbarSpacer id="_IDGenToolbarSpacer4"/>
-						<Button id="_IDGenButton6" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectsubmitted"/>
+						<Button id="_IDGenButton6" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectCompleted"/>
 					</Toolbar>
 				</headerToolbar>
 				<columns>
@@ -116,10 +113,10 @@
 						<Text id="_IDGenText296" text="Start Date"/>
 					</Column>
 					<Column id="_IDGenColumn101" >
-						<Text id="_IDGenText821"  text="End Date"/>
+						<Text id="_IDGenText821"  text="Actual End Date"/>
 					</Column>
 					<Column id="_IDGenColumn12" >
-						<Text id="_IDGenText292"  text="Customer Name"/>
+						<Text id="_IDGenText292"  text="Estimated End Date"/>
 					</Column>
 					<Column id="_IDGenColumn14" >
 						<Text id="_IDGenText284" text="Status"/>
@@ -129,61 +126,18 @@
 				<items>
 					<ColumnListItem id="_IDGenColumnListItem5">
 						<cells>
-							<Text id="_IDGenText211" text="{ProjectName}"/>
-							<Text id="_IDGenText222" text="{Description}"/>
-							<Text id="_IDGenText233" text="{Startdate}"/>
-							<Text id="_IDGenText244" text="{Enddate}"/>
-							<Text id="_IDGenText264" text="{customername}"/>
-							<Text id="_IDGenText254" text="{Status}"/>
+							<Text id="_IDGenText211" text="{mreportCompleted>attributes/name}"/>
+							<Text id="_IDGenText222" text="{mreportCompleted>attributes/description}"/>
+							<Text id="_IDGenText233" text="{mreportCompleted>attributes/startDate}"/>
+							<Text id="_IDGenText244" text="{mreportCompleted>attributes/actualEndDate}"/>
+							<Text id="_IDGenText264" text="{mreportCompleted>attributes/estimatedEndDate}"/>
+							<Text id="_IDGenText254" text="{mreportCompleted>attributes/status}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-				<!-- <ScrollContainer id="scollContainerId3" horizontal="true" vertical="true"></ScrollContainer> -->
-			<Table id="drillDownTableIdprojectdelayed" visible="false" inset="false" items="{/Projectdelayed}">
-				<headerToolbar>
-					<Toolbar id="_IDGenToolba" >
-					<Button id="_IDGenButton8" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbarSer5" />
-						<Button id="_IDGenButn7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectdelayed"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenmn161">
-						<Text id="_IDGxt216"  text="Project Name"/>
-					</Column>
-					<Column id="_IDGenCn126" >
-						<Text id="_IDGenTt226"  text="Description"/>
-					</Column>
-					<Column id="_IDGenCol13" >
-						<Text id="_IDGenT36"  text="Start Date"/>
-					</Column>
-					<Column id="_IDGenn146"  >
-						<Text id="_IDGText246" text="End Date"/>
-					</Column>
-					<Column id="_IDGenu5mn15"  >
-						<Text id="_IDGent256"  text="Customer Name"/>
-					</Column>
-					<Column id="_IDGenColu6"  >
-						<Text id="_IDGent266"  text="Status"/>
-					</Column>
-					
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenCListItem6" >
-						<cells>
-							<Text id="_IDGenTe276"  text="{ProjectName}"/>
-							<Text id="_IDGxt28"  text="{Description}"/>
-							<Text id="_IDext29" text="{Startdate}"/>
-							<Text id="_IDGxt30" text="{Enddate}"/>
-							<Text id="_IDxt31" text="{customername}"/>
-							<Text id="_IDext32"  text="{Status}"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-
-			<Table id="drillDownTableIdnewproject" visible="false" inset="false" items="{/New_Projects}">
+				
+			<Table id="drillDownTableIdnewproject" visible="false" inset="false" items="{mreportNew>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenTooba" >
 					<Button id="_IDGenButon8" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
@@ -202,11 +156,11 @@
 						<Text id="_IDGeT36"  text="Start Date"/>
 					</Column>
 					<Column id="_IDGenn46"  >
-						<Text id="_IDGTxt246" text="End Date"/>
+						<Text id="_IDGTxt246" text="Actual End Date"/>
 					</Column>
-					<!-- <Column id="_IDGenu5n15"  >
-						<Text id="_IDGent56"  text="Customer Name"/>
-					</Column> -->
+					<Column id="_46"  >
+						<Text id="_ID46" text="Estimated End Date"/>
+					</Column>
 					<Column id="_IDGenCol6"  >
 						<Text id="_IDGent66"  text="Status"/>
 					</Column>
@@ -215,18 +169,18 @@
 				<items>
 					<ColumnListItem id="_IDGenCistItem6" >
 						<cells>
-							<Text id="_IDGeTe276"  text="{ProjectName}"/>
-							<Text id="_IDGx28"  text="{Description}"/>
-							<Text id="_IDext2" text="{Startdate}"/>
-							<Text id="_IDGxt0" text="{Enddate}"/>
-							<!-- <Text id="_IDxt3" text="{customername}"/> -->
-							<Text id="_IDet32"  text="{Status}"/>
+							<Text id="_IDGeTe276"  text="{mreportNew>attributes/name}"/>
+							<Text id="_IDGx28"  text="{mreportNew>attributes/description}"/>
+							<Text id="_IDext2" text="{mreportNew>attributes/startDate}"/>
+							<Text id="_IDGxt0" text="{mreportNew>attributes/actualEndDate}"/>
+							<Text id="_Ix9t0" text="{mreportNew>attributes/estimatedEndDate}"/>
+							<Text id="_IDet32"  text="{mreportNew>attributes/status}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-				<!-- <ScrollContainer id="scollContainerId4" horizontal="true" vertical="true"></ScrollContainer> -->
-			<Table id="drillDownTableIdprojectinprogress" visible="false" inset="false" items="{/ProjectInProgress}">
+			
+			<Table id="drillDownTableIdprojectinprogress" visible="false" inset="false" items="{mreportInProgress>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenToolbar5" >
 					<Button id="_IDButton1" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
@@ -245,7 +199,10 @@
 						<Text id="_IDGenText236"  text="Start Date"/>
 					</Column>
 					<Column id="_IDGenColumn146"  >
-						<Text id="_IDGenText246" text="End Date"/>
+						<Text id="_IDGenText246" text="Actual End Date"/>
+					</Column>
+						<Column id="_IDGen8Column146"  >
+						<Text id="_IDGenTe0xt246" text="Estimated End Date"/>
 					</Column>
 					<Column id="_IDGenColumn16"  >
 						<Text id="_IDGenText266"  text="Status"/>
@@ -255,91 +212,17 @@
 				<items>
 					<ColumnListItem id="_IDGenColumnListItem6" >
 						<cells>
-							<Text id="_IDGenText276"  text="{ProjectName}"/>
-							<Text id="_IDGenText28"  text="{Description}"/>
-							<Text id="_IDGenText29" text="{Startdate}"/>
-							<Text id="_IDGenText30" text="{Enddate}"/>
-							<Text id="_IDGenText31" text="{customername}"/>
-							<Text id="_IDGenText32"  text="{Status}"/>
+							<Text id="_IDGenText276"  text="{mreportInProgress>attributes/name}"/>
+							<Text id="_IDGenText28"  text="{mreportInProgress>attributes/description}"/>
+							<Text id="_IDGenText29" text="{mreportInProgress>attributes/startDate}"/>
+							<Text id="_IDGenText30" text="{mreportInProgress>attributes/actualEndDate}"/>
+							<Text id="_IDGenText300" text="{mreportInProgress>attributes/estimatedEndDate}"/>
+							<Text id="_IDGenText32"  text="{mreportInProgress>attributes/status}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-			<!-- <Table id="drillDownTableIdcharthours" visible="false" inset="false" items="{/Hours}">
-				<headerToolbar>
-					<Toolbar id="_IDGenToolba5" >
-					<Button id="_IDButtn1" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbarSpcer5" />
-						<Button id="_IDGenButon7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportHours"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenColu16">
-						<Text id="_IDGen26"  text="Name"/>
-					</Column>
-					<Column id="_IDG6" >
-						<Text id="_IDnText226"  text="Hours worked in a week"/>
-					</Column>
-					<Column id="_IDGe13" >
-						<Text id="_IDG36"  text="Day 1"/>
-					</Column>
-					<Column id="_In146"  >
-						<Text id="_IDGe6" text="Day 2"/>
-					</Column>
-					<Column id="_IDGenCmn15"  >
-						<Text id="_IDGen256"  text="Day 3"/>
-					</Column>
-					<Column id="_IDGenn16"  >
-						<Text id="_IDxt266"  text="Day 4"/>
-					</Column>
-					<Column id="_IDGenn166"  >
-						<Text id="_IDxt2666"  text="Day 5"/>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColumnListtem6" >
-						<cells>
-							<Text id="_IDGenext276"  text="{name}"/>
-							<Text id="_IDGenTxt28"  text="{nhour}"/>
-							<Text id="_IDGenTxt29" text="{day1}"/>
-							<Text id="_IDGenTxt30" text="{day2}"/>
-							<Text id="_IDGenTxt31" text="{day3}"/>
-							<Text id="_IDGenTxt32"  text="{day4}"/>
-							<Text id="_IDGenTxt34"  text="{day5}"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table> -->
-			<!-- <Table id="drillDownTableIdchartbudget" visible="false" inset="false" items="{/Projects}">
-				<headerToolbar>
-					<Toolbar id="_IDGenTooba5" >
-					<Button id="_IDButtn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbarSper5" />
-						<Button id="_IDGenuton7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportBudget"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenCol16">
-						<Text id="_IDGe26"  text="Project Name"/>
-					</Column>
-					<Column id="_IG6" >
-						<Text id="_IDnText26"  text="Actual Budget"/>
-					</Column>
-					<Column id="_IDG3" >
-						<Text id="_IdfgG6"  text="Target Budget"/>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColumfnListtem6" >
-						<cells>
-							<Text id="_IDGenexft276"  text="{ProjectName}"/>
-							<Text id="_IDGenTxft28"  text="{actualbudget}"/>
-							<Text id="_IDGenTfxt29" text="{targetbudget}"/>
-							
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table> -->
+			
 				<Table id="drillDownTableIdchartprojectprogress" visible="false" inset="false" items="{mreport>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenTooa5" >
@@ -360,9 +243,11 @@
 						<Text id="_IDGffen256"  text="Start Date"/>
 					</Column>
 					<Column id="_IDGenfn16"  >
-						<Text id="_IDxft266"  text="End Date"/>
+						<Text id="_IDxft266"  text="Actual End Date"/>
 					</Column>
-					
+					<Column id="_IDGenfn916"  >
+						<Text id="_IDxft0266"  text="EstimatedEnd Date"/>
+					</Column>
 					<Column id="_ID3" >
 						<Text id="_IdgG6"  text="Progress"/>
 					</Column> 
@@ -373,288 +258,13 @@
 							<Text id="_IDGenxft"  text="{mreport>attributes/name}"/>
 							<Text id="_IDGenTt28"  text="{mreport>attributes/description}"/>
 							<Text id="_IDGenTf29" text="{mreport>attributes/startDate}"/>
+							<Text id="_IDGenT0f29" text="{mreport>attributes/actualEndDate}"/>
 							<Text id="_IDGenxft276"  text="{mreport>attributes/estimatedEndDate}"/>
-							<!-- <Text id="_IDGenTft28"  text="{Status}"/> -->
 							<Text id="_IDGenTfx29" text="{mreport>attributes/progress}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
-			</Table>
-			<Table id="drillDownTableIdchartmonth" visible="false" inset="false" items="{/Months}">
-				<headerToolbar>
-					<Toolbar id="_IDGenToob5" >
-					<Button id="_IDBttn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbrSper5" />
-						<Button id="_IDGenutn7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectMonth"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenol16">
-						<Text id="_IDG26"  text="Month"/>
-					</Column>
-					<Column id="_IfgG6" >
-						<Text id="_IDnTex6"  text="No Of Projects"/>
-					</Column>
-					<!-- <Column id="_IDGgf3" >
-						<Text id="_IgG6"  text="Project 1"/>
-					</Column>
-					<Column id="_IDGg3" >
-						<Text id="_IgGh6"  text="Project 2"/>
-					</Column> -->
-					
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColumfnListem6" >
-						<cells>
-							<Text id="_IDGenexf6"  text="{month}"/>
-							<Text id="_IDGexft28"  text="{noOfProjects}"/>
-							<!-- <Text id="_IDGenTfxt9" text="{ProjectName1}"/>
-							<Text id="IDGe"  text="{ProjectName2}"/> -->
-							<!-- <Text id="h28"  text="{ProjectName3}"/> -->
-							<!-- <Text id="_IDGenxt9" text="{}"/> -->
-							
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<Table id="drillDownTableIdchartmilestone" visible="false" inset="false" items="{/Projects}">
-				<headerToolbar>
-					<Toolbar id="_IDGenToob" >
-					<Button id="_IDttn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbSper5" />
-						<Button id="_IDGenut7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectMilestone"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenot16">
-						<Text id="_ID2t6"  text="Project Name"/>
-					</Column>
-					<Column id="_IDGeno16">
-						<Text id="_ID26"  text="Start Date"/>
-					</Column>
-					<Column id="_IfrgG" >
-						<Text id="_IDnrex6"  text="End Date"/>
-					</Column>
-					<Column id="_IfgG" >
-						<Text id="_IDnex6"  text="Total Milestone"/>
-					</Column>
-					<Column id="_IDGgf" >
-						<Text id="_Ig6"  text="Total Milestone Completed"/>
-					</Column>
-					<Column id="_IDGg" >
-						<Text id="_Igh6"  text="Milestone Delayed"/>
-					</Column>
-					<Column id="_IDhGg" >
-						<Text id="_Ighh6"  text="Milestone In Progress"/>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColumfnistem6" >
-						<cells>
-							<Text id="_IDGenef6"  text="{ProjectName}"/>
-							<Text id="_IDGexf28"  text="{Startdate}"/>
-							<Text id="_IDGen9" text="{Enddate}"/>
-							<Text id="IDhGe"  text="{milestone}"/>
-							<Text id="h28"  text="{totalmilestonecompleted}"/>
-							<Text id="_IDGenxt9" text="{delayedmilestone}"/>
-							<Text id="_IDGenxty9" text="{inprogressmilestone}"/>	
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<Table id="drillDownTableIdchartleave" visible="false" inset="false" items="{/Employeedetails}">
-				<headerToolbar>
-					<Toolbar id="_IDGenTonob" >
-					<Button id="_IDjttn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolbjSper5" />
-						<Button id="_IDGennut7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportEmployeeleave"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenffot16">
-						<Text id="_ID2ft6"  text="Name"/>
-					</Column>
-					<Column id="_IDGenof16">
-						<Text id="_ID2f6"  text="Leaves Used"/>
-					</Column>
-					<Column id="_IffrgG" >
-						<Text id="_IDnfrex6"  text="Balance Leaves"/>
-					</Column>
-					<Column id="_IffgG" >
-						<Text id="_IDnfex6"  text="Leave Last Applied On"/>
-					</Column>
-					<Column id="_IDfGgf" >
-						<Text id="hIg6"  text="Sick Leave"/>
-					</Column>
-					<Column id="_IDfGg" >
-						<Text id="_Igfh6"  text="Carry ForwardLeaves"/>
-					</Column>
-					<!-- <Column id="_IDhGfg" >
-						<Text id="_Igfhh6"  text="Milestone In Progress"/>
-					</Column> -->
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenCoflumfnistem6" >
-						<cells>
-							<Text id="_IDGenfef6"  text="{name}"/>
-							<Text id="_IDGfexf28"  text="{noofleavetaken}"/>
-							<Text id="_IDfGen9" text="{balanceleave}"/>
-							<Text id="IDfhGe"  text="{leavelastapplied}"/>
-							<Text id="h2f8"  text="{sickleave}"/>
-							<!-- <Text id="_IDGefnxt9" text="{}"/>-->
-							<Text id="_IDGefnxty9" text="{ForwardLeaves}"/>	 
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<Table id="drillDownTableIdchartemployeetask" visible="false" inset="false" items="{/Employeedetails}">
-				<headerToolbar>
-					<Toolbar id="_IDGenob" >
-					<Button id="_IDutrtn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenToolrbSper5" />
-						<Button id="_IDGenrut7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportEmployeeTask"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenrot16">
-						<Text id="_ID2rt6"  text="Name"/>
-					</Column>
-					<Column id="_Ifrg74G" >
-						<Text id="_IDrn4ex6"  text="Role"/>
-					</Column>
-					<Column id="_IDrhGg" >
-						<Text id="_rIghh6"  text="No. Of Projects Working On"/>
-					</Column>
-					<!-- <Column id="_Ifrg7G" >
-						<Text id="_IDrnex6"  text="Project Name1"/>
-					</Column>
-					<Column id="_IDrGg" >
-						<Text id="r_Igh6"  text="Project Name2"/>
-					</Column> -->
-					<Column id="_IDGerno16">
-						<Text id="rID26"  text="No. Of Task Assigned"/>
-					</Column>
-					<Column id="_IfrrgG" >
-						<Text id="_IDnrrex6"  text="No. Of Task Completed"/>
-					</Column>
-					
-					<Column id="_IDrGgf" >
-						<Text id="_Irg6"  text="No. Of Task Delayed"/>
-					</Column>
-					
-					
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColurmfnistem6" >
-						<cells>
-							<Text id="_IDGenref6"  text="{name}"/>
-							<Text id="_IDGexrf28"  text="{role}"/>
-							<Text id="_IDGenr9" text="{nprojects}"/>
-							<!-- <Text id="IDrhGe"  text="{ProjectName0}"/>
-							<Text id="hr28"  text="{ProjectName1}"/> -->
-							<Text id="_IDGrenxt9" text="{ntask}"/>
-							<Text id="_IDGrenxty9" text="{ntaskcompleted}"/>
-							<Text id="_IDGrenyxty9" text="{ntaskinprogress}"/>	
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
-			<!-- <Table id="drillDownTableIdchartresourceutilization" visible="false" inset="false" items="{/Employeedetails}">
-				<headerToolbar>
-					<Toolbar id="_IDGrenob" >
-					<Button id="_IDutrgtn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenTgoolrbSper5" />
-						<Button id="_IDGegnrut7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportresourceUtilization"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenrgot16">
-						<Text id="_ID2rgt6"  text="Name"/>
-					</Column>
-					<Column id="_Ifrg7g4G" >
-						<Text id="_IDrng4ex6"  text="Role"/>
-					</Column>
-					<Column id="_IDrghGg" >
-						<Text id="_rIgghh6"  text="No. Of Projects Working On"/>
-					</Column>
-					<Column id="_Ifrg7G" >
-						<Text id="_IDrnex6"  text="Project Name"/>
-					</Column>
-					<Column id="_IDGertno16">
-						<Text id="rID2g6"  text="Hours Spent On Project1"/>
-					</Column>
-					<Column id="_IDrGg" >
-						<Text id="r_Igh6"  text="Project Name2"/>
-					</Column>
-					
-					<Column id="_IfrrrgG" >
-						<Text id="_IDnrrrex6"  text="Hours Spent On Project2"/>
-					</Column>
-					
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColurmftnistem6" >
-						<cells>
-							<Text id="_IDGenrgef6"  text="{name}"/>
-							<Text id="_IDGexrgf28"  text="{role}"/>
-							<Text id="_IDGegnr9" text="{nprojects}"/>
-							<Text id="IDrhGe"  text="{ProjectName0}"/>
-							<Text id="IDrhrGe"  text="{hoursspent0}"/>
-							<Text id="hrr28"  text="{ProjectName1}"/>
-							<Text id="hr28"  text="{hoursspent1}"/>
-							
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table> -->
-			<Table id="drillDownTableIdchartprojectstatus" visible="false" inset="false" items="{/Projects}">
-				<headerToolbar>
-					<Toolbar id="_IDGren5ob" >
-					<Button id="_IDutrgttn" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
-						<ToolbarSpacer id="_IDGenTgo5olrbSper5" />
-						<Button id="_IDGeg5nrut7" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectChartStatus"/>
-					</Toolbar>
-				</headerToolbar>
-				<columns>
-					<Column id="_IDGenrg5ot16">
-						<Text id="_ID2r5gt6"  text="Project Name"/>
-					</Column>
-					<Column id="_Ifrg75g4G" >
-						<Text id="_IDrng54ex6"  text="Description"/>
-					</Column>
-					<Column id="_IDr5Gg" >
-						<Text id="r5_Igh6"  text="Start Date "/>
-					</Column>
-					<Column id="_Ifrr5rgG" >
-						<Text id="_IDnrr5rex6"  text="End Date"/>
-					</Column>
-					<Column id="_IDrg5hGg" >
-						<Text id="_rIggh55h6"  text="Program Name"/>
-					</Column>
-					<Column id="_Ifr5g7G" >
-						<Text id="_IDr5nex6"  text="Total Milestone"/>
-					</Column>
-					<Column id="_IDGert5no16">
-						<Text id="rID52g6"  text="Status"/>
-					</Column>
-					
-					
-				</columns>
-				<items>
-					<ColumnListItem id="_IDGenColu5rmftnistem6" >
-						<cells>
-							<Text id="_IDGenr5gef6"  text="{ProjectName}"/>
-							<Text id="_IDGex5rgf28"  text="{Description}"/>
-							<Text id="IDr5hGe"  text="{Startdate}"/>
-							<Text id="IDrh5rGe"  text="{Enddate}"/>
-							<Text id="_IDGe55gnr9" text="{milestone}"/>
-							<Text id="hrr528"  text="{Status}"/>
-							<Text id="hr258"  text="{projectprogress}"/>
-							
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
+			</Table>	
 		</content>
 	</Page>
 </mvc:View>

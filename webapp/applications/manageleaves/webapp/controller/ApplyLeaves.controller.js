@@ -3,27 +3,148 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
+    "VASPP/manageleaves/utils/formatter",
     "sap/m/UploadCollectionParameter"
-   // "VASPP/manageleaves/util/utils"
-    ],
+    // "VASPP/manageleaves/util/utils"
+],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,JSONModel, MessageToast, MessageBox, UploadCollectionParameter) {
+    function (Controller, JSONModel, MessageToast, MessageBox, formatter, UploadCollectionParameter) {
         "use strict";
         return Controller.extend("VASPP.manageleaves.controller.ApplyLeaves", {
+            formatter: formatter,
             onInit: function () {
-            var applyLeaveThis=this;
-            applyLeaveThis.appliedDates = [];
-			applyLeaveThis.holidayDates = [];
-			applyLeaveThis.lastSelectedRangeDates = [];
-			applyLeaveThis.lastSelecetedDatesCount = 0; // Contains the count of successfully selected valid dates only
-			applyLeaveThis.calendar = applyLeaveThis.getView().byId("calSelectLeaveDates");
-          this.getOwnerComponent().getRouter().getRoute("RouteApplyLeaves").attachPatternMatched(this.onObjectMatched, this);
+                var that = this;
+                that.getUserDetails();
+                that.callBalanceLeave();
+                that.callLeave();
+                that.callHolidays();
+                // that.getBatches();
+                that.appliedDates = [];
+                that.holidayDates = [];
+                that.lastSelectedRangeDates = [];
+                that.lastSelecetedDatesCount = 0; // Contains the count of successfully selected valid dates only
+
+                that.calendar = that.getView().byId("calSelectLeaveDates");
+                that.getOwnerComponent().getRouter().getRoute("RouteApplyLeaves").attachPatternMatched(that.onObjectMatched, that);
+                that.getUserHistoryBalanceDetails();
+            },
+            //Leave Apply
+            getUserHistoryBalanceDetails: function () {
+                var that = this;
+                var url = 'deswork/api/users/me?populate=*';
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel = new sap.ui.model.json.JSONModel(response);
+                        that.getView().setModel(oModel, "userModel");
+                        console.log(response.id);
+                        console.log(response);
+                        that.callLeaveHistory(response.id);
+                        that.callBalanceLeave(response.id);
+                    }
+                });
+            },
+            callLeaveHistory: function (userId) {
+                var arr = [];
+                var that = this;
+                var url = "/deswork/api/p-leaves?populate=*";
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        console.log(response);
+                        var i;
+                        for (i = 0; i < response.data.length; i++) {
+                            if (parseInt(userId) === parseInt(response.data[i].attributes.requestedById)) {
+                                arr.push(response.data[i]);
+                                console.log(arr);
+                            }
+                        }
+                        var oModel2 = new sap.ui.model.json.JSONModel(arr);
+                        that.getView().setModel(oModel2, "leavehistory");
+                        console.log(that.getView().getModel("leavehistory").getData());
+                    }
+                });
+
+            },
+            callBalanceLeave: function (userId) {
+                var arr = [];
+                var that = this;
+                var url = 'deswork/api/p-balance-leaves?populate=*&filters[userId][$eq]=' + userId;
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                        that.getView().setModel(oModel2, "balanceleave");
+                    }
+                });
+            },
+            deleteRow: function (oEvent) {
+                var that = this;
+                var oItem = oEvent.getParameter("listItem").getBindingContext("leavehistory").getProperty().id;
+                var status = oEvent.getParameter("listItem").getBindingContext("leavehistory").getProperty().attributes.status;
+                if (status === "Requested") {
+                    MessageBox.confirm("Are you sure you want to Delete the Leave Request?", {
+                        actions: ["Yes", "No"],
+                        emphasizedAction: "Yes",
+                        onClose: function (oEvent) {
+                            if (oEvent == "Yes") {
+                                $.ajax({
+                                    url: "/deswork/api/p-leaves/" + oItem,
+                                    method: "DELETE",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    success: function (response) {
+                                        response = JSON.parse(response);
+                                        MessageBox.success("Leave Request has been deleted");
+                                        var urlMe = 'deswork/api/users/me?populate=*';
+                                        $.ajax({
+                                            url: urlMe,
+                                            method: "GET",
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+
+                                            success: function (response) {
+                                                response = JSON.parse(response);
+                                                var oModel = new sap.ui.model.json.JSONModel(response);
+                                                that.getView().setModel(oModel, "userModel");
+                                                console.log(response.id);
+                                                console.log(response);
+                                                that.callLeaveHistory(response.id);
+                                            }
+                                        });
+                                    },
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    MessageBox.error("You can only delete 'Requested' leaves");
+                }
             },
 
+            //Leave History
             onChange: function (oEvent) {
-                var that=this;
+                var that = this;
                 var oUploadCollection = oEvent.getSource();
                 var file = oEvent.getParameter("item").getFileObject();
                 that.fileName = oEvent.getParameter("item").getFileName();
@@ -33,33 +154,28 @@ sap.ui.define([
                         "FileName": that.fileName,
                         "FileContent": e.currentTarget.result
                     });
-    
                 };
                 reader.readAsDataURL(file);
             },
-    
-    
+
             onStartUpload: function (oEvent) {
                 var oUploadCollection = this.byId("UploadCollection");
                 var oTextArea = this.byId("TextArea");
                 var cFiles = oUploadCollection.getItems().length;
                 var uploadInfo = cFiles + " file(s)";
-    
                 if (cFiles > 0) {
                     oUploadCollection.upload();
-    
                     if (oTextArea.getValue().length === 0) {
                         uploadInfo = uploadInfo + " without notes";
                     } else {
                         uploadInfo = uploadInfo + " with notes";
                     }
-    
                     MessageToast.show("Method Upload is called (" + uploadInfo + ")");
                     MessageBox.information("Uploaded " + uploadInfo);
                     oTextArea.setValue("");
                 }
             },
-    
+
             onBeforeUploadStarts: function (oEvent) {
                 // Header Slug
                 var oCustomerHeaderSlug = new UploadCollectionParameter({
@@ -71,610 +187,570 @@ sap.ui.define([
                     MessageToast.show("Event beforeUploadStarts triggered");
                 }, 4000);
             },
-    
+
             onUploadComplete: function (oEvent) {
                 var sUploadedFileName = oEvent.getParameter("files")[0].fileName;
                 setTimeout(function () {
                     var oUploadCollection = this.byId("UploadCollection");
-    
                     for (var i = 0; i < oUploadCollection.getItems().length; i++) {
                         if (oUploadCollection.getItems()[i].getFileName() === sUploadedFileName) {
                             oUploadCollection.removeItem(oUploadCollection.getItems()[i]);
                             break;
                         }
                     }
-    
-                    // delay the success message in order to see other messages before
                     MessageToast.show("Event uploadComplete triggered");
                 }.bind(this), 8000);
             },
-            handleDateSelection: function (evt) {
-                var applyLeaveThis=this;
-                var oCalendar = evt.getSource(),
-                    aSelectedDates = oCalendar.getSelectedDates();
-                applyLeaveThis.calendar = oCalendar;
-    
-                // If a new date is selected
-                if (aSelectedDates.length > applyLeaveThis.lastSelecetedDatesCount) {
-                    var lastSelectedDate = aSelectedDates[aSelectedDates.length - 1].getStartDate(),
-                        selectedLeaveType = applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
-    
-                    if (selectedLeaveType !== "Select") {
-                        // Don't proceed if a past date has been selected for vacation leave
-                        if (lastSelectedDate < new Date() && lastSelectedDate.toDateString() !== new Date().toDateString() && selectedLeaveType ===
-                            "Vacation Leave" ) {
-                            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                        	MessageBox.error("Vacation leaves cant be applied for past dates", {
-                            	actions: MessageBox.Action.OK
-                            });
-                            return;
-                        }
-                    } else {
-                        oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                        MessageToast.show("Please select leave type");
-                        return;
-                    }
-    
-                    //... Monitoring each date selection and guiding the user ...///
-    
-                    var isHalfDayLeave = applyLeaveThis.getView().byId("halfDayCheckBoxId").getSelected();
-                    var appliedDates = [];
-                    if (isHalfDayLeave && aSelectedDates.length > 1) {
-                        // Half day leave cannot be applied for multiple days
-                    //	MessageToast.show(applyLeaveThis.getView().getModel("i18nModel").getResourceBundle().getText("LE_HALF_DAY"));
-                        oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                        return;
-                    } else {
-                        var leavesAppliedModel =this.getView().getModel("Leaves").getData();
-                        for (var i = 0; i < leavesAppliedModel.length; i++) {
-                            //Status meaning: 1="Approved", 2="Rejected", 3="Cancelled", 4="Applied"
-                            if (leavesAppliedModel[i].Status == "Approved" || leavesAppliedModel[i].Status == "Applied") {
-                                var firstDate = new Date(leavesAppliedModel[i].startDate);
-                                var endDate = new Date(leavesAppliedModel[i].endDate);
-                                var days = applyLeaveThis.getDays(firstDate, endDate);
-                                if (firstDate.getDate() < endDate.getDate()) {
-                                    var fdate = (firstDate.getDate() + '-' + (firstDate.getMonth() + 1) + '-' + firstDate.getFullYear());
-                                    appliedDates.push(fdate);
-                                    for (var j = 1; j < days; j++) {
-                                        var next = (firstDate.getFullYear() + '-0' + (firstDate.getMonth() + 1)) + '-' + (firstDate.getDate() + j);
-                                        var n = new Date(next);
-                                        if (n.getDay() == 0 || n.getDay() == 6) {
-                                            days++;
-                                        } else {
-                                            var nextDate = ((firstDate.getDate() + j) + '-' + (firstDate.getMonth() + 1) + '-' + firstDate.getFullYear());
-                                            appliedDates.push(nextDate);
-                                        }
-                                    }
-                                } else if (endDate.getDate() < firstDate.getDate()) {
-                                    var fdate = (firstDate.getDate() + '-' + (firstDate.getMonth() + 1) + '-' + firstDate.getFullYear());
-                                    appliedDates.push(fdate);
-                                    for (var j = 1; j < days; j++) {
-                                        var next = (firstDate.getFullYear() + '-0' + (firstDate.getMonth() + 1)) + '-' + (firstDate.getDate() + j);
-                                        var n = new Date(next);
-                                        if (n == "Invalid Date") {
-                                            for (var q = 0; q < (days - j); q++) {
-                                                var next = (firstDate.getFullYear() + '-' + (firstDate.getMonth() + 2) + '-' + (q + 1));
-                                                var n = new Date(next);
-                                                if (n.getDay() == 0 || n.getDay() == 6) {
-                                                    days++;
-                                                } else {
-                                                    var nextDate = (n.getDate() + "-" + (n.getMonth() + 1) + '-' + n.getFullYear());
-                                                    appliedDates.push(nextDate);
-                                                }
-                                            }
-                                            break;
-                                        } else {
-                                            if (n.getDay() == 0 || n.getDay() == 6) {
-                                                days++;
-                                            } else {
-                                                var nextDate = (n.getDate() + "-" + (n.getMonth() + 1) + '-' + n.getFullYear());
-                                                appliedDates.push(nextDate);
-                                            }
-                                        }
-                                    }
-                                }
-                                var fDate = (firstDate.getDate() + '-' + (firstDate.getMonth() + 1) + '-' + firstDate.getFullYear());
-                                appliedDates.push(fDate);
-                            }
-                        }
-    
-                        // var holidayInfo = sap.ui.getCore().getModel("holidaysInfoModel").getData();
-                        // var holidayDates = [];
-                        // for (var i = 0; i < holidayInfo.length; i++) {
-                        //     holidayDates.push(new Date(holidayInfo[i].date).toDateString());
-                        // }
-    
-                        var getDayDate = (lastSelectedDate.getDate()) + '-' + (lastSelectedDate.getMonth() + 1) + '-' + (lastSelectedDate.getFullYear());
-                        var month = (lastSelectedDate.getMonth() + 1);
-                        if (month.toString().length == 1) {
-                            month = "0" + month;
-                        }
-    
-                        var date = lastSelectedDate.getDate();
-                        if (date.toString().length == 1) {
-                            date = "0" + date;
-                        }
-    
-                        // var getHolidayDate = (lastSelectedDate.getFullYear()) + '-' + month + '-' + date;
-                        var getHolidayDate = lastSelectedDate.toDateString();
-                        var today = new Date();
-                        var dd = today.getDate();
-                        if (dd.toString().length == 1) {
-                            dd = "0" + date;
-                        }
-                        var mm = today.getMonth() + 1;
-                        if (mm.toString().length == 1) {
-                            mm = "0" + mm;
-                        }
-                        var yyyy = today.getFullYear();
-                        today = yyyy + '-' + mm + '-' + dd;
-                        if (appliedDates.indexOf(getDayDate) > -1) {
-                             MessageToast.show("It is already applied");
-                           // MessageToast.show(applyLeaveThis.getView().getModel("i18nModel").getResourceBundle().getText("LE_APPLY_ALREADY"));
-                            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                            return;
-                        }
-                        //  else if (holidayDates.indexOf(getHolidayDate) > -1) {
-                        //     // MessageToast.show("It is Holiday");
-                        //     MessageToast.show(applyLeaveThis.getView().getModel("i18nModel").getResourceBundle().getText("LE_HOLIDAY", [holidayInfo[
-                        //         holidayDates.indexOf(getHolidayDate)].reason]));
-                        //     oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                        //     return;
-                        // }
-                         else if (lastSelectedDate.getDay() == 0 || lastSelectedDate.getDay() == 6) {
-                         
-                            MessageToast.show("It is not working Day..");
-                            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                            return;
-                        }
-                    }
-                }
-                //... Calling the function which handles range selection operations ...//
-                applyLeaveThis.handleDateRangeSelection(); // This function must be called for both selection and deselection of each date
-            },
 
-            handleDateRangeSelection: function () {
-                var applyLeaveThis = this;
-                var oCalendar = applyLeaveThis.calendar,
-                    aSelectedDates = oCalendar.getSelectedDates(),
-                    lastSelectedDateRanngeObj = aSelectedDates[aSelectedDates.length - 1];
-    
-                // Sorting the selected DateRange objects
-                applyLeaveThis.sortDateRangeObjects(aSelectedDates);
-    
-                // A new date is selected
-                if (aSelectedDates.length > applyLeaveThis.lastSelecetedDatesCount) {
-                    applyLeaveThis.lastSelecetedDatesCount++;
-    
-                    if (aSelectedDates.length === 2) { // If a range was intended to select
-                        var firstDate = aSelectedDates[0].getStartDate(),
-                            lastDate = aSelectedDates[1].getStartDate();
-    
-                        // If the start and the end dates are adjacent to each other
-                        if (firstDate.toDateString() === new Date(new Date(lastDate.toDateString()).setDate(lastDate.getDate() - 1)).toDateString()) {
-                            applyLeaveThis.lastSelectedRangeDates = [];
-                            applyLeaveThis.lastSelectedRangeDates.push(firstDate.toDateString());
-                            applyLeaveThis.lastSelectedRangeDates.push(lastDate.toDateString());
-                            applyLeaveThis.lastSelecetedDatesCount = 2;
-                        }
-    
-                        // If there is a gap of at least one day between the selection
-                        else {
-                            var rangeDates = [],
-                                date = new Date(firstDate.toISOString()); // Creating new date object from ISO string so that the reference will not update the value of firstDate automatically
-                            // Creating the array of JavaScript Date objects
-                            do {
-                                rangeDates.push(new Date(date.toISOString())); // Creating new date object from ISO string so that the stored dates in the array will not automatically update on increments
-                                date.setDate(date.getDate() + 1); // Incrementing the date value by one day
-                            } while (date <= lastDate);
-    
-                            oCalendar.removeAllSelectedDates(); // Removing the two selected dates
-                            applyLeaveThis.lastSelecetedDatesCount = 0;
-                            applyLeaveThis.lastSelectedRangeDates = [];
-    
-                            var dateIndex,
-                                appliedSpecificDates = [];
-                            for (dateIndex = 0; dateIndex < rangeDates.length; dateIndex++) {
-                                // If a user selects a date range containing any already applied date for leave which must not be allowed to apply again
-                                if (applyLeaveThis.appliedDates.includes(rangeDates[dateIndex].toDateString())) {
-                                    appliedSpecificDates.push(rangeDates[dateIndex].toDateString().slice(4, 15));
-                                }
-                            }
-    
-                            // If no applied dates were selected withing the range
-                            if (appliedSpecificDates.length === 0) {
-                                // Selecting all the dates included in the intended selection range
-                                for (dateIndex = 0; dateIndex < rangeDates.length; dateIndex++) {
-                                    oCalendar.addSelectedDate(new sap.ui.unified.DateRange({
-                                        startDate: rangeDates[dateIndex]
-                                    }));
-                                    // Storing all the dates into the lastSelectedRangeDates array included in the intended selection range.
-                                    // This array is used while handling the deselection of a date.
-                                    applyLeaveThis.lastSelectedRangeDates.push(rangeDates[dateIndex].toDateString());
-                                    applyLeaveThis.lastSelecetedDatesCount++; // Updating the lastSelecetedDatesCount variable
-                                }
-                            }
-                            // Show error message:
-                            // You cannot select this range.
-                            // You have already applied for the dates date1, date2,..., and daten. Please select another set of dates.
-                            // Or, you may cancel the leave(s) applied for these dates and try again.
-                            else if (appliedSpecificDates.length === 1) {
-                                MessageBox.error(applyLeaveThis.oBundle.getText("datesRangeWithAnAppliedDateNotAllowed", [appliedSpecificDates[0]]), {
-                                    actions: MessageBox.Action.OK
-                                });
-                            } else { // If there are multiple applied date within the range
-                                var datesList = appliedSpecificDates[0], // Adding the date of index 0 here so in the following loop will start from index 1
-                                    and = applyLeaveThis.oBundle.getText("and");
-                                // Creating the string having list of the applied dates
-                                for (dateIndex = 1; dateIndex < appliedSpecificDates.length; dateIndex++) {
-                                    if (dateIndex < (appliedSpecificDates.length - 1)) {
-                                        datesList += ", " + appliedSpecificDates[dateIndex];
-                                    } else {
-                                        datesList += " " + and + " " + appliedSpecificDates[dateIndex];
-                                    }
-                                }
-    
-                                MessageBox.error(applyLeaveThis.oBundle.getText("datesRangeWithAppliedDatesNotAllowed", [datesList]), {
-                                    actions: MessageBox.Action.OK
-                                });
-                            }
-                        }
-    
-                        // If the user tried to select a date outside the current selection range
-                    } else if (aSelectedDates.length > 2) {
-                        //Don't use the aSelectedDates array here because it's sorted, there is no guarantee that its last index will have the last selected date
-                        var lastSelectedDate = oCalendar.getSelectedDates()[oCalendar.getSelectedDates().length - 1].getStartDate();
-                        oCalendar.removeAllSelectedDates();
-                        oCalendar.addSelectedDate(new sap.ui.unified.DateRange({
-                            startDate: lastSelectedDate
-                        }));
-                        applyLeaveThis.lastSelecetedDatesCount = 1;
-                        applyLeaveThis.lastSelectedRangeDates = []; // Empty means no range of selected dates exists
-                    }
-                } else { // If a date is deselected
-                    if (applyLeaveThis.lastSelecetedDatesCount > 2) { // Before deselecting, if a range was selected having more than two dates
-                        var selectedDates = [],
-                            dateIndex;
-                        // Converting the DateRange objects to date strings and storing them in the selectedDates array.
-                        // Note that the aSelectedDates array contains DateRange objects which can be used for deselecting a date.
-                        for (dateIndex = 0; dateIndex < aSelectedDates.length; dateIndex++) {
-                            selectedDates.push(aSelectedDates[dateIndex].getStartDate().toDateString());
-                        }
-                        // Searching the deselected date
-                        var deselectedDate;
-                        for (dateIndex = 0; dateIndex < applyLeaveThis.lastSelectedRangeDates.length; dateIndex++) {
-                            if (selectedDates.includes(applyLeaveThis.lastSelectedRangeDates[dateIndex]) === false) {
-                                deselectedDate = applyLeaveThis.lastSelectedRangeDates[dateIndex];
-                                break;
-                            }
-                        }
-    
-                        var hodidayFound = false,
-                            weekendDayFound = false,
-                            textHoliday = applyLeaveThis.oBundle.getText("holiday"),
-                            textWeekend = applyLeaveThis.oBundle.getText("weekendDay"),
-                            textHolidayOrWeekendDay = applyLeaveThis.oBundle.getText("holidayOrWeekendDay");
-                        // If the first date of the range was deselected
-                        if (deselectedDate === applyLeaveThis.lastSelectedRangeDates[0]) {
-                            applyLeaveThis.lastSelecetedDatesCount--;
-                            // Updating the lastSelectedRangeDates array
-                            applyLeaveThis.lastSelectedRangeDates.splice(0, 1);
-    
-                            // Removing the inapplicable start date (if any)
-                            // After removing a selection it is possible that the new start date can be an invalid/inapplicable start date.
-                            // So, we are checking it after removing a start date each time
-                            do {
-                                // After deselection if the new first date of the selection is a weekend day (Saturday or Sunday)
-                                if (new Date(applyLeaveThis.lastSelectedRangeDates[0]).getDay() === 0 || new Date(applyLeaveThis.lastSelectedRangeDates[0]).getDay() ===
-                                    6) {
-                                    weekendDayFound = true;
-                                    // Removing the selection of the inapplicable first date
-                                    oCalendar.removeSelectedDate(aSelectedDates[0]);
-                                    aSelectedDates.splice(0, 1);
-                                    applyLeaveThis.lastSelecetedDatesCount--;
-                                    applyLeaveThis.lastSelectedRangeDates.splice(0, 1);
-                                }
-                                // After deselection if the new first date of the selection is a holiday
-                                else if (applyLeaveThis.holidayDates.includes(applyLeaveThis.lastSelectedRangeDates[0])) {
-                                    hodidayFound = true;
-                                    // Removing the selection of the inapplicable first date
-                                    oCalendar.removeSelectedDate(aSelectedDates[0]);
-                                    aSelectedDates.splice(0, 1);
-                                    applyLeaveThis.lastSelecetedDatesCount--;
-                                    applyLeaveThis.lastSelectedRangeDates.splice(0, 1);
-                                }
-                            } while (new Date(applyLeaveThis.lastSelectedRangeDates[0]).getDay() === 0 || new Date(applyLeaveThis.lastSelectedRangeDates[0])
-                                .getDay() === 6 || applyLeaveThis.holidayDates.includes(applyLeaveThis.lastSelectedRangeDates[0]));
-    
-                            var textStartDate = applyLeaveThis.oBundle.getText("startDate");
-                            // Showing appropriate message to the user
-                            if (weekendDayFound === true && hodidayFound === false) {
-                                // Show message toast: A weekend day can't be a start date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textWeekend, textStartDate]));
-                            } else if (hodidayFound === true && weekendDayFound === false) {
-                                // Show message toast: A holiday can't be a start date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textHoliday, textStartDate]));
-                            } else if (weekendDayFound === true && hodidayFound === true) {
-                                // Show message toast: A holiday or a weekend day can't be a start date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textHolidayOrWeekendDay, textStartDate]));
-                            }
-    
-                            // If the last date of the range was deselected
-                        } else if (deselectedDate === applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]) {
-                            applyLeaveThis.lastSelecetedDatesCount--;
-                            // Updating the lastSelectedRangeDates array
-                            applyLeaveThis.lastSelectedRangeDates.splice(applyLeaveThis.lastSelectedRangeDates.length - 1, 1);
-                            // Removing the inapplicable end date (if any)
-                            // After removing a selection it is possible that the new end date can be an invalid/inapplicable end date.
-                            // So, we are checking it after removing an end date each time
-                            do {
-                                // After deselection if the new end date of the selection is a weekend day (Saturday or Sunday)
-                                if (new Date(applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]).getDay() === 0 || new Date(
-                                        applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]).getDay() === 6) {
-                                    weekendDayFound = true;
-                                    // Removing the selection of the inapplicable end date
-                                    oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                                    aSelectedDates.splice(aSelectedDates.length - 1, 1);
-                                    applyLeaveThis.lastSelecetedDatesCount--;
-                                    applyLeaveThis.lastSelectedRangeDates.splice(applyLeaveThis.lastSelectedRangeDates.length - 1, 1);
-                                }
-                                // After deselection if the new end date of the selection is a holiday
-                                else if (applyLeaveThis.holidayDates.includes(applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length -
-                                        1])) {
-                                    hodidayFound = true;
-                                    // Removing the selection of the inapplicable end date
-                                    oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
-                                    aSelectedDates.splice(aSelectedDates.length - 1, 1);
-                                    applyLeaveThis.lastSelecetedDatesCount--;
-                                    applyLeaveThis.lastSelectedRangeDates.splice(applyLeaveThis.lastSelectedRangeDates.length - 1, 1);
-                                }
-                            } while (new Date(applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]).getDay() === 0 || new Date(
-                                    applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]).getDay() === 6 || applyLeaveThis.holidayDates
-                                .includes(applyLeaveThis.lastSelectedRangeDates[applyLeaveThis.lastSelectedRangeDates.length - 1]));
-    
-                            var textEndDate = applyLeaveThis.oBundle.getText("endDate");
-                            // Showing appropriate message to the user
-                            if (weekendDayFound === true && hodidayFound === false) {
-                                // Show message toast: A weekend day can't be an end date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textWeekend, textEndDate]));
-                            } else if (hodidayFound === true && weekendDayFound === false) {
-                                // Show message toast: A holiday can't be an end date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textHoliday, textEndDate]));
-                            } else if (weekendDayFound === true && hodidayFound === true) {
-                                // Show message toast: A holiday or a weekend day can't be an end date
-                                MessageToast.show(applyLeaveThis.oBundle.getText("selectionInapplicableErrorMsg", [textHolidayOrWeekendDay, textEndDate]));
-                            }
-                        } else { // If a date between the first and last dates of the date range was deselected (In this case, select only the deselected date and deselect all the other dates)
-                            oCalendar.removeAllSelectedDates();
-                            oCalendar.addSelectedDate(new sap.ui.unified.DateRange({
-                                startDate: new Date(deselectedDate)
-                            }));
-                            applyLeaveThis.lastSelecetedDatesCount = 1;
-                            // Updating the lastSelectedRangeDates array
-                            applyLeaveThis.lastSelectedRangeDates = []; // Empty means no rang selection exists
-                            // Show message toast: The selection must be continuous
-                            MessageToast.show(applyLeaveThis.oBundle.getText("selectionMustBeCountinuous"));
-                        }
-                    } else { // Before deselecting, if only 1 or 2 dates were selected
-                        applyLeaveThis.lastSelecetedDatesCount--;
-                        applyLeaveThis.lastSelectedRangeDates = [];
-                    }
-                }
-            },
-            sortDateRangeObjects: function (dateRangeObjects) {
-                dateRangeObjects.sort(function (obj1, obj2) { // Defining the compare function
-                    if (obj1.getStartDate() > obj2.getStartDate()) {
-                        return 1; //Returning a positive value to indicate to the sort function that the first object (obj1) is greater than the second object (obj2).
-                    } else if (obj1.getStartDate() < obj2.getStartDate()) {
-                        return -1; //Returning a negative value to indicate to the sort function that the first object (obj1) is less than the second object (obj2).
-                    } else {
-                        return 0; //Returning 0 (a neutral value) to indicate to the sort function that both the first and the second objects are equal.
-                    }
-                });
-            },
             onObjectMatched: function (oEvent) {
                 var that = this;
                 that.getView().setModel(new JSONModel({}));
-                
+                that.callBalanceLeave();
+                that.callLeave();
             },
+
             collectAttachment: function (Event) {
                 this.leaveRequestObject.attachments.push(Event.getParameter("files")[0]);
             },
 
-
             handleHistoryPress: function () {
-                 sap.ui.core.UIComponent.getRouterFor(this).navTo("RouteAppliedLeaves");
-                },
+                var that = this;  
+                that.getUserHistoryBalanceDetails();
+                // that.callLeaveHistory();
+                // sap.ui.core.UIComponent.getRouterFor(this).navTo("RouteAppliedLeaves");
+                // this.getView().byId("applyleave").mProperties.title = "Leave History";
+                this.getView().byId("applyleave").setTitle("Leave History");
+                this.getView().byId("applyleave").setShowNavButton(true);
+                this.getView().byId("applyleave").setShowFooter(false);
+                this.getView().byId("_IDGenGrid1").setVisible(false);
+                this.getView().byId("LRS4_FLX_TOP").setVisible(false);
+                this.getView().byId("_IDGenTable1").setVisible(true);
+                this.getView().byId("balanceLeaves").setVisible(false);
+            },
 
+            handleNavBack: function () {
+                this.getView().byId("applyleave").setTitle("Leave Entry");
+                this.getView().byId("applyleave").setShowNavButton(false);
+                this.getView().byId("applyleave").setShowFooter(true);
+                this.getView().byId("_IDGenGrid1").setVisible(true);
+                this.getView().byId("LRS4_FLX_TOP").setVisible(true);
+                this.getView().byId("_IDGenTable1").setVisible(false);
+                this.getView().byId("balanceLeaves").setVisible(false);
+            },
 
-            handlebalancePress : function () {
-                 sap.ui.core.UIComponent.getRouterFor(this).navTo("RouteBalanceLeaves");
-                },
+            handlebalancePress: function (userId) {
+                //   callLeaveHistory: function (userId) {
+                var arr = [];
+                var that = this;
+                var url = "/deswork/api/p-leaves?populate=*";
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        console.log(response);
+                        var i;
+                        for (i = 0; i < response.data.length; i++) {
+                            if (parseInt(userId) === parseInt(response.data[i].attributes.requestedById)) {
+                                arr.push(response.data[i]);
+                                console.log(arr);
+                            }
+                        }
+                        var oModel2 = new sap.ui.model.json.JSONModel(arr);
+                        that.getView().setModel(oModel2, "leavehistory");
+                    }
+                });
+                this.getView().byId("applyleave").setTitle("Leave Balance");
+                this.getView().byId("applyleave").setShowNavButton(true);
+                this.getView().byId("applyleave").setShowFooter(false);
+                this.getView().byId("_IDGenGrid1").setVisible(false);
+                this.getView().byId("LRS4_FLX_TOP").setVisible(false);
+                this.getView().byId("_IDGenTable1").setVisible(false);
+                this.getView().byId("balanceLeaves").setVisible(true);
+            },
 
-    applyLeave: function (oEvent) {
-     var applyLeaveThis=this;
-    var that=this;
+            handleDateSelection: function (evt) {
+                var that = this;
+                var applyLeaveThis = this;
+                that.applyLeaveThis=applyLeaveThis;
+                var oCalendar = evt.getSource(),
+                    aSelectedDates = oCalendar.getSelectedDates();
+                applyLeaveThis.calendar = oCalendar;
 
-    var data=this.getView().getModel().getData();
-    var type = applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
-   // var appliedOn = applyLeaveThis.calendar.getSelectedDates()[0].mProperties.startDate.toDateString();
-    var appliedOn = new Date().toDateString();
-    var datesSelected = applyLeaveThis.calendar.getSelectedDates();
-    // var start_date = applyLeaveThis.calendar.getSelectedDates();
-    var start_date = applyLeaveThis.calendar.getSelectedDates()[0].mProperties.startDate.toDateString();
-//    var aSelectedDates = applyLeaveThis.calendar.getSelectedDates();
-//    var start_date = aSelectedDates[aSelectedDates.length - 1].getStartDate();
-     var end_date = applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates()[applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates().length - 1].getStartDate().toDateString();
- // var days = applyLeaveThis.getDays(start_date, end_date);
-   var sd = applyLeaveThis.calendar.getSelectedDates()[0].getStartDate().getDate() ;
-   var ed = applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates()[applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates().length - 1].getStartDate().getDate();
- 
- data.appliedOn = appliedOn;
-    data.type = type;
-    data.start_date = start_date;
-   
-    data.end_date = end_date;
-   // this.days();
- //  data.days = days;
-    //   var startDate = start_date;
-    //  var endDate = end_date;
-    //  var diff = Math.abs(startDate - endDate);
-    //  var day = Math.ceil(diff / (1000 * 60 * 60 * 24));
-  //  new Date(sd);
+                // If a new date is selected
+                if (aSelectedDates.length > applyLeaveThis.lastSelecetedDatesCount) {
+                    var lastSelectedDate = aSelectedDates[aSelectedDates.length - 1].getStartDate(),
+                        selectedLeaveType = applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
 
-// var sdt=new Date(sd);
-// var edt=new Date(ed);
-// var timeDiff = edt.getTime() - sdt.getTime();
-// var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
- var days = applyLeaveThis.calendar.getSelectedDates().length
- //  var days =  this.days.length;
-   data.days = days;
-    that.getView().getModel("Leaves").getData().applied_leaves.push(data);
-    
-           this.getView().getModel("Leaves").updateBindings(true);
+                    if (selectedLeaveType == "Select") {
+                        oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+                        MessageToast.show("Please select leave type");
+                        return;
+                    }
 
-                if (applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates().length === 0) {
-                    MessageToast.show("Please Select Date to Apply for leave");
-                    return;
-                } else if (applyLeaveThis.verifyBalanceLeaves() === "error") {
-                    return; // Don't proceed if there are no enough balance leaves available
-                }
+                    //... Monitoring each date selection and guiding the user ...///
+                    var isHalfDayLeave = applyLeaveThis.getView().byId("halfDayCheckBoxId").getSelected();
+                    if (isHalfDayLeave && aSelectedDates.length > 1) {
+                        oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+                        return;
+                    } else {
+                        var publicHolidaModel = this.getView().getModel("holidays").getData();
+                        if (lastSelectedDate.getDay() == 0 || lastSelectedDate.getDay() == 6) {
+                            MessageToast.show("It is not working Day..");
+                            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+                            return;
+                        }
+                        else if (aSelectedDates) {
+                            var datesArr = this.getRandomDates(aSelectedDates);
+                            for (var i = 0; i < datesArr.length; i++) {
+                                for (var j = 0; j < publicHolidaModel.length; j++) {
+                                    var hol = publicHolidaModel[j].attributes.date;
+                                    var monthh = publicHolidaModel[j].attributes.date.split("-")[1];
+                                    var yearh = publicHolidaModel[j].attributes.date.split("-")[0];
+                                    var dateh = publicHolidaModel[j].attributes.date.split("-")[2];
+                                    var holidaySelected = dateh + '-' + monthh + '-' + yearh;
 
-                //    var type = applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
-                //    var leaveReason = applyLeaveThis.getView().byId("reasonId").getValue();
-                //    var datesSelected = applyLeaveThis.calendar.getSelectedDates();
-                    
+                                    if (holidaySelected === datesArr[i]) {
+                                        MessageToast.show("It's a public holiday on " + holidaySelected + " ..");
+                                        oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+                                        return;
+                                    } else { }
+                                }
+                            }
+                        }
 
-                function applyLeaveNow() {
-                    
-                    MessageBox.success("Leave Applied");
-                //    applyLeaveThis.getView().byId("reasonId").setValue("");
-                    applyLeaveThis.getView().byId("leaveTypeSelectId").setSelectedKey("Select");
-                    applyLeaveThis.getView().byId("calSelectLeaveDates").removeAllSelectedDates();
-					applyLeaveThis.getView().byId("halfDayCheckBoxId").setSelected(false);
-					applyLeaveThis.getView().byId("UploadCollection").removeAllItems();
-                } // End of applyLeaveNow function
-
-                
-
-                applyLeaveNow();
-
-         //   }
-        },
-        // days: function (start_date, end_date) {
-        //     var dt1 = new Date(start_date);
-        //     var dt2 = new Date(end_date);
-
-        //     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
-        //         (1000 * 60 * 60 * 24));
-        // },
-        // days: function (start_date, end_date) {
-        //     var dt1 = start_date.getDateValue();
-        //     var dt2 = end_date.getDateValue();
-        //     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
-        //           (1000 * 60 * 60 * 24));
-               
-                
-        // },
-//         days: function (start_date, end_date) {
-//             var startDate = this.getView().byId("DP-FromDate").getDateValue();
-// var endDate = this.getView().byId("DP-ToDate").getDateValue();  
-// var diff = Math.abs(startDate.getTime() - endDate.getTime());
-// var diffD = Math.ceil(diff / (1000 * 60 * 60 * 24));
-               
-                
-//         },
-        
-            // days: function (date1, date2) {
-            //     var dt1 = new Date(date1);
-            //     var dt2 = new Date(date2);
-    
-            //     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
-            //         (1000 * 60 * 60 * 24));
-            // },
-
-            verifyBalanceLeaves: function () {
-                var applyLeaveThis=this;
-                if (applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey() !== "Unpaid Leave") {
-                    var startDate = applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates()[0].getStartDate();
-                    var endDate = applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates()[applyLeaveThis.byId("calSelectLeaveDates").getSelectedDates().length - 1].getStartDate();
-               
-                
-                    // var applicableDatesCount = applyLeaveThis.getApplicableDates(startDate, endDate).length,
-                    //     balanceLeavesData = sap.ui.getCore().getModel("balanceLeavesModel").getData().length > 0 ? sap.ui.getCore().getModel("balanceLeavesModel").getData().length - 1 : 0,
-                    //     balanceLeavesCount = parseFloat(sap.ui.getCore().getModel("balanceLeavesModel").getData()[balanceLeavesData].balanceLeaves);
-                   // if (applicableDatesCount <= balanceLeavesCount) {
-                        return "ok";
-                  //  } else {
-                   //     MessageBox.error(applyLeaveThis.oBundle.getText("noEnoughBalanceLeavesErrorMsg", [balanceLeavesCount, applicableDatesCount]), {
-                   //         actions: MessageBox.Action.OK
-                  //      });
-                  //      return "error";
-                 //   }
-              //  } else {
-              //      return "ok";
+                    }
                 }
             },
 
-            getApplicableDates: function (argStartDate, argEndDate) {
-                var applyLeaveThis=this;
-                var includes=[];
-
-                if (argStartDate && argEndDate) { // Process only if both the dates are passed to this functions
-                    // Both the start and the end date may be same as well
-                    var startDate = new Date(argStartDate),
-                        endDate = new Date(argEndDate),
-                        tempDate,
-                        rangeDates = []; // This array will contain all the dates included within the passed start and end dates
-                    // Swap the dates if the arguments order if wrong
-                    if (startDate > endDate) {
-                        tempDate = startDate;
-                        startDate = endDate;
-                        endDate = tempDate;
-                    }
-                    // Creating and storing all the dates included within the date range
-                    tempDate = new Date(startDate.toDateString());
-                    do {
-                        rangeDates.push(startDate.toDateString());
-                        startDate.setDate(startDate.getDate() + 1);
-                    } while (startDate <= endDate);
-    
-                    //...Evaluating applicable dates which are applicable for leaves...//
-                    var dateIndex;
-                    var applicableDates = rangeDates; // Taking the copy of all range dates initially
-                    // Removing weekend dates (It's possible that a date range has some weekend dates within it).
-                    for (dateIndex = 0; dateIndex < applicableDates.length; dateIndex++) {
-                        if (new Date(applicableDates[dateIndex]).getDay() === 0 || new Date(applicableDates[dateIndex]).getDay() === 6) {
-                            applicableDates.splice(dateIndex, 1);
-                            dateIndex--; //Repositioning the iterator's cursor one step back because the currently pointed element has been deleted
-                        }
-                    }
-                    // Removing holiday dates (It's possible that a date range has some holiday dates within it).
-                    for (dateIndex = 0; dateIndex < applicableDates.length; dateIndex++) {
-                        if (applyLeaveThis.holidayDates.includes(applicableDates[dateIndex])) {
-                            applicableDates.splice(dateIndex, 1);
-                            dateIndex--;
-                        }
-                    }
-                    // Removing allready applied and approved dates (rarely it's possible that a date range has some already applied/approved leave dates within it)
-                    for (dateIndex = 0; dateIndex < applicableDates.length; dateIndex++) {
-                        if (applyLeaveThis.appliedDates.includes(applicableDates[dateIndex])) {
-                            applicableDates.splice(dateIndex, 1);
-                            dateIndex--;
-                        }
-                    }
-                    // Now the applicableDates array has only the applicable dates where each date is valid for applying a leave
-                    return applicableDates;
-                } else {
-                    console.log("Please pass both the start date and end date arguments to the getApplicableDates function.")
-                    return undefined;
+            applyLeave: function (oEvent) {
+                var that = this;
+                var endDate;
+                var reslt = {}
+                that.callLeave();
+                // aSelectedDates = oCalendar.getSelectedDates();
+                var data = that.getView().getModel().getData();
+                var appliedOnObject = new Date();
+                var appliedOnYear = appliedOnObject.getFullYear();
+                var requestedBy = that.getView().getModel("userModel").getData().username;
+                var requestedById = that.getView().getModel("userModel").getData().id;
+                var datesSelected = that.calendar.getSelectedDates();
+                var datesArr = that.getRandomDates(datesSelected);
+                that.datesArr = datesArr;
+                that.datelength = datesArr.length;
+                if (datesArr.length === 0 && that.sd === "") {
+                    MessageToast.show("Please Select Date to Apply for leave");
+                    return;
                 }
+                var start_dateObject = that.calendar.getSelectedDates()[0].mProperties.startDate;
+                var start_month = start_dateObject.getMonth() + 1;
+                if (start_month < 10) {
+                    start_month = "0" + start_month;
+                }
+                var start_date = start_dateObject.getDate();
+                if (start_date < 10) {
+                    start_date = "0" + start_date;
+                }
+                var start_year = start_dateObject.getFullYear();
+                var startDate = start_date + "-" + start_month + "-" + start_year;
+                var end_dateObject = that.byId("calSelectLeaveDates").getSelectedDates()[that.byId("calSelectLeaveDates").getSelectedDates().length - 1].getStartDate();
+                var end_month = end_dateObject.getMonth() + 1;
+                if (end_month < 10) {
+                    end_month = "0" + end_month;
+                }
+                var end_date = end_dateObject.getDate();
+                if (end_date < 10) {
+                    end_date = "0" + end_date;
+                }
+                var end_year = end_dateObject.getFullYear();
+                endDate = end_date + "-" + end_month + "-" + end_year;
+                var days = that.calendar.getSelectedDates().length;
+                data.days = days;
+                that.getView().getModel("Leaves").getData().applied_leaves.push(data);
+                that.getView().getModel("Leaves").updateBindings(true);
+               var  selectedLeaveType = that.applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
+                var leaveBalanceLeft = that.getLeaveBalanceLeft(that.getView().getModel("userModel").getData().p_balance_leaves, appliedOnYear);
+                if (that.byId("calSelectLeaveDates").getSelectedDates().length === 0) {
+                    MessageToast.show("Please Select Date to Apply for leave");
+                    return;
+                } else if ((selectedLeaveType !== "Unpaid Leave") && (parseInt(leaveBalanceLeft) < parseInt(days)) ){
+                    MessageToast.show("Insufficient Leave Balance(You have " + leaveBalanceLeft + " leave balance)");
+                    return; // Don't proceed if there are no enough balance leaves available
+                } else {
+                    var Err = that.applyLeaveNow();
+                    if (Err == 0) {
+                        var that = this;
+                        var oPromises = [], b1 = {}, b2 = {}, i, j, k, l;
+                        var batches1 = [], a, b, c;
+                        var arr = that.arr;
+                        var newArr = arr;
+                        var arrl = newArr.length - 1;
+                        for (var i = 0; i <= arrl;) {
+                            a = arr[i];
+                            b = arr[i + 1];
+                            var cYY = arr[i].split("-")[2];
+                            var cMM = arr[i].split("-")[1];
+                            var cDd = arr[i].split("-")[0];
+                            var cDD1 = ++cDd;
+                            if (cDD1 < 10) {
+                                var cDD = "0" + cDD1;
+                            } else {
+                                var cDD = cDD1;
+                            }
+                            c = cDD + '-' + cMM + '-' + cYY;
+                            if (b == c) {
+                                newArr = arr.shift();
+                                batches1.push(a);
+                            } else {
+
+                                newArr = arr.shift();
+                                batches1.push(a);
+                                b1 = batches1[0];
+                                k = batches1.length;
+                                l = k - 1;
+                                b2 = batches1[l];
+                                var result = {
+                                    "startDate": b1,
+                                    "endDate": b2,
+                                    "NoOfDays": k,
+                                    "type": that.getView().byId("leaveTypeSelectId").getSelectedKey(),
+                                    "status": "Requested",
+                                    "reason": that.getView().byId("reasonId").getValue(),
+                                    "halfDay": that.gethalfDay(),
+                                    "leave_balance": that.getLeaveBalanceLeft(),
+                                    "approvedBy": null,
+                                    "requestedBy": requestedBy,
+                                    "requestedById": requestedById
+                                };
+
+                                oPromises.push(that.applyLeaveNow(result, "noreset"));
+                                batches1 = [];
+                                if ((arr.length == 0)) {
+                                    break;
+                                }
+                            }
+                        }
+
+                        Promise.all(oPromises).then(function () {
+                            that.clearLeaveRequestControl();
+                            MessageBox.success("Leave Applied");
+                        });
+
+
+                    }
+                }
+            },
+            gethalfDay: function () {
+                var that = this;
+
+                var halfday = that.getView().byId("halfDayCheckBoxId").getProperty("selected");
+                var datesSelected = that.calendar.getSelectedDates();
+                var k = datesSelected.length;
+                var halfDay;
+                if (halfday == true) {
+                    if (k == 1) {
+                        halfDay = halfday;
+                        return
+                    } else {
+                        that.getView().byId("halfDayCheckBoxId").setSelected(false);
+                        MessageBox.error("Select one day to apply a half day leave");
+                        return;
+                    }
+
+                } else {
+                    halfDay = halfday;
+                    return;
+                }
+
+            },
+
+            getRandomDates: function (data) {
+                var arr = [], temp = [], startDate;
+                var that = this;
+                if (data.length === 0) {
+                    return [];
+                }
+                for (var i = 0; i < data.length; i++) {
+                    var date = data[i].getProperty("startDate").getDate();
+                    if (date < 10) {
+                        date = "0" + date;
+                    }
+                    var month = data[i].getProperty("startDate").getMonth();
+                    month = month + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    month = month.toString();
+                    var year = data[i].getProperty("startDate").getFullYear();
+                    startDate = date + "-" + month + "-" + year;
+                    temp.push(month + "-" + date + "-" + year);
+                    arr.push(startDate);
+
+                }
+                temp = that.sortDates(temp);
+                that.temp = temp;
+                arr = that.sortDates(arr);
+                that.arr = arr;
+                return arr;
+            },
+
+
+            sortDates: function (arr) {
+                arr.sort(function (a, b) {
+                    a = a.split('-').reverse().join('');
+                    b = b.split('-').reverse().join('');
+                    return a > b ? 1 : a < b ? -1 : 0;
+                });
+                return arr;
+            },
+
+            getLeaveBalanceLeft: function (data, year) {
+                var data = this.getView().getModel("balanceleave").getData();
+                data = data[0].attributes.balanceLeaves;
+                return data;
+            },
+
+            applyLeaveNow: function (result, reset) {
+                var that = this;
+                var Err = this.ValidateApply();
+                if (Err == 0) {
+                    var updateUrl = '/deswork/api/p-leaves/';
+                    $.ajax({
+                        url: updateUrl,
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }, data: JSON.stringify({
+                            "data": result
+                        }),
+                        success: function (response) {
+                            // MessageBox.success("Leave Applied");
+                        },
+                        error: function (error) {
+                            MessageBox.success(error);
+                        }
+                    });
+                }
+                return Err;
+            },
+
+            ValidateApply: function () {
+                var that = this;
+                var Err = that.checkRepeatedDays();
+                var thisView = this.getView();
+                if (thisView.byId("reasonId").getValue() === "") {
+                    thisView.byId("reasonId").setValueState("None");
+                    Err++;
+                    sap.m.MessageBox.error("Reason is Mandatory");
+                }
+                return Err;
+
+            },
+
+            checkRepeatedDays: function () {
+                var that = this;
+                var dateArr = [];
+                // var id =that.getView().getModel("leave").getData().attributes.requestedById;
+                var Err = 0;
+                var appliedDate;
+                var appliedOn = new Date();
+                var appliedOnDate = new Date().getDate();
+                var start_dateObject = that.calendar.getSelectedDates()[0].mProperties.startDate;
+                var start_date = start_dateObject.getDate();
+                var applied_month = appliedOn.getMonth() + 1;
+                var applied_year = appliedOn.getFullYear();
+                appliedDate = appliedOnDate + "-" + applied_month + "-" + applied_year;
+                var attri = that.getView().getModel("leave").getData();
+                var datesSelected = that.calendar.getSelectedDates();
+                var datesArr = that.getRandomDates(datesSelected);
+                if (applied_month < 10) {
+                    applied_month = "0" + applied_month;
+                }
+                if (appliedOnDate < 10) {
+                    appliedOnDate = "0" + appliedOnDate;
+                }
+                var start_dateObject = that.calendar.getSelectedDates()[0].mProperties.startDate;
+                var start_month = start_dateObject.getMonth() + 1;
+                if (start_month < 10) {
+                    start_month = "0" + start_month;
+                }
+                var start_date = start_dateObject.getDate();
+                if (start_date < 10) {
+                    start_date = "0" + start_date;
+                }
+                var start_year = start_dateObject.getFullYear();
+                var startDate = start_date + "-" + start_month + "-" + start_year;
+                that.startDate = startDate;
+                if ((applied_month === start_month) && (appliedOnDate > start_date)) {
+                    sap.m.MessageBox.error("Cannot apply leave for past dates");
+                    Err++;
+                    return Err;
+                } else if ((applied_year === start_year) && (applied_month > start_month)) {
+                    sap.m.MessageBox.error("Cannot apply leave for past dates");
+                    Err++;
+                    return Err;
+                } else if (startDate) {
+                    var dates = [], noD;
+                    for (var i = 0; i < attri.length; i++) {
+                        var sd = attri[i].attributes.startDate;
+                        var ed = attri[i].attributes.endDate;
+                        var sdate = sd.slice(0, 2);
+                        var edate = ed.slice(0, 2);
+                        var smonth = sd.slice(3, 5);
+                        var emonth = sd.slice(3, 5);
+                        var syear = sd.slice(6, 10);
+                        var eyear = sd.slice(6, 10);
+                        if (syear == eyear && smonth == emonth && sdate == edate) {
+                            noD = 1
+                            dates.push(sd);
+                            // return dates;
+                        } else if ((syear <= eyear) && (smonth <= emonth) && (sdate < edate)) {
+                            noD = edate - sdate;
+                            for (var j = 0; j <= noD; j++) {
+                                // dates.push(sd);
+                                sdate = parseInt(sdate)
+                                var ndate = sdate++;
+                                var nd = new Date(syear, smonth, ndate);
+                                var finalDate = nd.getDate();
+                                if (finalDate < 10) {
+                                    finalDate = "0" + finalDate;
+                                }
+                                var finalMonth = nd.getMonth();
+                                finalMonth = finalMonth;
+                                if (finalMonth < 10) {
+                                    finalMonth = "0" + finalMonth;
+                                }
+                                finalMonth = finalMonth.toString();
+                                var finalYear = nd.getFullYear();
+                                var FD = finalDate + "-" + finalMonth + "-" + finalYear;
+                                dates.push(FD);
+                            }
+                        } else if ((syear < eyear) && (smonth > emonth)) {
+                            sdate = parseInt(sdate);
+                            var noD1 = 31 - sdate;
+                            noD = noD1 + edate;
+                            for (var j = 0; j < noD; j++) {
+                                sdate = parseInt(sdate)
+                                var ndate = sdate + 1;
+                                var nd = new Date(syear, smonth, ndate);
+                                var finalDate = nd.getDate();
+                                if (finalDate < 10) {
+                                    finalDate = "0" + finalDate;
+                                }
+                                var finalMonth = nd.getMonth();
+                                finalMonth = finalMonth;
+                                if (finalMonth < 10) {
+                                    finalMonth = "0" + finalMonth;
+                                }
+                                finalMonth = finalMonth.toString();
+                                var finalYear = nd.getFullYear();
+                                var FD = finalDate + "-" + finalMonth + "-" + finalYear;
+                                dates.push(FD);
+                            }
+                        }
+                    }
+
+                    for (var k = 0; k < datesArr.length; k++) {
+                        for (var m = 0; m < dates.length; m++) {
+                            if (datesArr[k] === dates[m]) {
+                                sap.m.MessageBox.error('Already leave is applied on ' + dates[m]);
+                                Err++;
+                                return Err;
+                            }
+                        }
+                    }
+                }
+                return Err;
+            },
+            clearLeaveRequestControl: function () {
+                var that = this;
+                that.getView().byId("leaveTypeSelectId").setSelectedKey("Select");
+                that.getView().byId("reasonId").setValue(""),
+                    that.getView().byId("calSelectLeaveDates").removeAllSelectedDates();
+                that.getView().byId("halfDayCheckBoxId").setSelected(false);
+                //that.getView().byId("UploadCollection").removeAllItems();
+            },
+
+            getUserDetails: function () {
+                var that = this;
+                var url = 'deswork/api/users/me?populate=*';
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel = new sap.ui.model.json.JSONModel(response);
+                        that.getView().setModel(oModel, "userModel");
+                        that.callBalanceLeave(response.id);
+                    }
+                });
+            },
+            callBalanceLeave: function (id) {
+                var that = this;
+                var date = new Date();
+                var currentYear = date.getFullYear();
+                that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+                var url = 'deswork/api/p-balance-leaves?populate=*&filters[year][$eq]=';
+                url = url + currentYear + '&filters[userId][$eq]=' + that.loginId;
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                        that.getView().setModel(oModel2, "balanceleave");
+                    }
+                });
+            },
+            callHolidays: function () {
+                var that = this;
+                var date = new Date();
+                var currentYear = date.getFullYear();
+                // that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+                // var url = 'deswork/api/p-leaves?populate=*&filters[year][$eq]=';
+                // url = url + currentYear + '&filters[requestedById][$eq]=' + that.loginId;
+                $.ajax({
+                    url: "deswork/api/p-holidays?filters[year][$eq]=" + currentYear,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                        that.getView().setModel(oModel2, "holidays");
+                    }
+                });
+            },
+            callLeave: function (id) {
+                var that = this;
+                var date = new Date();
+                var currentYear = date.getFullYear();
+                that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+                // var url = 'deswork/api/p-leaves?populate=*&filters[year][$eq]=';
+                // url = url + currentYear + '&filters[requestedById][$eq]=' + that.loginId;
+                $.ajax({
+                    url: "deswork/api/p-leaves?populate=*&filters[requestedById][$eq]=" + that.loginId,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        console.log(response);
+                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                        that.getView().setModel(oModel2, "leave");
+                    }
+                });
             }
-
-            
-
-           
-
-            });
+        });
     });
-

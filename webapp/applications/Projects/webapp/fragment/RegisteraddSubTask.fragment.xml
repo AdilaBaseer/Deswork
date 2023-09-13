@@ -1,0 +1,105 @@
+
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified">
+	<Dialog id="_IDGenDialog1" title="ADD" contentWidth="30%" class="sapUiSizeCompact" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
+		<endButton>
+			<Button id="_IDGenButton1Task" text="{i18n>Cancel}" press="handleAddTaskCancelS"/>
+		</endButton>
+		<beginButton>
+			<Button id="_IDGenButton2Task" text="{i18n>Add}"  press="handleAddTaskS"/>
+		</beginButton>
+		<SegmentedButton id="_IDGenSegmentedButton1" width="100%"  selectionChange="handleSelectionChange">
+			<items>
+				<SegmentedButtonItem id="_IDGenSegmentedButtonItem1" icon="sap-icon://create" text="CREATE TASK"></SegmentedButtonItem>
+				<SegmentedButtonItem id="_IDGenSegmentedButtonItem2" icon="sap-icon://create" text="CREATE SUB-TASK"></SegmentedButtonItem>
+			</items>
+		</SegmentedButton>
+		<f:SimpleForm id="AddTasks" visible="true" minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3"
+			labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+			<f:content>
+			 <Label id="_IDGenLabel1" text="Task Name"  required="true"/>
+                <Input id="_IDGenInput1" value="{mTasks>/name}" required="true" />
+                
+             
+                 <Label id="_IDGenLabel2"  text="Task Description" />
+                <Input id="_IDGenInput2" value="{mTasks>/description}" /> 
+
+                <Label id="_IDGenLabel3"  text="Start Date" required="true"/>
+                <DatePicker id="_IDGenDatePicker1"  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+
+                <Label id="_IDGenLabel4"  text="Estimated End Date" required="true"/>
+                <DatePicker id="_IDGenDatePicker2" value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChange" />
+
+                <Label id="_IDGenLabel"  text="No of Days" />
+                <Input id="_IDGenInput4"  value="{mTasks>/noOfDays}" editable="false" type="Number"/>
+
+                <Label id="_IDGenLabel5"  text="Status" />
+                <Select id="_IDGenSelect1" forceSelection="false"  selectedKey="{mTasks>/status}"  required="true">
+                <core:Item id="_IDGenItem1"  key="New"  text="New"/>
+                <core:Item id="_IDGenItem2"  key="In-Progress"  text="In-Progress"/>
+                <core:Item id="_IDGenItem3"  key="Completed"  text="Completed"/>
+                </Select>
+                <Label id="_IDGenLabel6"  text="Priority" required="true" />
+                <Select id="_IDGenSelect2" forceSelection="false"  selectedKey="{mTasks>/priority}">
+                 <core:Item id="_IDGenItem4" key="Low"  text="Low"  />
+                <core:Item id="_IDGenItem5" key="Moderate" text="Moderate" />
+                <core:Item id="_IDGenItem6" key="High" text="High" />
+                <core:Item id="_IDGenItem7" key="Critical"  text="Critical" />
+                </Select>
+                <!-- <Label  text="Reason" required="true"/>
+                <Input value="{mTasks>/p_task_reason}" editable="false"/> -->
+               
+                 <Label id="_IDGenLabel7"  text="Responsible" required="true" />
+                <Select id="_IDGenSelect3" forceSelection="false"  selectedKey="{mTasks>/}" items="{pTeams>/}" required="true">
+                <core:Item id="_IDGenItem8"  key="{pTeams>id}"  text="{pTeams>firstName}"/>
+                </Select>	
+				<!-- <Select items="{projectModel>/}" selectedKey="{/selectedVendor}" width="100%" enabled="true">
+					<items>
+						<core:Item text="{projectModel>attributes/vendorName}" key="{projectModel>attributes/vendorName}"/>
+					</items>
+				</Select> -->
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm id="AddSubTasks" visible="false" minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3"
+			labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
+			<f:content>
+				
+               
+             <!-- <Label id="_IDGenLabel8"  text="Task Name"  />	
+                <Select id="_IDGenSelect4" forceSelection="false"   items="{mCsfDetails>/}" required="true">
+                <core:Item id="_IDGenItem9"  key="{mCsfDetails>id}"  text="{mCsfDetails>attributes/name}"/>
+                </Select>   -->
+                <Label id="_IDGenLabel8"  text="Task Name"  />	
+                <Select id="_IDGenSelect4" forceSelection="false"   items="{mcsf>/}" required="true">
+                <core:Item id="_IDGenItem9"  key="{mcsf>id}"  text="{mcsf>attributes/name}"/>
+                </Select> 
+                <Label id="_IDGenLabel9" text="Sub-Task Name" />
+                <Input id="_IDGenInput3" value="{mSubTasks>/name}" required="true" />
+                
+                <Label id="_IDGenLabel12"  text="Description" />
+                <Input id="_IDGenInput5"  value="{mSubTasks>/description}" required="true" />
+
+                <Label id="_IDGenLabel10"  text="Start Date" required="true"/>
+                <DatePicker id="_IDGenDatePicker3"  value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+
+                <Label id="_IDGenLabel11"  text="Estimated End Date" required="true"/>
+                <DatePicker id="_IDGenDatePicker4" value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub"/>
+<Label id="_IDGenLabel13"  text="No of Days" />
+                <Input id="_IDGenInput6"  value="{mSubTasks>/noOfDays}" editable="false" type="Number"  />
+
+            <Label id="_IDGenLabel14"  text="Status" />
+                <Select id="_IDGenSelect5" forceSelection="false"  selectedKey="{mSubTasks>/status}"  required="true">
+                <core:Item id="_IDGenItem10"  key="New"  text="New"/>
+                <core:Item id="_IDGenItem11"  key="In-Progress"  text="In-Progress"/>
+                <core:Item id="_IDGenItem12"  key="Completed"  text="Completed"/>
+                </Select>
+                 <!-- <VBox>
+					
+					<Button visible="true" type="Emphasized" id="fileUploadButton" text="Save" press="uploadUsers"/>
+				</VBox>     -->
+               
+          
+			</f:content>
+		</f:SimpleForm>
+		
+	</Dialog>
+</core:FragmentDefinition>

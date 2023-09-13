@@ -1,0 +1,133 @@
+<mvc:View controllerName="vaspp.myprofile.controller.myprofile" xmlns:upload="sap.m.upload" xmlns:m="sap.m"
+xmlns:table="sap.ui.table" displayBlock="true" height="100%"  xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f"
+xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns="sap.uxap" class="viewPadding">
+    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" useIconTabBar="true" isChildPage="true" showFooter="true" upperCaseAnchorBar="false">
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+                <expandedHeading>
+                    <m:Title id="_IDGenTitle1" text="Profile Details" wrapping="true" class="sapUiSmallMarginEnd" />
+                </expandedHeading>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+        <sections>
+            <ObjectPageSection id="_IDGenObjectPageSection1" title="Personal Information">
+                <subSections>
+                    <ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+                        <form:SimpleForm id="simpleFormInfoTab" title="" editable="false" class="editableForm sapUiSmallMarginTopBottom">
+                            <m:Label id="_IDGenLabel121" text="Name  " />
+                            <m:Text id="_IDGenText211" text="{userModel>/firstName}" />
+                            <m:Label id="_IDGenLabel4172" text="Gender " />
+                            <m:Text id="_IDGenText1473" text="{userModel>/gender}" />
+                            <m:Label id="_IDGenLabel14647" text="Department " />
+                            <m:Text id="_IDGenText16457" text="{userModel>/department}" />
+                            <m:Label id="_ID677" text="Designation " />
+                            <m:Text id="_I677" text="{userModel>/designation}" />      
+                            <m:Label id="_IDGenLabel127" text="Experience" />
+                            <m:Text id="_IDGenText127" text="{userModel>/noOfExperience} year" />    
+                            <m:Label id="_IDGenLabel1367" text="Email " />
+                            <m:Text id="_IDGenText1637" text="{userModel>/email}" />
+                            <m:Label id="_IDGenLabel13647" text="Contact No." />
+                            <m:Text id="_IDGenText16347" text="{userModel>/phone}" />                                     
+                        </form:SimpleForm>                     
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+			<ObjectPageSection id="_IDGenObjectPageSection2" title="Skill Set">
+                <subSections>
+                    <ObjectPageSubSection id="_IDGenObjectPageSubSection2">  
+                        <m:Table id="idProductsTable" growing="true" growingThreshold="10" 
+                            paste="onPaste" items="{path: 'skillModel>/'}">
+                            <m:headerToolbar>
+                                <m:OverflowToolbar id="otbSubheader">
+                                    <m:ToolbarSpacer  id="ToolbarSpacer"/>
+                                    <m:Button id="addButton" text="Add" type="Transparent"
+                                        press="onAdd" />
+                                    <m:Button id="editButton" text="Edit" type="Transparent"
+                                        press="onEdit" />
+                                    <m:Button id="saveButton" text="Save" type="Transparent"
+                                        press="onSave" visible="false" />
+                                    <m:Button id="cancelButton" text="Cancel" type="Transparent"
+                                        press="onCancel" visible="false" />
+                                </m:OverflowToolbar>
+                            </m:headerToolbar>
+                            <m:columns>
+                                <m:Column width="12em" id="tableCol1">
+                                    <m:Text text="Professional Skill" id="tableCol11"/>
+                                </m:Column>
+                                <m:Column width="12em" id="tableCol3">
+                                    <m:Text text="Professional Skill" id="tableCol13"/>
+                                </m:Column>
+                                <m:Column hAlign="End" id="tableCol2">
+                                    <m:Text text="Rating" id="tableCol21"/>
+                                </m:Column>
+                                <m:Column hAlign="End" id="tableCol4">
+                                    <m:Text text="Rating" id="tableCol14"/>
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem vAlign="Middle" id="tableColList1">
+                                    <m:cells>
+                                        <m:Text text="{skillModel>name}" id="tableColList11"/>
+                                        <m:Input value="{skillModel>name}" id="tableColList12"/>
+                                        <m:RatingIndicator value="{skillModel>rate}" id="tableColList13" editable="false"/>
+                                        <m:RatingIndicator value="{skillModel>rate}" id="tableColList14" editable="true"/>
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>                             
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+             <ObjectPageSection id="_IDGenObjectPageSection4" title="Certificates">
+                <subSections>
+                    <ObjectPageSubSection id="_IDGenObjectPageSubSection3">
+                        <form:SimpleForm id="simpleFormI7nfoTab" title="" editable="false" class="editableForm sapUiSmallMarginTopBottom">
+                            <m:Table id="idProductsTablle" growing="true" growingThreshold="10" 
+                            paste="onPaste" items="{path: 'certificateModel>/'}">
+                            <m:headerToolbar>
+                                <m:OverflowToolbar id="otbSubheaderk">
+                                    <m:ToolbarSpacer  id="ToolbarSpacelr"/>
+                                    <m:Button id="addButtonc" text="Add" type="Transparent"
+                                        press="onAddc" />
+                                    <m:Button id="editButtonc" text="Edit" type="Transparent"
+                                        press="onEditc" />
+                                    <m:Button id="saveButtonc" text="Save" type="Transparent"
+                                        press="onSavec" visible="false" />
+                                    <m:Button id="cancelButtonc" text="Cancel" type="Transparent"
+                                        press="onCancelc" visible="false" />
+                                </m:OverflowToolbar>
+                            </m:headerToolbar>
+                            <m:columns>
+                                <m:Column width="22em" id="tableCol1c">
+                                    <m:Text text="Certificate Name" id="tableComl11"/>
+                                </m:Column>
+                                <m:Column width="22em" id="tableCol3c">
+                                    <m:Text text="Certificate Name" id="tableCmol13"/>
+                                </m:Column>
+                                <m:Column  width="22em" id="tableCol2c">
+                                    <m:Text text="Certificate ID" id="tableCol21c"/>
+                                </m:Column>
+                                <m:Column width="22em"  id="tableCol4c">
+                                    <m:Text text="Certificate ID" id="tableCol14c"/>
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem vAlign="Middle" id="tableColmList1">
+                                    <m:cells>
+                                        <m:Text text="{certificateModel>name}" id="tableColList11c"/>
+                                        <m:Input value="{certificateModel>name}" id="tableColList12c"/>
+                                        <m:Text text="{certificateModel>rate}" id="tableColList13c"/>
+                                        <m:Input value="{certificateModel>rate}" id="tableColList14c"/>
+                                        <!-- <m:RatingIndicator value="{skillModel>rate}" id="tableColList13" editable="false"/>
+                                        <m:RatingIndicator value="{skillModel>rate}" id="tableColList14" editable="true"/> -->
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>                                     
+                        </form:SimpleForm>                     
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
+</mvc:View>
