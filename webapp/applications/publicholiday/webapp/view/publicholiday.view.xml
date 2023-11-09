@@ -45,7 +45,7 @@
 					<cells>
 					    <Input id="_IDGenText1" editable="{editableModel>/editable}" 
 							value="{calendar>attributes/reason}"/>
-					    <DatePicker id="_IDGenInput2" value="{path: 'calendar>attributes/date', formatter:'.formatter.formattingDate'}" valueFormat="yyyy-MM-dd" editable="{editableModel>/editable}"   required="true" />
+					    <DatePicker id="_IDGenInput2" value="{path: 'calendar>attributes/date', formatter:'.formatter.formattingDate'}" valueFormat="dd-MM-yyyy" editable="{editableModel>/editable}"   required="true" />
 						<Button id="_IDGenText10" icon="sap-icon://edit" type="Transparent" 
 							press="onEditholiday" visible="{editableModel>/editButton}"/>
 						<Button id="_IDGenText7" icon="sap-icon://save" type="Transparent" 

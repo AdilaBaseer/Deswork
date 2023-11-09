@@ -20,7 +20,7 @@ sap.ui.define([
 				//this.getView().setBusy(true);
 				this.getView().byId("productsTable").removeSelections(true);
 				$.get("/deswork/api/p-projects?populate[0]=p_project_teams.users_permissions_users", function (response) {
-					console.log(response);
+					
 					response = JSON.parse(response);
 					var oModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(oModel, "mprojects");
@@ -59,7 +59,7 @@ sap.ui.define([
 
 				success: function (res) {
 					var response = JSON.parse(res);
-					console.log(response);
+					
 					var theModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(theModel, "myproject");
 					var oModel = that.getView().getModel("myproject");
@@ -91,7 +91,7 @@ sap.ui.define([
 				type: "GET",
 				success: function (res) {
 					var response = JSON.parse(res);
-					console.log(response);
+					
 
 					var theModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(theModel, "customerInfo");
@@ -105,7 +105,6 @@ sap.ui.define([
 		},
 
 		onAddProjects: function (oEvent) {
-
 			if (!this.oAddProjectDialog) {
 				this.oAddProjectDialog = sap.ui.xmlfragment("idfrag", "VASPP.myProjects.view.Register", this);
 				this.getView().addDependent(this.oAddProjectDialog);
@@ -114,11 +113,9 @@ sap.ui.define([
 			this.oAddProjectDialog.open();
 		},
 
-
 		closeProjectDialog: function () {
 			this.oAddProjectDialog.close();
 		},
-
 
 		onSaveProject: function (oEvent) {
 			var that = this;
@@ -192,7 +189,6 @@ sap.ui.define([
 		},
 
 		filterforarchive: function (i) {
-
 			var sQuery = "";
 			if (i == 1) {
 				sQuery = "Archived";

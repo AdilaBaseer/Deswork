@@ -275,7 +275,8 @@ sap.ui.define([
               "p_sub_tasks": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].getSelectedKey() ? that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].getSelectedKey() : null,
               "startDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[9].getDateValue(),
               "endDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[11].getDateValue(),
-              "noOfHours": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[13].getValue()
+              "noOfHours": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[13].getValue(),
+              "status":"Applied"
             }
           }),
           success: function (response) {
@@ -418,8 +419,8 @@ sap.ui.define([
         }
       },
       handleCreateChangeEdit: function (oEvent) {
-        var startDate = this._EditAppointment.getContent()[0].getContent()[9].getDateValue();
-        var endDate = this._EditAppointment.getContent()[0].getContent()[11].getDateValue();
+        var startDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
+        var endDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
         if (startDate && endDate) {
           // Calculate the difference in milliseconds
           var timeDiff = endDate.getTime() - startDate.getTime();
@@ -433,9 +434,26 @@ sap.ui.define([
           MessageBox.error("8 hours exceeded");
           this._EditAppointment.close();
         }
-        this._EditAppointment.getContent()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
+        this._EditAppointment.getContent()[0].getItems()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
       },
+      handleCreateChangeEdit1: function (oEvent) {
+        var startDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
+        var endDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
+        if (startDate && endDate) {
+          // Calculate the difference in milliseconds
+          var timeDiff = endDate.getTime() - startDate.getTime();
 
+          // Convert milliseconds to hours
+          var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+        }
+        if (hours >= 8) {
+          MessageBox.error("8 hours exceeded");
+          this._EditAppointment.close();
+        }
+        this._EditAppointment.getContent()[0].getItems()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
+      },
 
       handleDialogSaveButton: function () {
         var that = this;
@@ -769,8 +787,6 @@ sap.ui.define([
         var  newEndDate1 = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
         var newStartDate = new Date(newStartDate1);
         var newEndDate = new Date(newEndDate1);
-
-
         var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
         $.ajax({
           url: url,

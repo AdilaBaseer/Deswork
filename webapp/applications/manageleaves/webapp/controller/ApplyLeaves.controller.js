@@ -55,7 +55,7 @@ sap.ui.define([
             callLeaveHistory: function (userId) {
                 var arr = [];
                 var that = this;
-                var url = "/deswork/api/p-leaves?populate=*";
+                var url = '/deswork/api/p-leaves?populate=*&filters[requestedById][$eq]=' + that.loginId ;
                 $.ajax({
                     url: url,
                     method: "GET",
@@ -82,7 +82,8 @@ sap.ui.define([
             callBalanceLeave: function (userId) {
                 var arr = [];
                 var that = this;
-                var url = 'deswork/api/p-balance-leaves?populate=*&filters[userId][$eq]=' + userId;
+                that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+                var url = 'deswork/api/p-balance-leaves?populate=*&filters[userId][$eq]=' + that.loginId ;
                 $.ajax({
                     url: url,
                     method: "GET",
@@ -380,7 +381,7 @@ sap.ui.define([
                     MessageToast.show("Insufficient Leave Balance(You have " + leaveBalanceLeft + " leave balance)");
                     return; // Don't proceed if there are no enough balance leaves available
                 } else {
-                    var Err = that.applyLeaveNow();
+                    var Err = that.ValidateApply();
                     if (Err == 0) {
                         var that = this;
                         var oPromises = [], b1 = {}, b2 = {}, i, j, k, l;
@@ -527,7 +528,7 @@ sap.ui.define([
                             "data": result
                         }),
                         success: function (response) {
-                            // MessageBox.success("Leave Applied");
+                           
                         },
                         error: function (error) {
                             MessageBox.success(error);

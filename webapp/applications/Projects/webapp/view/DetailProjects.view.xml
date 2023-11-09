@@ -34,7 +34,6 @@
 				<m:statuses>
 					<m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"
 								state="{ parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}], formatter:'.formatter.getStatusIndication' }"/>
-					
 				</m:statuses>
 				<m:attributes >
 					<m:ObjectAttribute id="_IDGenObjectAttribute1" title="Start Date" text="{path:'mprojects>/attributes/startDate',formatter:'.formatter.formattingDate'}" visible="true" />
@@ -60,9 +59,9 @@
 								<!-- <m:Label id="_IDGenLabel8" text="Effort" width="90%" />
 								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}" /> -->
 								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
-								<m:Text id="_IDGenText8" text="{mprojects>/attributes/estimated_budget}" />
+								<m:Text id="_IDGenText8" text="{parts: ['mprojects>/attributes/estimated_budget','INR'], type:'sap.ui.model.type.Currency', formatOptions: {showMeasure: true}}" visible="true" />
 								<m:Label id="esenddate" text="Actual Budget" width="90%" />
-								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" />
+								<m:Text id="textesed" text="{parts: ['mprojects>/attributes/actual_budget','INR'], type:'sap.ui.model.type.Currency', formatOptions: {showMeasure: true}}" visible="true" />
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>

@@ -19,11 +19,9 @@
     xmlns:suite="sap.suite.ui.commons"
     xmlns:upload="sap.m.upload"
 >
-    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">
-       
+    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">   
          <headerTitle>
             <ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
-              
                 <navigationActions>
                     <m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }" />
                     <m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }" />
@@ -34,8 +32,9 @@
         <headerContent>
             <m:ObjectHeader id="_IDGenObjectHeader1"  title="{myproject>/attributes/name}" number="{parts: ['myproject>/attributes/estimatedEndDate'], formatter: '.formatter.getDueDate'}" class="objHeaderClass">
                 <m:statuses>
-                    <m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{myproject>/attributes/status}" state="{ path: 'myproject>/attributes/status', formatter: '.formatter.getStatus' }" />
-                </m:statuses>
+                    <m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatus' }" state="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatusIndication' }" />
+                </m:statuses> 
+                	
                 <m:attributes >
                     <m:ObjectAttribute id="_IDGenObjectAttribute1" title="Start Date" text="{path:'myproject>/attributes/startDate',formatter:'.formatter.formattingDate'}" visible="true" />
                     <m:ObjectAttribute id="_IDGenObjectAttribute2" title="Estimated End Date" text="{path:'myproject>/attributes/estimatedEndDate',formatter:'.formatter.formattingDate'}" visible="true" />

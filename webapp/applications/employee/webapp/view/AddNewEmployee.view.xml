@@ -26,6 +26,8 @@
 								<RadioButton  id="rdbtn2"  text="Female" selected="false"/>
 								<RadioButton  id="rdbtn3"  text="Others" selected="false"/>
 							</RadioButtonGroup>
+							 <Label id="_IDGenLab1el08" text="Date of Joining" required="true"/>
+							 <DatePicker id="datepickr" value="{/doj}" valueFormat="yyyy-MM-dd" width="50%"  />
 							<Label id="_IDGenLab1el01" text="Rate Card" />
 							<Input value="{/rate_card}" id="idProjectIdrc" width="50%"/>
 							<Label id="_IDGenLabe1l110" text="Password"  visible="true" required="true"/>
@@ -53,10 +55,10 @@
 							</Select>
 							<Label id="_IDGenLabelrole" text="Roles" required="true" />
 							<MultiComboBox id="idProjectIdmultirole" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish"
-   width="50%" items="{path: 'mrolesuser>/'}">
+                             width="50%" items="{path: 'mrolesuser>/'}">
 								<core:Item id="_IDGenItem1" key="{mrolesuser>id}" text="{mrolesuser>attributes/roleName}"/>
 							</MultiComboBox>
-
+	                        
 							<Label id="_IDGenLab2el71" text="Telephone" required="true" />
 							<Input value="{/phone}" id="idProjectId7" width="50%" type="Number" />
 

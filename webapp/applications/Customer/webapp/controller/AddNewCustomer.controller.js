@@ -19,7 +19,7 @@ sap.ui.define([
     },
     handleClose: function () {
 			var sNextLayout = this.oModel.getProperty("/actionButtonsInfo/midColumn/closeColumn");
-			this.oRouter.navTo("master", { layout: sNextLayout });
+			this.oRouter.navTo("masterCustomer", { layout: sNextLayout });
 		},
     onObjectMatched: function (oEvent) {
       var that = this;
@@ -96,11 +96,11 @@ sap.ui.define([
               } else {
                 that.handleGetCustomer();
                 that.getView().getModel("appView").setProperty("/actionButtonsInfo/midColumn/fullScreen", false);
-                that.getOwnerComponent().getRouter().navTo("master", {
+                that.getOwnerComponent().getRouter().navTo("masterCustomer", {
                   AddCust: "Edit"
                 });
                 MessageBox.success("Customer details updated successfully", {
-                  closeOnBrowserNavigation: false
+                  closeOnBrowserNavigation: true
                 });
                 that.onObjectMatched();
                 that.onInit();
@@ -144,7 +144,7 @@ sap.ui.define([
             } else {
               MessageBox.success("Customer Added Successfully");
               var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-              oRouter.navTo("master", { "AddCust": "Add" });
+              oRouter.navTo("masterCustomer", { "AddCust": "Add" });
               that.handleGetCustomer();
             }
           });
@@ -212,7 +212,7 @@ sap.ui.define([
           onClose: function (oEvent) {
             if (oEvent == "Yes") {
               var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-              oRouter.navTo("master");
+              oRouter.navTo("masterCustomer");
             }
           }
         });

@@ -3,11 +3,11 @@
 	<Dialog  title="Appointments"  contentWidth="50%" class="sapUiSizeCompact">	
 	<beginButton>
 		
-		<Button text="Approve"  press="handleAppointmentApprove" type="Accept"/>
+		<Button    text="Approve"  visible="{= ${taskModel>/status} === 'Approved' ? false : (${taskModel>/status} === 'Rejected' ? false:true)}"  press="handleAppointmentApprove" type="Accept"/>
 		</beginButton>
 		<endButton>
 		
-			<Button  text="Reject" visible="true" press="handleAppointmentReject" type="Reject"/>
+			<Button   text="Reject"  visible="{= ${taskModel>/status} === 'Approved' ? false : (${taskModel>/status} === 'Rejected' ? false:true)}"  press="handleAppointmentReject" type="Reject"/>
 		</endButton>
 		<!-- <endButton>
 			

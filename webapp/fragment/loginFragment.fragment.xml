@@ -13,7 +13,7 @@
 					<Label  text="password:" required="true" />
 					<Input type="Password" placeholder="Password" tooltip="passwordTooltip" liveChange="hideErrMsgs" submit="performLogin"  />
 					<HBox  justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
-						<CheckBox  text="RememberMe" selected="true" tooltip="rememberMeChkBxTooltip" />
+						<CheckBox  text="Remember Me" selected="true" tooltip="rememberMeChkBxTooltip" />
 						<!-- <Link  text="Forgot your password?"  tooltip="Request new password" press="getOTP" /> -->
 					</HBox>
 				</VBox>

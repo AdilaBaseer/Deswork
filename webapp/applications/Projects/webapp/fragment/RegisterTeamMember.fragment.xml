@@ -91,35 +91,35 @@ xmlns:mvc="sap.ui.core.mvc"
 xmlns:l="sap.ui.layout"
 xmlns="sap.m">
 
-    <Dialog id="_IDGenDialog1"  title="ADD TEAM MEMBER" draggable="true" resizable="true" afterClose="dialogAfterclose" >
+    <Dialog title="ADD TEAM MEMBER" draggable="true" resizable="true" afterClose="dialogAfterclose" >
         <content>
-            <VBox id="_IDGenVBox1" class="sapUiTinyMarginBeginEnd">
-                <f:SimpleForm id="_IDGenSimpleForm1" >
+            <VBox class="sapUiTinyMarginBeginEnd">
+                <f:SimpleForm>
             
-                <Label id="_IDGenLabel1" text="Select Role" />
-             <Select id="_IDGenSelect1" forceSelection="false"  selectedKey="" change="onSelectedTeam">
-                    <core:Item id="_IDGenItem1" text="Project Manager" key="Project Manager"/>
-                    <core:Item id="_IDGenItem2" text="Architect" key="Architect" />
-                    <core:Item id="_IDGenItem3" text="Senior Developer" key="Senior Developer" />
-                    <core:Item id="_IDGenItem4" text="Associate Developer" key="Associate Developer" />
-                    <core:Item id="_IDGenItem5" text="Tester" key="Tester" />
+                <Label text="Select Role" />
+             <Select forceSelection="false"  selectedKey="" change="onSelectedTeam">
+                    <core:Item text="Project Manager" key="Project Manager"/>
+                    <core:Item text="Architect" key="Architect" />
+                    <core:Item text="Senior Developer" key="Senior Developer" />
+                    <core:Item text="Associate Developer" key="Associate Developer" />
+                    <core:Item text="Tester" key="Tester" />
                 </Select>
 
-                <Label id="_IDGenLabel2" text="Name"  />
-                <Input id="_IDGenInput1" value="{/firstName}" editable="false"/>
+                <Label text="Name"  />
+                <Input value="{/firstName}" editable="false"/>
                 
-                <Label id="_IDGenLabel3"  text="Rate Card" />
-                <Input id="_IDGenInput2" value="{/rate_card}" editable="false"/> 
+                <Label text="Rate Card" />
+                <Input value="{/rate_card}" editable="false"/> 
 
                      
                 </f:SimpleForm>
             </VBox>
         </content>
         <beginButton>
-            <Button id="_IDGenButton1" text="Save" press="onSaveTeamMemberDialogs" type="Emphasized"/>
+            <Button  text="Save" press="onSaveTeamMemberDialogs" type="Emphasized"/>
         </beginButton>
         <endButton>
-            <Button id="_IDGenButton2" text="Cancel" press="onCloseTeamDialog" type="Emphasized"/>
+            <Button text="Cancel" press="onCloseTeamDialog" type="Emphasized"/>
         </endButton>
     </Dialog>
 </core:FragmentDefinition>

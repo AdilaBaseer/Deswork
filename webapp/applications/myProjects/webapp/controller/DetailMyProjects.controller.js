@@ -89,7 +89,7 @@ sap.ui.define(
           "?populate[0]=p_customer&populate[1]=p_vendors&populate[2]=p_tasks.users_permissions_user&populate[3]=p_project_teams.users_permissions_users&populate[4]=p_milestones&populate[5]=Users&populate[6]=m_time_entries",
           options,
           function (response) {
-            console.log(response);
+           
             response = JSON.parse(response);
             var oModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(oModel, "myproject");
@@ -116,7 +116,7 @@ sap.ui.define(
               var mmModel = new sap.ui.model.json.JSONModel(csrfDetails.data);
               that.oAddTaskInfo.setModel(mmModel, "csfmodel");
               // that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[7].setValue(that.getView().getModel("csfmodel").getData().attributes.startDate);
-              that.selectedSubtask = that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[5].getSelectedKey()
+              that.selectedSubtask = that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[3].getSelectedKey()
               // that.oAddTaskInfo.getModel("csfmodel").getData()[0].attributes.startDate
             }
           },
@@ -232,166 +232,80 @@ sap.ui.define(
           $.ajax({
 
             url: "deswork/api/p-sub-tasks/" + that.selectedSubtask + "?populate=*",
-
             type: "PUT",
-
             headers: {
-
               "Content-Type": "application/json",
-
             },
-
             data: JSON.stringify({
-
               data: that.oAddTask,
-
             }),
-
             success: function (res) {
-
               var getValues = JSON.parse(res);
-
               console.log(getValues.error);
-
               if (getValues.error) {
-
                 MessageBox.error(getValues.error.message);
-
               }
-
               else {
-
                 that.oAddTaskInfo.close();
-
                 MessageToast.show("Time Extension Requested Successfully!");
-
                 that.id;
-
                 that.parId = that.id;
-
                 that.parIds = JSON.parse(that.parId);
-
                 that._onObjectMatched(that.parIds);
-
                 that.getView().getModel().updateBindings(true);
-
                 that.clearTask();
-
               }
-
             },
-
           })
-
         }
-
       },
       onPress: function (oEvent) {
 
         // debugger;
-
         var that = this;
-
         that.selectedIdTask = oEvent.getParameters().selectedItem.mProperties.key;
-
         $.ajax({
-
           url:
-
             "/deswork/api/p-sub-tasks?populate=*&filters[p_task][id][$eq]=" + that.selectedIdTask,
-
           type: "GET",
-
           success: function (res) {
-
             var csrfDetails = JSON.parse(res);
-
             if (csrfDetails.error) {
-
               MessageBox.error(
-
                 csrfDetails.error.message + "Something went wrong!"
-
               );
-
             } else {
-
               var mmModel = new sap.ui.model.json.JSONModel(csrfDetails.data);
-
               that.oAddTaskInfo.setModel(mmModel, "csfmodel");
-
               // that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[7].setValue(that.getView().getModel("csfmodel").getData().attributes.startDate);
-
               that.selectedSubtask = that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[3].getSelectedKey()
-
               // that.oAddTaskInfo.getModel("csfmodel").getData()[0].attributes.startDate
-
             }
-
           },
-
         });
-
       },
-
       onSelectSubtask: function () {
-
- 
-
         //   that.selectedId = oEvent.getParameters().selectedItem.mProperties.key;
-
- 
-
         var that = this;
-
         that.selectedSubtask = that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[3].getSelectedKey();
-
         $.ajax({
-
           url: "deswork/api/p-sub-tasks/" + that.selectedSubtask + "?populate=*",
-
           type: "GET",
-
           success: function (res) {
-
- 
-
             var response = JSON.parse(res);
-
             // that.mcsrfLength = response.data.length;
-
             var cModel = new sap.ui.model.json.JSONModel(response.data);
-
             that.getView().setModel(cModel, "mCsfDetails");
-
             var taskData = that.getView().getModel("mCsfDetails").getData();
-
             that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[5].setValue(taskData.attributes.startDate);
-
             that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[7].setValue(taskData.attributes.endDate);
-
             that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[9].setValue(taskData.attributes.extended_end_date);
-
             that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[11].setSelectedKey(taskData.attributes.status);
-
             that.oAddTaskInfo.getContent()[0].getItems()[0].getContent()[13].setValue(taskData.attributes.p_task_reason);
-
           },
-
- 
-
           error: function (res) {
-
- 
-
             console.log(res);
-
- 
-
-            MessageBox.error(res + "Something went wroung");
-
- 
-
+            MessageBox.error(res + "Something went wrong");
           }
 
  
@@ -714,10 +628,9 @@ sap.ui.define(
 
 
       getTeamMemberdetails: function () {
-
         var that = this;
         $.ajax({
-          url: "/deswork/api/p-project-teams?populate=*&filters[p_project][id]=" + that.id,
+          url: "/deswork/api/p-project-teams?populate=*&filters[p_project][id]=" + that.id ,
           type: "GET",
           success: function (res) {
             var response = JSON.parse(res);

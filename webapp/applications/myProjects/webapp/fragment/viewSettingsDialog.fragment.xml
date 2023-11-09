@@ -10,17 +10,9 @@
 					<ViewSettingsItem text="In-Progress" key="In-progress"/>
 					<ViewSettingsItem text="Completed" key="Completed"/>
 					<ViewSettingsItem text="New" key="New"/>
+					<ViewSettingsItem  text="Delayed" key="Delayed"/>
 				</items>
 			</ViewSettingsFilterItem>
-	
-			<!-- <ViewSettingsFilterItem text="Priority" key="attributes/priority" multiSelect="false">
-				<items>
-					<ViewSettingsItem text="High" key="High"/>
-					<ViewSettingsItem text="Critical" key="Critical"/>
-					<ViewSettingsItem text="Moderate" key="Moderate"/>
-					<ViewSettingsItem text="Low" key="Low"/>
-				</items>
-			</ViewSettingsFilterItem> -->
 		</filterItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

@@ -109,6 +109,11 @@ sap.ui.define(
             response = JSON.parse(response);
             var oModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(oModel, "mprojects");
+            var data = that.getView().getModel("mprojects").getData();
+            var estimatedBudget = data.attributes.estimated_budget.split(" RUPEES")[0];
+            data.attributes.estimated_budget = estimatedBudget;
+            var actualBudget = data.attributes.actual_budget.split(" RUPEES")[0];
+            data.attributes.actual_budget = actualBudget;
             that.getView().getModel("mprojects").updateBindings("true");
 
             // that.projectsDetails();
@@ -287,7 +292,8 @@ sap.ui.define(
           .getView()
           .getModel("mprojects")
           .getData().attributes;
-        if (EditModel.status === "Completed") {
+       
+          if (EditModel.status === "Completed") {
           MessageToast.show("Completed Projects can't be Edited")
         }
         else {
@@ -698,6 +704,7 @@ sap.ui.define(
       getTeamMemberdetails: function () {
 
         var that = this;
+
         $.ajax({
           url: "/deswork/api/p-project-teams?populate=*&filters[p_project][id]=" + that.id,
           type: "GET",
@@ -992,7 +999,6 @@ sap.ui.define(
                       .then(function () {
                         // Handle success
                         MessageToast.show("Team Member Deleted Successfully!");
-
                         // that.selectedObjectRaci(that.sObjectId);
                         //   that._onObjectMatched(that.id);
                         that.Jid = JSON.parse(that.id)
@@ -1061,6 +1067,7 @@ sap.ui.define(
       },
       onCloseTeamDialog: function () {
 			var thisView = this.oAddTeamMember;
+      thisView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
 			thisView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
 			thisView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 	
         this.oAddTeamMember.close();

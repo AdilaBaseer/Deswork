@@ -23,7 +23,6 @@ sap.ui.define([
 				oModel.setProperty("/layout", sLayout);
 			}
 		},
-
 		onRouteMatched: function (oEvent) {
 			var sRouteName = oEvent.getParameter("name")
 				// oArguments = oEvent.getParameter("arguments");
@@ -31,9 +30,7 @@ sap.ui.define([
 			// Save the current route name
 			this.currentRouteName = sRouteName;
 			
-		},
-
-		
+		},	
 		_updateUIElements: function () {
 			var oModel = this.getOwnerComponent().getModel();
 			var oUIState = this.getOwnerComponent().getHelper().getCurrentUIState();

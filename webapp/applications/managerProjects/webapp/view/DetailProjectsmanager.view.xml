@@ -56,7 +56,7 @@
 								<m:Label id="_IDGenLabel10" text="Priority" width="90%" />
 								<m:Text id="_IDGenText9" text="{mprojects>/attributes/priority}" />
 								<m:Label id="_IDGenLabel8" text="Effort" width="90%" />
-								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}" />
+								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}%" />
 								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
 								<m:Text id="_IDGenText8" text="{mprojects>/attributes/estimated_budget}" />
 								<m:Label id="esenddate" text="Actual Budget" width="90%" />

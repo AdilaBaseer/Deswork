@@ -29,13 +29,13 @@
                 <Input  value="{mTasks>/description}" /> 
 
                 <Label  text="Start Date" required="true"/>
-                <DatePicker   value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker   value="{mTasks>/startDate}" valueFormat="dd-MM-yyyy" />
 
                 <Label   text="Estimated End Date" required="true"/>
-                <DatePicker  value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit" />
+                <DatePicker  value="{mTasks>/endDate}" valueFormat="dd-MM-yyyy" change="onChangeTaskEdit" />
 
                 <Label   text="Actual End Date" required="true"/>
-                <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeTaskEditIfExtended" />
+                <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="dd-MM-yyyy" change="onChangeTaskEditIfExtended" />
 
 			    <Label   text="No Of Days" />
                 <Input  value="{mTasks>/noOfDays}" editable="false"/>
@@ -76,13 +76,13 @@
                 <Input  value="{mSubTasks>/description}" /> 
 
                 <Label    text="Start Date" required="true"/>
-                <DatePicker   value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker   value="{mSubTasks>/startDate}" valueFormat="dd-MM-yyyy" />
 
                 <Label    text="Estimated End Date" required="true"/>
-                <DatePicker   value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
+                <DatePicker   value="{mSubTasks>/endDate}" valueFormat="dd-MM-yyyy" change="onChangeSubTaskEdit"/>
 
  <Label   text="Actual End Date" required="true"/>
-                <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEditIfExtended"/>
+                <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="dd-MM-yyyy" change="onChangeSubTaskEditIfExtended"/>
 
 <Label id="_IDGenLabel15"  text="No Of Days" />
                 <Input  value="{mSubTasks>/noOfDays}" editable="false"/>

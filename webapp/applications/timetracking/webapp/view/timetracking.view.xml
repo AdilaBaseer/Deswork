@@ -25,7 +25,7 @@
 					<appointments>
 						<unified:CalendarAppointment id="CalendarAppointmenttimetracking"
 							startDate="{startDate}" endDate="{endDate}" title="{name}" text="{description}"
-							type="Type02" tentative="false" >
+							type="{= ${status} === 'Approved' ? 'Type08' : (${status} === 'Rejected' ? 'Type13' : 'Type06') }" tentative="false" >
 						</unified:CalendarAppointment>
 					</appointments>
 					<intervalHeaders>

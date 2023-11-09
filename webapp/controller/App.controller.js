@@ -134,7 +134,7 @@ sap.ui.define([
 				errMsg = this.LoginFragment.getContent()[0].getItems()[0],
 				email = this.LoginFragment.getContent()[0].getItems()[2].getItems()[1].getValue(),
 				password = this.LoginFragment.getContent()[0].getItems()[2].getItems()[3].getValue(),
-				keepRemembered = this.LoginFragment.getContent()[0].getItems()[2].getItems()[4].getItems()[0].getSelected();
+				 keepRemembered = this.LoginFragment.getContent()[0].getItems()[2].getItems()[4].getItems()[0].getSelected();
 
 			if (email && password) {
 				this.LoginFragment.setBusy(true);
@@ -280,7 +280,7 @@ sap.ui.define([
 				errMsg = this.LoginFragment.getContent()[0].getItems()[0],
 				email = this.LoginFragment.getContent()[0].getItems()[2].getItems()[1].getValue(),
 				password = this.LoginFragment.getContent()[0].getItems()[2].getItems()[3].getValue(),
-				keepRemembered = this.LoginFragment.getContent()[0].getItems()[2].getItems()[4].getItems()[0].getSelected();
+				 keepRemembered = this.LoginFragment.getContent()[0].getItems()[2].getItems()[4].getItems()[0].getSelected();
 			var userData = this.getUserbyCred(email, password);
 			if (userData !== null) {
 				that.getView().removeStyleClass("coverImage");
@@ -727,9 +727,9 @@ sap.ui.define([
 					else if (oMenuItem.key == 'dayleavetracking') {
 						return true;
 					}
-					// else if (oMenuItem.key == 'ApproveLeaveRequests') {
-					// 	return true;
-					// }
+					else if (oMenuItem.key == 'ApproveLeaveRequests') {
+						return true;
+					}
 					else if (oMenuItem.key == 'publicholiday') {
 						return true;
 					}

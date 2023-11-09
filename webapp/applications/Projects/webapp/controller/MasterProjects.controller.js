@@ -37,23 +37,23 @@ sap.ui.define([
 					//	Delayed
 
 					// and completed.
-						// if (sStartDate <= today && sEndDate >= today) {
-						// 	if (actEndDate === null || actEndDate === '') {
-						// 		project.attributes.status = "In-progress";
-						// 	} else if (actEndDate !== today && actEndDate > today) {
-						// 		project.attributes.status = "In-progress";
-						// 	}
-						// 	else {
-						// 		project.attributes.status = "Completed";
-						// 	}
-						// } else if (actEndDate !== null && actEndDate <= today) {
-						// 	project.attributes.status = "Completed";
-						// } else if (sEndDate < today && actEndDate <= today) {
-						// 	project.attributes.status = "Delayed";
-						// } else if (sStartDate > today) {
-						// 	project.attributes.status = "New";
-						// }
-						// that.projectStatus = project
+						if (sStartDate <= today && sEndDate >= today) {
+							if (actEndDate === null || actEndDate === '') {
+								project.attributes.status = "In-progress";
+							} else if (actEndDate !== today && actEndDate > today) {
+								project.attributes.status = "In-progress";
+							}
+							else {
+								project.attributes.status = "Completed";
+							}
+						} else if (actEndDate !== null && actEndDate <= today) {
+							project.attributes.status = "Completed";
+						} else if (sEndDate < today && actEndDate <= today) {
+							project.attributes.status = "Delayed";
+						} else if (sStartDate > today) {
+							project.attributes.status = "New";
+						}
+						that.projectStatus = project
 					});
 					//	aProjects.push(that.project);
 					oModel.refresh(true)
@@ -337,9 +337,39 @@ sap.ui.define([
 		},
 
 		//INSIDE FRAGMENT
+// Old
+		// onConfirmViewSettingsDialog: function (oEvent) {
+		// 	var filters = [], allFilters=[];
+		// 	this.filterforarchive(0);
+		// 	this._oList = this.getView().byId("productsTable");
+		// 	this._oList.getBinding("items").filter([], "Application");
+		// 	if (oEvent.getParameters().filterItems.length > 0) {
+		// 		for (var a = 0; a < oEvent.getParameters().filterItems.length; a++) {
+		// 			// filters.push(new sap.ui.model.Filter(oEvent.getParameters().filterItems[a].getParent().getKey(), "Contains", oEvent.getParameters()
+		// 			// 	.filterItems[a].getKey()));
+				
+		// 	filters.push(new sap.ui.model.Filter("attributes/status", "EQ", oEvent.getParameters().filterItems[a].mProperties.key));
+		// 		}
+		// 		// filters = filters.length == 1 ? filters : new sap.ui.model.Filter(filters, false);
+		// 		// filters = filters.length> 1 ? new sap.ui.model.Filter(filters, false): filters[0];
+		// 		if (filters.length > 1) {
+		// 			allFilters.push(new sap.ui.model.Filter(filters, false));
+		// 	    } else {
+		// 			allFilters.push(filters[0]);
+		// 		 }
+		// 		// this._oList.getBinding("items").filter(filters, "Application");
+        //         this._oList.getBinding("items").filter(new sap.ui.model.Filter(allFilters, true));
+		// 	} else {
+		// 		this._oList.getBinding("items").filter([], "Application");
+		// 		this.filterforarchive(1);
+		// 	}
+		// 	// this._applySortGroup(oEvent);
+		// },
+
 
 		onConfirmViewSettingsDialog: function (oEvent) {
 			var filters = [];
+			//to get Archived Data send ZERO(0) in Parameter
 			this.filterforarchive(0);
 			this._oList = this.getView().byId("productsTable");
 			this._oList.getBinding("items").filter([], "Application");
@@ -352,6 +382,7 @@ sap.ui.define([
 				this._oList.getBinding("items").filter(filters, "Application");
 			} else {
 				this._oList.getBinding("items").filter([], "Application");
+				//to get Not-Archived Data send ONE(1) in Parameter
 				this.filterforarchive(1);
 			}
 			this._applySortGroup(oEvent);
@@ -371,10 +402,72 @@ sap.ui.define([
 				aFilter = new Filter(deafultFilters, false);
 				oBinding.filter(aFilter);
 			} else {
+				//Set empty filter array if no query found, in order to show the complete list of assessments
 				oBinding.filter(new Filter(aFilter, true));
 			}
 		},
 
+
+
+
+// Mujaida
+		// onConfirmViewSettingsDialog: function (evt) {
+        //     var sortType = evt.oSource.getSelectedSortItem();
+        //     for (var i = 0; i < evt.oSource.getSortItems().length; i++) {
+        //         if (evt.oSource.getSortItems()[i].sId == evt.oSource.getSelectedSortItem()) {
+        //             var sortItemSelected = evt.oSource.getSortItems()[i].getKey();
+        //             break;
+        //         }
+        //     }
+        //     var sortType = evt.oSource.getSortDescending() == false ? true : false;
+        //     var oList = this.getView().byId("list");
+        //     var oBinding = oList.getBinding("items");
+        //     var aSorter = [];
+        //     if (sortItemSelected) {
+        //         aSorter.push(new sap.ui.model.Sorter(sortItemSelected, evt.oSource.getSortDescending()));
+        //         oBinding.sort(aSorter);
+        //     } else {
+        //         oBinding.sort([]);
+        //     }
+        //     var filters = [],
+        //         eFilters = [],
+        //         allFilters = [];
+        //     if (evt.oSource.getSelectedFilterItems().length > 0) {
+        //         var filterKeys = evt.getSource().getSelectedFilterCompoundKeys();
+        //         for (var c = 0; c < Object.keys(filterKeys).length; c++) {
+        //             eFilters = [];
+        //             for (var k = 0; k < Object.keys(filterKeys[Object.keys(filterKeys)[c]]).length; k++) {
+        //                 eFilters.push(new sap.ui.model.Filter(Object.keys(filterKeys)[c], "EQ", Object.keys(filterKeys[Object.keys(filterKeys)[c]])[k]));
+        //             }
+        //             if (eFilters.length > 1) {
+        //                 allFilters.push(new sap.ui.model.Filter(eFilters, false));
+        //             } else {
+        //                 allFilters.push(eFilters[0]);
+        //             }
+        //         }
+        //         // var oBindingInfo = this.getView().byId("list").getBindingInfo("items").parameters.custom.search = "Q";
+        //         // this.getView().byId("list").getBindingInfo("items").bindItems(oBindingInfo);
+        //         oBinding.filter(new sap.ui.model.Filter(allFilters, true));
+        //     }
+        // },
+		
+		// filterforarchive: function (i) {
+		// 	var sQuery = "";
+		// 	if (i == 1) {
+		// 		sQuery = "Archived";
+		// 	}
+		// 	var aFilter = [];
+		// 	var oBinding = this.getView().byId("productsTable").getBinding("items");
+		// 	if (sQuery) {
+		// 		var Status = new Filter("attributes/status", FilterOperator.NotContains, sQuery);
+				 
+		// 		var deafultFilters = [Status];
+		// 		aFilter = new Filter(deafultFilters, false);
+		// 		oBinding.filter(aFilter);
+		// 	} else {
+		// 		oBinding.filter(new Filter(aFilter, true));
+		// 	}
+		// },
 		_applySortGroup: function (oEvent) {
 			this._oList.getBinding("items").sort([]);
 			var mParams = oEvent.getParameters(),

@@ -19,11 +19,11 @@
 						<core:Item id="_IDGenItem2"  key="External"  text="External"/>
 					</Select>
 					<Label id="_IDGenLabel4" required="true" text="Start Date" />
-					<DatePicker id="_IDGenDatePicker1" valueFormat="yyyy-MM-dd" required="true"/>
+					<DatePicker id="_IDGenDatePicker1" valueFormat="dd-MM-yyyy" required="true"/>
 					<Label id="_IDGenLabel5" required="true" text="End Date" />
-					<DatePicker id="_IDGenDatePicker2"  valueFormat="yyyy-MM-dd" required="true" />
+					<DatePicker id="_IDGenDatePicker2"  valueFormat="dd-MM-yyyy" required="true" />
 					<Label id="_IDGenLabel6"  text="Actual End Date" />
-					<DatePicker id="_IDGenDatePicker3"  valueFormat="yyyy-MM-dd" editable="false" />
+					<DatePicker id="_IDGenDatePicker3"  valueFormat="dd-MM-yyyy" editable="false" />
 					<Label id="_IDGenLabel7"  text="Priority" required="true" />
 					<Select id="_IDGenSelect2" forceSelection="false" required="true" selectedKey="">
 						<core:Item id="_IDGenItem3" key="High" text="High" />

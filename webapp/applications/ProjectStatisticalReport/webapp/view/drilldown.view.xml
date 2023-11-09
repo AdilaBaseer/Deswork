@@ -1,4 +1,3 @@
-
 <mvc:View controllerName="vaspp.ProjectStatisticalReport.controller.drilldown"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:fb="sap.ui.comp.filterbar" xmlns:l="sap.ui.layout"
 	xmlns:commons="sap.suite.ui.commons" xmlns:viz="sap.viz.ui5.controls" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
@@ -180,7 +179,7 @@
 				</items>
 			</Table>
 			
-			<Table id="drillDownTableIdprojectinprogress" visible="false" inset="false" items="{mreportInProgress>/}">
+			<Table id="drillDownTableIdprojectinprogress" visible="false" inset="false" items="{inProgressProjects>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenToolbar5" >
 					<Button id="_IDButton1" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
@@ -212,12 +211,12 @@
 				<items>
 					<ColumnListItem id="_IDGenColumnListItem6" >
 						<cells>
-							<Text id="_IDGenText276"  text="{mreportInProgress>attributes/name}"/>
-							<Text id="_IDGenText28"  text="{mreportInProgress>attributes/description}"/>
-							<Text id="_IDGenText29" text="{mreportInProgress>attributes/startDate}"/>
-							<Text id="_IDGenText30" text="{mreportInProgress>attributes/actualEndDate}"/>
-							<Text id="_IDGenText300" text="{mreportInProgress>attributes/estimatedEndDate}"/>
-							<Text id="_IDGenText32"  text="{mreportInProgress>attributes/status}"/>
+							<Text id="_IDGenText276"  text="{inProgressProjects>attributes/name}"/>
+							<Text id="_IDGenText28"  text="{inProgressProjects>attributes/description}"/>
+							<Text id="_IDGenText29" text="{inProgressProjects>attributes/startDate}"/>
+							<Text id="_IDGenText30" text="{inProgressProjects>attributes/actualEndDate}"/>
+							<Text id="_IDGenText300" text="{inProgressProjects>attributes/estimatedEndDate}"/>
+							<Text id="_IDGenText32"  text="{inProgressProjects>attributes/status}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

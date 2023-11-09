@@ -24,10 +24,10 @@
                 <Input id="_IDGenInput2" value="{mTasks>/description}" /> 
 
                 <Label id="_IDGenLabel3"  text="Start Date" required="true"/>
-                <DatePicker id="_IDGenDatePicker1"  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker id="_IDGenDatePicker1"  value="{mTasks>/startDate}" valueFormat="dd-MM-yyyy" />
 
                 <Label id="_IDGenLabel4"  text="Estimated End Date" required="true"/>
-                <DatePicker id="_IDGenDatePicker2" value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChange" />
+                <DatePicker id="_IDGenDatePicker2" value="{mTasks>/endDate}" valueFormat="dd-MM-yyyy" change="handleChange" />
 
                 <Label id="_IDGenLabel"  text="No of Days" />
                 <Input id="_IDGenInput4"  value="{mTasks>/noOfDays}" editable="false" type="Number"/>
@@ -79,10 +79,10 @@
                 <Input id="_IDGenInput5"  value="{mSubTasks>/description}" required="true" />
 
                 <Label id="_IDGenLabel10"  text="Start Date" required="true"/>
-                <DatePicker id="_IDGenDatePicker3"  value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker id="_IDGenDatePicker3"  value="{mSubTasks>/startDate}" valueFormat="dd-MM-yyyy" />
 
                 <Label id="_IDGenLabel11"  text="Estimated End Date" required="true"/>
-                <DatePicker id="_IDGenDatePicker4" value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub"/>
+                <DatePicker id="_IDGenDatePicker4" value="{mSubTasks>/endDate}" valueFormat="dd-MM-yyyy" change="handleChangeSub"/>
 <Label id="_IDGenLabel13"  text="No of Days" />
                 <Input id="_IDGenInput6"  value="{mSubTasks>/noOfDays}" editable="false" type="Number"  />
 

@@ -15,15 +15,17 @@ xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns="sap.uxap" class="
                     <ObjectPageSubSection id="_IDGenObjectPageSubSection1">
                         <form:SimpleForm id="simpleFormInfoTab" title="" editable="false" class="editableForm sapUiSmallMarginTopBottom">
                             <m:Label id="_IDGenLabel121" text="Name  " />
-                            <m:Text id="_IDGenText211" text="{userModel>/firstName}" />
+                            <m:Text id="_IDGenText211" text="{userModel>/firstName} {userModel>/lastName}" />
                             <m:Label id="_IDGenLabel4172" text="Gender " />
                             <m:Text id="_IDGenText1473" text="{userModel>/gender}" />
                             <m:Label id="_IDGenLabel14647" text="Department " />
                             <m:Text id="_IDGenText16457" text="{userModel>/department}" />
                             <m:Label id="_ID677" text="Designation " />
-                            <m:Text id="_I677" text="{userModel>/designation}" />      
+                            <m:Text id="_I677" text="{userModel>/designation}" />   
+                            <m:Label id="_ID6771" text="Date of Joining " />
+                            <m:Text id="_I6772" text="{path:'userModel>/doj', formatter:'.formatter.formatDate'}" />   
                             <m:Label id="_IDGenLabel127" text="Experience" />
-                            <m:Text id="_IDGenText127" text="{userModel>/noOfExperience} year" />    
+                            <m:Text id="_IDGenText127"  text="{parts:[{ path: 'userModel>/doj'},{path:'userModel>/noOfExperience'}], formatter: '.formatter.getExperience' }"/> 
                             <m:Label id="_IDGenLabel1367" text="Email " />
                             <m:Text id="_IDGenText1637" text="{userModel>/email}" />
                             <m:Label id="_IDGenLabel13647" text="Contact No." />

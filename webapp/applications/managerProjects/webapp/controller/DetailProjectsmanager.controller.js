@@ -109,7 +109,7 @@ sap.ui.define(
           "?populate[0]=p_customer&populate[1]=p_vendors&populate[2]=p_tasks.users_permissions_user&populate[3]=p_project_teams.users_permissions_user&populate[4]=Users&populate[5]=m_time_entries&populate[6]=p_time_estimations&populate[7]=users_permissions_users&populate[8]=p_documents",
           options,
           function (response) {
- response = JSON.parse(response);
+                response = JSON.parse(response);
             var oModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(oModel, "mprojects");
             that.getView().getModel("mprojects").updateBindings("true");

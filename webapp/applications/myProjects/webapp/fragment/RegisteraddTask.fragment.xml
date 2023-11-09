@@ -66,13 +66,13 @@ xmlns="sap.m">
                 <core:Item  key="{csfmodel>id}"  text="{csfmodel>attributes/name}"/>
                 </Select>
                  <Label  text="Start Date" required="true"/>
-                <DatePicker  value="" valueFormat="yyyy-MM-dd" editable="false"/>
+                <DatePicker  value="" valueFormat="dd-MM-yyyy" editable="false"/>
 
                 <Label  text="End Date" required="true"/>
-                <DatePicker value="" valueFormat="yyyy-MM-dd" editable="false"/>
+                <DatePicker value="" valueFormat="dd-MM-yyyy" editable="false"/>
 
                 <Label  text="Extended End Date" required="true"/>
-                <DatePicker value="" valueFormat="yyyy-MM-dd" editable="true"/>
+                <DatePicker value="" valueFormat="dd-MM-yyyy" editable="true"/>
 
                 <Label  text="Status" />
                 <Select forceSelection="false"  selectedKey=""  required="true" editable="true">

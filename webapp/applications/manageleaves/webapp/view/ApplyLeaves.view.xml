@@ -8,7 +8,7 @@ xmlns:shellfooter="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core">
 				<l:content>
 					<Select id="leaveTypeSelectId" change="onLeaveTypeSelectionChange" 
 						required="true" width="100%" tooltip="Please select leave type">
-						<core:Item id="_IDGenItem1" key="Select" text="Select" tooltip="Select"/>	
+						<core:Item id="_IDGenItem1" key="Select" text="Select the Type of Leave" tooltip="Select"/>	
 						<core:Item id="casual" key="Casual Leave" text="Casual Leave" tooltip="Casual Leave"/>
 						<core:Item id="sick" key="Sick Leave" text="Sick Leave" tooltip="Sick Leave"/>
 						<core:Item id="maternity" key="Maternity Leave" text="Maternity Leave" tooltip="Maternity Leave"/> 
@@ -60,7 +60,7 @@ xmlns:shellfooter="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core">
 										<f:fields>
 											<l:Grid id="LRS4_NOTE" width="100%" defaultSpan="L12 M12 S12" visible="true">
 												<l:content>
-													<Label id="_IDGenLabel1" text="Reason" required="false" tooltip="Reason for leave">
+													<Label id="_IDGenLabel1" text="Reason" required="true" tooltip="Reason for leave">
 														<layoutData>
 															<l:ResponsiveFlowLayoutData id="_IDGenResponsiveFlowLayoutData6" linebreak="true"></l:ResponsiveFlowLayoutData>
 														</layoutData>

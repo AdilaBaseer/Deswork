@@ -198,7 +198,7 @@ sap.ui.define([
                 if (date < 10) {
                     date = "0" + date;
                 }
-                if (month) {
+                if (month < 10) {
                     month = "0" + month;
                 }
                 var result = date + "-" + month + "-" + year;

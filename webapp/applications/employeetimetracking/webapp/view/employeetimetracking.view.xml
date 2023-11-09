@@ -3,17 +3,20 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:unified="sap.ui.unified"
 	xmlns="sap.m">
-	<VBox class="sapUiSmallMargin" id="VBoxtimetracking">
+	  <Page id="_IDGenPage1" class="footerPage" showHeader="false" titleAlignment="Center" titleLevel="H2" showFooter="true" title="Image Editing Agency 1" enableScrolling="true" showNavButton="false">
 		<PlanningCalendar
-			id="PC1" appointmentsVisualization="Filled"
+			id="PC1"
+		    appointmentsVisualization="Filled"
 			appointmentSelect="handleAppointmentSelect"
 			showEmptyIntervalHeaders="false"
 			showWeekNumbers="true"
 			rows="{path: '/'}">
 			<toolbarContent>
 				<Title text="{i18n>EmployeeTimesheets}" titleStyle="H4" id="Titletimetracking"/>
+				<!-- <Button id="_IDGenButton1" icon="sap-icon://add" press="handleAppointmentCreate" tooltip="Add"/> -->
+				<Button id="_IDGenButtonDwnld" icon="sap-icon://download" press="onDownloadAppointments" tooltip="Download" visible="{= ${designation} === 'Manager' ? true :false}"/>
 			</toolbarContent>
-			<rows>
+			<rows >
 				<PlanningCalendarRow id="PlanningCalendarRowtimetracking"
 					title="{firstName} {lastName}"
 					text="{designation}"
@@ -24,11 +27,11 @@
 					<appointments>
 						<unified:CalendarAppointment id="CalendarAppointmenttimetracking"
 							startDate="{startDate}" endDate="{endDate}" title="{name}" text="{description}"
-							type="{= ${status} === 'Completed' ? 'Type06' : (${status} === 'New' ? 'Type02' : 'Type05') }">
+							type="{= ${status} === 'Approved' ? 'Type08' : (${status} === 'Rejected' ? 'Type13' : 'Type06') }">
 						</unified:CalendarAppointment>
 					</appointments>
 				</PlanningCalendarRow>
 			</rows>
 		</PlanningCalendar>
-	</VBox>
+	</Page>
 </mvc:View>

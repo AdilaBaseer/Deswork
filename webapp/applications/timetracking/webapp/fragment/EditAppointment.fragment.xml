@@ -52,7 +52,7 @@
 			</Select>
 
 			<Label text="{i18n>Start Date}" required="true"/>
-			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChange"/>
+			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChangeEdit1"/>
 
 			<Label text="{i18n>End Date}" required="true"/>
 			<DateTimePicker  displayFormat="short" required="true" change="handleCreateChangeEdit"/>	

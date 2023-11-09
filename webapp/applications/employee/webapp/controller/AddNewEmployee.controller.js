@@ -111,11 +111,11 @@ sap.ui.define([
 			var Name = that.getView().byId("idProjectId1").getValue();
 			var department = that.getView().byId("idProjectId5");
 			if (genderVal == "Male") {
-				genderVal = "M";
+				genderVal = "Male";
 			} else if (genderVal == "Female") {
-				genderVal = "F";
+				genderVal = "Female";
 			} else if (genderVal == "Others") {
-				genderVal = "O";
+				genderVal = "Others";
 			} else {
 				genderVal = "";
 			}
@@ -129,6 +129,7 @@ sap.ui.define([
 				"firstName": that.getView().byId("idProjectId1").getValue(),
 				"lastName": that.getView().byId("idProjectIdln").getValue(),
 				"gender": genderVal,
+				"doj":that.getView().byId("datepickr").getValue(),
 				"designation": that.getView().byId("idProjectId51").getSelectedKey(),
 				"department": department.getSelectedKey() ? department.getSelectedKey() : "",
 				"emergencyContName": that.getView().byId("idProjectId11").getValue()? that.getView().byId("idProjectId11").getValue() : null,
@@ -237,6 +238,10 @@ sap.ui.define([
             }
             if (thisView.byId("idProjectId8").getValue() === "") {
                 thisView.byId("idProjectId8").setValueState("None");
+                Err++;
+            }
+			if (thisView.byId("datepickr").getValue() === "") {
+                thisView.byId("datepickr").setValueState("None");
                 Err++;
             }
             if (thisView.byId("idProjectId22").getValue() === "") {

@@ -2,10 +2,10 @@
 	xmlns:l="sap.ui.layout">
 	<Dialog title="" contentWidth="50%" class="sapUiSizeCompact">
 		<beginButton>
-		<Button  text="Edit" visible="true" press="handleAppointmentEdit"/>
+		<Button  text="Edit" visible="{= ${taskModel>/status} === 'Approved' ? false : true}" press="handleAppointmentEdit"/>
 		</beginButton>
 		<endButton>
-		<Button text="{i18n>Delete}"  press="handleAppointmentDelete"/>	
+		<Button text="{i18n>Delete}" visible="{= ${taskModel>/status} === 'Approved' ? false : (${taskModel>/status} === 'Rejected' ? false:true)}" press="handleAppointmentDelete"/>	
 		</endButton>
 			<customHeader>
 			<Bar>
