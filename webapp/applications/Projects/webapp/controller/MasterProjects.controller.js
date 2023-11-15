@@ -104,7 +104,17 @@ sap.ui.define([
 		},
 
 		closeProjectDialog: function () {
-			this.oAddProjectDialog.close();
+		 this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[2].setValue()==="",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[4].setValue()==="",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[6].setSelectedKey() === "",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[8].setValue()==="",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[10].setValue()==="",
+        this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[12].setValue()==="",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[14].setSelectedKey() === "",
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[16].setSelectedKey() === "",			
+        this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[18].setSelectedKey() === "" 
+		this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[20].getItems()[0].setValue()==="",
+		this.oAddProjectDialog.close();
 		},
 
 		onStatusStart: function (oEvent) {
@@ -204,6 +214,7 @@ sap.ui.define([
 							that.getView().setModel(oModel, "mprojects");
 							that.getView().setBusy(false);
 							MessageBox.success("Project Added Successfully");
+							that.closeProjectDialog();
 						})
 
 					}

@@ -217,7 +217,7 @@ sap.ui.define([
 								}
 							  }
 						});
-
+						that.getView().getModel("mCsfDetails").getData();
 					}
 				});
 			}

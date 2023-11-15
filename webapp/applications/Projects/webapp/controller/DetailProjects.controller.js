@@ -115,11 +115,11 @@ sap.ui.define(
             response = JSON.parse(response);
             var oModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(oModel, "mprojects");
-            var data = that.getView().getModel("mprojects").getData();
-            var estimatedBudget = data.attributes.estimated_budget.split(" RUPEES")[0];
-            data.attributes.estimated_budget = estimatedBudget;
-            var actualBudget = data.attributes.actual_budget.split(" RUPEES")[0];
-            data.attributes.actual_budget = actualBudget;
+            that.getView().getModel("mprojects").getData();
+            // var estimatedBudget = data.attributes.estimated_budget.split(" RUPEES")[0];
+            // data.attributes.estimated_budget = estimatedBudget;
+            // var actualBudget = data.attributes.actual_budget.split(" RUPEES")[0];
+            // data.attributes.actual_budget = actualBudget;
             that.getView().getModel("mprojects").updateBindings("true");
 
             // that.projectsDetails();
@@ -874,6 +874,10 @@ sap.ui.define(
             } else {
 
               MessageToast.show("Team Member Added successfully!");
+              var thatView = that.oAddTeamMember;
+              thatView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
+              thatView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
+              thatView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 
               that.Jid = JSON.parse(that.id)
               that._onObjectMatched(that.Jid);
               that.getView().getModel().updateBindings(true);

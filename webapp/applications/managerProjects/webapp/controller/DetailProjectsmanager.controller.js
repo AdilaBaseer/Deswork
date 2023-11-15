@@ -846,6 +846,10 @@ sap.ui.define(
             } else {
 
               MessageToast.show("Team Member Added successfully!");
+              var thatView = that.oAddTeamMember;
+              thatView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
+              thatView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
+              thatView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 
               that.Jid = JSON.parse(that.id)
               that._onObjectMatched(that.Jid);
               that.getView().getModel().updateBindings(true);
@@ -1022,6 +1026,11 @@ sap.ui.define(
         }
       },
       onCloseTeamDialog: function () {
+        var that=this;
+        var thatView = that.oAddTeamMember;
+        thatView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
+        thatView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
+        thatView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 
         this.oAddTeamMember.close();
       },
 

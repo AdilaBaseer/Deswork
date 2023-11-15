@@ -59,9 +59,9 @@
 								<!-- <m:Label id="_IDGenLabel8" text="Effort" width="90%" />
 								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}" /> -->
 								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
-								<m:Text id="_IDGenText8" text="{parts: ['mprojects>/attributes/estimated_budget','INR'], type:'sap.ui.model.type.Currency', formatOptions: {showMeasure: true, currency: 'INR'}}" visible="true" />
-								<m:Label id="esenddate" text="Actual Budget" width="90%" />
-								<m:Text id="textesed" text="{parts: ['mprojects>/attributes/actual_budget','INR'], type:'sap.ui.model.type.Currency', formatOptions: {showMeasure: true , currency: 'INR'}}" visible="true" />
+                                <m:Text id="_IDGenText8" text="{parts: ['mprojects>/attributes/estimated_budget'],formatter:'.formatter.getCurrencyEB'}" visible="true" />
+                                <m:Label id="esenddate" text="Actual Budget" width="90%" />
+                                <m:Text id="textesed" text="{parts: ['mprojects>/attributes/actual_budget'], formatter:'.formatter.getCurrencyAB'}" visible="true" />
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>
@@ -133,7 +133,7 @@
 													<m:ObjectIdentifier id="_IDGenObjectIdentifier53b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/phone}" />
 												</m:cells>
 												<m:cells>
-													<m:ObjectIdentifier id="Cellrate" text="{mTeamMember>attributes/users_permissions_user/data/attributes/rate_card}" />
+													<m:ObjectIdentifier id="Cellrate" text="{parts: ['mTeamMember>attributes/users_permissions_user/data/attributes/rate_card'],formatter:'.formatter.getCurrencyEB'}" />
 												</m:cells>
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObject1Identifier53b" text="{mTeamMember>attributes/p_team_role}" />

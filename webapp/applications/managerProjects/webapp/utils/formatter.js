@@ -125,15 +125,6 @@ sap.ui.define([], function () {
 		var currencyCode1 = rate_card.replace(/[^a-zA-Z]/g, '');
 			// You can add more cases for other currencies as needed
 			switch (currencyCode1) {
-				// case "INR":
-				// 	return estimated_budget + " ₹"; // Assuming ₹ is the symbol for INR
-				// case "USD":
-				// 	return "$" + estimated_budget;
-				// case "EUR":
-				// 	return "€" + estimated_budget;
-				// default:
-				// 	return estimated_budget;
-
 				case "INR":
 					return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(numericPart);
 				case "USD":

@@ -24,7 +24,7 @@
 							</VBox>
 						</VBox>
 						
-						<VBox class="kpiTile" width="24rem" id="totaltask">
+						<!-- <VBox class="kpiTile" width="24rem" id="totaltask">
 							<Link id="_IDGeink1" text="Total Tasks" class="link" press="onKpiLinkPressTasks"/>
 							<VBox id="_IDGox8" class="top">
 								<TileContent id="_IDGenTiltent1" unit="">
@@ -33,7 +33,7 @@
 									</content>
 								</TileContent>
 							</VBox>
-						</VBox>
+						</VBox> -->
 						<VBox class="kpiTile" width="24rem" id="newprojects">
 							<Link id="_IDGenLink1" text="New Projects" class="link" press="onKpiLinkPress"/>
 							<VBox id="_IDGenVBox8" class="top">
