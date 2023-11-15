@@ -37,6 +37,11 @@ sap.ui.define([], function () {
 				return "Billable";
 			}
 		},
+		formattingCurrency:function (estimated_budget) {
+			estimated_budget=estimated_budget + "INR";
+				return estimated_budget;
+
+		},
 	
 		getPriority: function (status) {
 			if (status == "High") return "Error";

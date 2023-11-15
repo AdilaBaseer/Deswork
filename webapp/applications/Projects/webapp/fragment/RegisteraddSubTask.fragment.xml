@@ -24,10 +24,10 @@
                 <Input value="{mTasks>/description}" /> 
 
                 <Label  text="Start Date" required="true"/>
-                <DatePicker  value="{mTasks>/startDate}" valueFormat="dd-MM-yyyy" />
+                <DatePicker  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
 
                 <Label text="Estimated End Date" required="true"/>
-                <DatePicker value="{mTasks>/endDate}" valueFormat="dd-MM-yyyy" change="handleChange" />
+                <DatePicker value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChange" />
 
                 <Label  text="No of Days" />
                 <Input value="{mTasks>/noOfDays}" editable="false" type="Number"/>
@@ -62,12 +62,6 @@
 		<f:SimpleForm visible="false" minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" labelSpanL="3"
 			labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1" class="editableForm">
 			<f:content>
-				
-               
-             <!-- <Label id="_IDGenLabel8"  text="Task Name"  />	
-                <Select id="_IDGenSelect4" forceSelection="false"   items="{mCsfDetails>/}" required="true">
-                <core:Item id="_IDGenItem9"  key="{mCsfDetails>id}"  text="{mCsfDetails>attributes/name}"/>
-                </Select>   -->
                 <Label text="Task Name"  />	
                 <Select forceSelection="false"   items="{mcsf>/}" required="true">
                 <core:Item key="{mcsf>id}"  text="{mcsf>attributes/name}"/>
@@ -79,10 +73,10 @@
                 <Input  value="{mSubTasks>/description}" required="true" />
 
                 <Label text="Start Date" required="true"/>
-                <DatePicker value="{mSubTasks>/startDate}" valueFormat="dd-MM-yyyy" />
+                <DatePicker value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
 
                 <Label text="Estimated End Date" required="true"/>
-                <DatePicker value="{mSubTasks>/endDate}" valueFormat="dd-MM-yyyy" change="handleChangeSub"/>
+                <DatePicker value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub"/>
                 <Label text="No of Days" />
                 <Input value="{mSubTasks>/noOfDays}" editable="false" type="Number"  />
 
@@ -92,10 +86,7 @@
                 <core:Item key="In-Progress"  text="In-Progress"/>
                 <core:Item key="Completed"  text="Completed"/>
                 </Select>
-                 <!-- <VBox>
-					
-					<Button visible="true" type="Emphasized" id="fileUploadButton" text="Save" press="uploadUsers"/>
-				</VBox>     -->
+                
                
           
 			</f:content>

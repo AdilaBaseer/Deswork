@@ -68,6 +68,12 @@ sap.ui.define(
           that.getView().addDependent(that.oAddTeamMember);
         }
       },
+      formatCurrency: function (estimatedBudget) {
+        if (estimatedBudget) {
+            var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+            return oCurrencyFormat.format(estimatedBudget.split(' ')[0], estimatedBudget.split(' ')[1])
+        }
+    },
       handleFullScreen: function () {
         this.bFocusFullScreenButton = true;
         var sNextLayout = this.oModel.getProperty("/actionButtonsInfo/midColumn/fullScreen");
@@ -368,11 +374,11 @@ sap.ui.define(
               .getContent()[14]
               .setSelectedKey(EditModel.priority),
             
-            // status: this.oAddProjectDialog1
-            //   .getContent()[0]
-            //   .getItems()[0]
-            //   .getContent()[16]
-            //   .setSelectedKey(EditModel.status),
+            status: this.oAddProjectDialog1
+              .getContent()[0]
+              .getItems()[0]
+              .getContent()[16]
+              .setSelectedKey(EditModel.status),
           
             p_customer: that.idCusto ,
             estimated_budget: this.oAddProjectDialog1
@@ -385,24 +391,6 @@ sap.ui.define(
               .getItems()[0]
               .getContent()[22].getItems()[0].setEditable(true) + " " +
               this.oAddProjectDialog1.getContent()[0].getItems()[0].getContent()[22].getItems()[1].setEditable(true),
-
-            // actual_budget: this.oAddProjectDialog1
-            //   .getContent()[0]
-            //   .getItems()[0]
-            //   .getContent()[22].getItems()[0].setValue(EditModel.actual_budget.split(" ")[0]) + " " +
-            //   this.oAddProjectDialog1.getContent()[0].getItems()[0].getContent()[22].getItems()[1].setSelectedKey(EditModel.actual_budget.split(" ")[1])
-
-
-
-            // if (rateCard1 && rateCard1.includes(" ")) {
-            //     var splitRateCard = rateCard1.split(" ");
-            //     actualBudgetInput.setValue(splitRateCard[0]);
-            //     currencySelectAc.setSelectedKey(splitRateCard[1]);
-            // } else {
-            //     actualBudgetInput.setValue(""); // Set to empty string if actual_budget is null or doesn't have the format
-            //     currencySelectAc.setSelectedKey(""); // Set to empty string if actual_budget is null or doesn't have the format
-            // }
-
           };
           var currencySelect = this.oAddProjectDialog1.getContent()[0].getItems()[0].getContent()[20].getItems()[1];
           var rateCard = EditModel.estimated_budget;
@@ -418,15 +406,10 @@ sap.ui.define(
             var splitRateCard = rateCard1.split(" ");
             actualBudgetInput.setValue(splitRateCard[0]);
             currencySelectAc.setSelectedKey(splitRateCard[1]);
-            // var selectedCurrency = rateCard1.split(" ")[1]; // Assuming the rate_card is in the format "rate currency"
-            // currencySelectAc.setSelectedKey(selectedCurrency);
           } else {
             actualBudgetInput.setValue("");
             currencySelectAc.setSelectedKey(""); // Set to empty string if actual_budget is null or doesn't have the format
           }
-
-          // this.getView().setModel(new JSONModel(data));
-
           this.oAddProjectDialog1.setModel(new sap.ui.model.json.JSONModel(data));
 
           this.getView().getModel("mprojects").updateBindings(true);

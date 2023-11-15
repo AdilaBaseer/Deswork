@@ -64,6 +64,16 @@
 								</TileContent>
 							</VBox>
 						</VBox>
+						<VBox class="kpiTile" width="24rem" id="Delayed">
+							<Link id="_IDGenLink41" text="Projects Delayed" class="link" press="onKpiLinkPress"/>
+							<VBox id="_IDGenVBox11" class="top">
+								<TileContent id="_IDGenTileContent41" unit="">
+									<content>
+										<NumericContent id="_IDGenNumericContent41" scale="" value="{modelLength>/ProjectsDelayed}"/>
+									</content>
+								</TileContent>
+							</VBox>
+						</VBox>
 					</content>
 				</HeaderContainer>
 			<!-- Pie chart-->	

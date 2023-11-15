@@ -27,14 +27,8 @@ sap.ui.define([
 					var itemKey = selectedItem.id;
 					selectedKeys.push(itemKey);
 				});
-				// for (var m = 0; m < aSelectedItems.length; m++) {
-				// 	aSelectedItems[m].setSelected(true);
-				// }
-	
-
 				multiComboBox.setSelectedKeys(selectedKeys);
 				var data = {
-
 					"firstName": usersModel.firstName,
 					"lastName": usersModel.lastName,
 					"gender": this.getView().byId("idProjectId3").getSelectedIndex(),
@@ -54,7 +48,8 @@ sap.ui.define([
 					"address": usersModel.address,
 					"zipCode": usersModel.zipCode,
 					"p_team_role_users": this.getView().byId("idProjectIdmultirole").getSelectedItems(),
-					"rate_card": usersModel.rate_card
+					"rate_card": usersModel.rate_card,
+					"doj":usersModel.doj
 				};
 				this.getView().setModel(new JSONModel(data));
 			}
@@ -76,7 +71,6 @@ sap.ui.define([
 						that.getOwnerComponent().getModel("mrolesuser").updateBindings(true);
 					}
 				}
-
 			})
 		},
 		//Get service for user list
@@ -100,7 +94,6 @@ sap.ui.define([
 						oRouter.navTo("masterEmployee", { "AddCust": "Add" });
 					}
 				}
-
 			})
 		},
 
@@ -139,11 +132,11 @@ sap.ui.define([
 				"city": that.getView().byId("idProjectId23").getValue(),
 				"country": that.getView().byId("idProjectId22").getValue(),
 				"zipcode": that.getView().byId("idProjectId25").getValue() ? that.getView().byId("idProjectId25").getValue() : null,
-				//"password": "Vaspp@123",
 				"password": that.getView().byId("idProjectId").getValue(),
 				"appPermission": {},
 				"p_team_role_users": that.rolesusers,
-				"rate_card": that.getView().byId("idProjectIdrc").getValue() ? that.getView().byId("idProjectIdrc").getValue(): null,
+				"rate_card": that.getView().byId("idProjectIdrc").getValue() ? that.getView().byId("idProjectIdrc").getValue() + " " +
+				            that.getView().byId("rate1").getSelectedKey(): null,
 				"bankName": that.getView().byId("idProjectId13").getValue() ,
 				"IFCScode": that.getView().byId("idProjectId14").getValue(),
 				"bankAccNo": that.getView().byId("idProjectId15").getValue(),
@@ -152,7 +145,6 @@ sap.ui.define([
 			if (that.isAdd == "Add") {
 				var baseUrl = "/deswork/api/auth/local/register";
 				var callMethod = "POST";
-
 			} else {
 				baseUrl = "/deswork/api/users/" + that.empid;
 				callMethod = "PUT";
@@ -259,7 +251,6 @@ sap.ui.define([
 		//CANCELING THE DATA GETTING ADDED OR UPDATED 
 		handleWizardCancel: function () {
 			var that = this;
-
 			MessageBox.confirm("Do you want to Cancel",
 				{
 					actions: ["Yes", "No"],
@@ -271,9 +262,6 @@ sap.ui.define([
 						}
 					}
 				});
-
 		},
-
 	});
-
 });

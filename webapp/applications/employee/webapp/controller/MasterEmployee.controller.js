@@ -1,5 +1,4 @@
 sap.ui.define([
-	
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
@@ -22,15 +21,9 @@ sap.ui.define([
 				that.getOwnerComponent().setModel(oModel, "memployee");
 				that.getOwnerComponent().getModel("memployee").updateBindings(true);
 				that.getProjectDetails(response); 
-			})
-			
+			})	
 		},
 		onListItemPress: function (oEvent) {
-			// var oNextUIState = this.getOwnerComponent().getHelper().getNextUIState(1),
-			// 	productPath = oEvent.getSource().getSelectedItem().getBindingContext("memployee").getPath(),
-			// 	product = productPath.split("/").slice(-1).pop();
-
-			// this.oRouter.navTo("detail", { layout: oNextUIState.layout, product: product });
 			var oNextUIState = this.getOwnerComponent().getHelper().getNextUIState(1),
 			employeeID = oEvent.getSource().getSelectedItem().getBindingContext("memployee").getObject().id;
 			this.oRouter.navTo("detailEmployee", { layout: oNextUIState.layout, product: employeeID });
@@ -40,11 +33,9 @@ sap.ui.define([
 		onSearch: function (oEvent) {
 			var oTableSearchState = [],
 				sQuery = oEvent.getParameter("query");
-
 			if (sQuery && sQuery.length > 0) {
 				oTableSearchState = [new Filter("firstName", FilterOperator.Contains, sQuery)];
 			}
-
 			this.getView().byId("productsTable").getBinding("items").filter(oTableSearchState, "Application");
 		},
 		//TO SORT THE EMPLOYEE DETAILS USING ID
@@ -54,32 +45,27 @@ sap.ui.define([
 				oTable = oView.byId("productsTable"),
 				oBinding = oTable.getBinding("items"),
 				oSorter = new Sorter("id", this._bDescendingSort);
-
 			oBinding.sort(oSorter);
 		},
 		//TO ADD NEW EMPLOYEE 
 		onAddNewEmployee: function () {
 			var that = this;
 			this.getView().getModel().setProperty("/layout", "OneColumn");
-
 			var sNextLayout = this.getView().getModel().getProperty("/actionButtonsInfo/midColumn/closeColumn");
 			if(sNextLayout == null)
 			sNextLayout = "OneColumn"
 			//NAVIGATE TO THE ADD NEW EMPLOYEE
-		//	this.getOwnerComponent().getRouter().navTo("AddNewEmployee", { "AddCust": "Add", "layout": sNextLayout});
 			this.getOwnerComponent().getRouter().navTo("AddNewEmployee", { "AddCust": "Add", "layout": sNextLayout, "listindex": "a"});
 		},
 		getProjectDetails: function(data) {
 			var tasks = 0;
-			var that = this;
-			
+			var that = this;	
 			for(var i = 0; i < data.length; i++) {
 				tasks = 0;
 				if(data[i].p_tasks.length > 0) {
 					for(var j = 0; j < data[i].p_tasks.length; j++) {
 						if(data[i].p_tasks[j].status === "In-Progress") {
 							tasks++;
-							//that.getOwnerComponent().setModel("memployee/availability", "No work alloted");
 						}	
 					}
 					 if (tasks === 0) {
@@ -94,10 +80,9 @@ sap.ui.define([
 				} else {
 					data[i].availability = "100%";
 				}
-				
 			}
 			that.getOwnerComponent().getModel("memployee").setData(data);
-			console.log(that.getOwnerComponent().getModel("memployee").getData());
+
 		}
 	});
 });

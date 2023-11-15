@@ -69,6 +69,24 @@ sap.ui.define([], function () {
 				return "Error";
 			}
 		},
+		getTaskStatus: function (status,startDate,endDate,extended_end_date) {
+            //debugger;
+            var alteredStatus,date;
+            var today = new Date().toISOString().slice(0, 10);
+            if(endDate?date=endDate:date=extended_end_date)
+            if(status==="Completed"){
+                alteredStatus=status;
+            }else if (startDate > today) {
+                alteredStatus = "New";      
+            } else if ((startDate <= today) && (today < date)) {
+                alteredStatus = "In-Progress";
+            }else if (today > date) {
+                alteredStatus = "Delayed";      
+            } else if(date=== today){
+                alteredStatus=status;
+            }
+            return alteredStatus;
+        },
 		getPriority: function (status) {
 			if (status == "High") return "Error";
 			else if (status == "Low") return "Success";

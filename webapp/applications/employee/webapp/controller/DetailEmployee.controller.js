@@ -163,7 +163,6 @@ sap.ui.define([
                     that.getView().setModel(cModel, "csfData");
                 },
                 error: function (res) {
-                    console.log(res);
                     MessageBox.error(res + "Something went wrong");
                 }
             });
@@ -271,22 +270,6 @@ sap.ui.define([
                         var oModel1 = new sap.ui.model.json.JSONModel(tasks);
                         that.getView().setModel(oModel1, "mtasks");
                         that.getView().getModel("memployee").updateBindings(true);
-                        //let kpiInfo = [];
-                        // if (tasks.length > 0) {
-                        //  tasks.forEach(function (task, index) {
-                        //      if (task.status == "Completed") {
-                        //          let d = new Date(task.endDate);
-                        //          let s = new Date(task.startDate);
-                        //          let quater = Math.floor(d.getMonth() / 3) + 1;
-                        //          task.quater = "Q" + quater;
-                        //          let differenceInTime = d.getTime() - s.getTime();
-                        //          let differenceInDays = differenceInTime / (1000 * 3600 * 24);
-                        //          task.NoOfDays = differenceInDays;
-                        //          kpiInfo.push(task);
-                        //      }
-                        //  });
-                        //  let oModel3 = new sap.ui.model.json.JSONModel(kpiInfo); that.getView().setModel(oModel3, "kpiInfo");
-                        // }
                     }
                 })
             }
@@ -337,7 +320,6 @@ sap.ui.define([
                             url: "/deswork/api/users/" + that.id,
                             success: function (response) {
                                 var resv = JSON.parse(response);
-                                console.log(resv)
                                 if (resv.error) {
                                     MessageBox.error(resv.error.message)
                                 }

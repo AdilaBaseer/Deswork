@@ -5,11 +5,8 @@ sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	'sap/ui/model/Sorter',
-
-
 ], function (Controller, MessageToast, Filter, FilterOperator, Sorter) {
 	"use strict";
-
 	return Controller.extend("vaspp.Customer.controller.MasterCustomer", {
 		onInit: function () {
 			var that = this;
@@ -30,16 +27,11 @@ sap.ui.define([
 			var oNextUIState = this.getOwnerComponent().getHelper().getNextUIState(1).layout;
 			var	customerID = oEvent.getSource().getSelectedItem().getBindingContext("mcustomer").getObject().id;
 			this.oRouter.navTo("detailCustomer", { product: customerID, layout: oNextUIState });
-		//	this.oRouter.navTo("detail", { product: customerID, layout: "TwoColumnsMidExpanded" });
 			this.getView().getModel("mcustomer").updateBindings(true);
-			
-
 		},
-
 
 		//SEARCH THE CUSTOMER DETAILS USING ID
 		onSearch: function (oEvent) {
-
 			var oTableSearchState = [],
 				sQuery = oEvent.getParameter("query");
 			if (sQuery && sQuery.length > 0) {
@@ -47,18 +39,17 @@ sap.ui.define([
 			}
 			this.getView().byId("productsTable").getBinding("items").filter(oTableSearchState, "Application");
 		},
+
 		//TO ADD NEW CUSTOMER 
 		onAddNewCustomer: function () {
 			var that = this;
 			this.getView().getModel().setProperty("/layout", "OneColumn");
-
 			var sNextLayout = this.getView().getModel().getProperty("/actionButtonsInfo/midColumn/closeColumn");
 			if (sNextLayout == null)
 				sNextLayout = "OneColumn"
 			//NAVIGATE TO THE ADD NEW CUSTOMER
 			this.getOwnerComponent().getRouter().navTo("AddNewCustomer", { "AddCust": "Add", "layout": sNextLayout, "listindex": "add" });
 		},
-
 
 		//SORT THE CUSTOMER DETAILS USING NAME
 		onSort: function (oEvent) {
@@ -67,9 +58,7 @@ sap.ui.define([
 				oTable = oView.byId("productsTable"),
 				oBinding = oTable.getBinding("items"),
 				oSorter = new Sorter("id", this._bDescendingSort);
-
 			oBinding.sort(oSorter);
 		},
-
 	});
 });

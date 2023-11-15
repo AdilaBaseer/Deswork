@@ -40,10 +40,10 @@
 						<cells>
 							<Text id="_IDGenText11" text="{mreport>attributes/name}"/>
 							<Text id="_IDGenText12" text="{mreport>attributes/description}"/>
-							<Text id="_IDGenText13" text="{mreport>attributes/startDate}"/>
-							<Text id="_IDGenText14" text="{mreport>attributes/actualEndDate}"/>
-							<Text id="_IDGenText1" text="{mreport>attributes/estimatedEndDate}"/>
-							<Text id="_IDGenText15" text="{mreport>attributes/status}"/>
+							<Text id="_IDGenText13" text="{path:'mreport>attributes/startDate', formatter:'.formatter.formattingDate'}" />
+							<Text id="_IDGenText14" text="{path:'mreport>attributes/actualEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText1" text="{path:'mreport>attributes/estimatedEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText15" text="{parts:[{path:'mreport>attributes/status'},{path:'mreport>attributes/startDate'},{path:'mreport>attributes/estimatedEndDate'},{path:'mreport>attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"/>
 							
 						</cells>
 					</ColumnListItem>
@@ -84,11 +84,11 @@
 						<cells>
 							<Text id="_IDGenText21" text="{mreportTask>attributes/name}"/>
 							<Text id="_IDGenText22" text="{mreportTask>attributes/description}"/>
-							<Text id="_IDGenText23" text="{mreportTask>attributes/startDate}"/>
-							<Text id="_IDGenText24" text="{mreportTask>attributes/endDate}"/>
+							<Text id="_IDGenText23" text="{path:'mreportTask>attributes/startDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText24"  text="{path:'mreportTask>attributes/endDate', formatter:'.formatter.formattingDate'}"/>
 							<Text id="_IDGenText26" text="{mreportTask>attributes/p_project/data/attributes/name}"/>
-							<Text id="_IDGenText25" text="{mreportTask>attributes/status}"/>
-							
+							<Text id="_IDGenText25"  text="{parts:[{path:'mreportTask>attributes/status'},{path:'mreportTask>attributes/startDate'},{path:'mreportTask>attributes/endDate'},{path:'mreportTask>attributes/extended_end_date'}], formatter:'.formatter.getTaskStatus' }"/>
+			
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -127,10 +127,10 @@
 						<cells>
 							<Text id="_IDGenText211" text="{mreportCompleted>attributes/name}"/>
 							<Text id="_IDGenText222" text="{mreportCompleted>attributes/description}"/>
-							<Text id="_IDGenText233" text="{mreportCompleted>attributes/startDate}"/>
-							<Text id="_IDGenText244" text="{mreportCompleted>attributes/actualEndDate}"/>
-							<Text id="_IDGenText264" text="{mreportCompleted>attributes/estimatedEndDate}"/>
-							<Text id="_IDGenText254" text="{mreportCompleted>attributes/status}"/>
+							<Text id="_IDGenText233"  text="{path:'mreportCompleted>attributes/startDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText244"  text="{path:'mreportCompleted>attributes/actualEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText264" text="{path:'mreportCompleted>attributes/estimatedEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText254" text="{parts:[{path:'mreportCompleted>attributes/status'},{path:'mreportCompleted>attributes/startDate'},{path:'mreportCompleted>attributes/estimatedEndDate'},{path:'mreportCompleted>attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"/>
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -170,10 +170,10 @@
 						<cells>
 							<Text id="_IDGeTe276"  text="{mreportNew>attributes/name}"/>
 							<Text id="_IDGx28"  text="{mreportNew>attributes/description}"/>
-							<Text id="_IDext2" text="{mreportNew>attributes/startDate}"/>
-							<Text id="_IDGxt0" text="{mreportNew>attributes/actualEndDate}"/>
-							<Text id="_Ix9t0" text="{mreportNew>attributes/estimatedEndDate}"/>
-							<Text id="_IDet32"  text="{mreportNew>attributes/status}"/>
+							<Text id="_IDext2" text="{path:'mreportNew>attributes/startDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGxt0" text="{path:'mreportNew>attributes/actualEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_Ix9t0" text="{path:'mreportNew>attributes/estimatedEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDet32" text="{parts:[{path:'mreportNew>attributes/status'},{path:'mreportNewattributes/startDate'},{path:'mreportNew>attributes/estimatedEndDate'},{path:'mreportNew>attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"/>
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -213,15 +213,56 @@
 						<cells>
 							<Text id="_IDGenText276"  text="{inProgressProjects>attributes/name}"/>
 							<Text id="_IDGenText28"  text="{inProgressProjects>attributes/description}"/>
-							<Text id="_IDGenText29" text="{inProgressProjects>attributes/startDate}"/>
-							<Text id="_IDGenText30" text="{inProgressProjects>attributes/actualEndDate}"/>
-							<Text id="_IDGenText300" text="{inProgressProjects>attributes/estimatedEndDate}"/>
-							<Text id="_IDGenText32"  text="{inProgressProjects>attributes/status}"/>
+							<Text id="_IDGenText29" text="{path:'inProgressProjects>attributes/startDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText30" text="{path:'inProgressProjects>attributes/actualEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText300" text="{path:'inProgressProjects>attributes/estimatedEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText32"  text="{parts:[{path:'inProgressProjects>attributes/status'},{path:'inProgressProjects>attributes/startDate'},{path:'inProgressProjects>attributes/estimatedEndDate'},{path:'inProgressProjects>attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
-			
+			<Table id="drillDownTableIdprojectDelayed" visible="false" inset="false" items="{delayedProjects>/}">
+				<headerToolbar>
+					<Toolbar id="_IDGenToolbar51" >
+					<Button id="_IDButton11" type="Transparent" icon="sap-icon://nav-back" press="onBackButtonPress"/>
+						<ToolbarSpacer id="_IDGenToolbarSpacer51" />
+						<Button id="_IDGenButton71" icon="sap-icon://excel-attachment" tooltip="ExcelAttach" type="Transparent" press="onExportProjectDelayed"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="_IDGenColumn1611">
+						<Text id="_IDGenText2161"  text="Project Name"/>
+					</Column>
+					<Column id="_IDGenColumn1261" >
+						<Text id="_IDGenText2261"  text="Description"/>
+					</Column>
+					<Column id="_IDGenColumn131" >
+						<Text id="_IDGenText2361"  text="Start Date"/>
+					</Column>
+					<Column id="_IDGenColumn1461"  >
+						<Text id="_IDGenText2461" text="Actual End Date"/>
+					</Column>
+						<Column id="_IDGen8Column1461"  >
+						<Text id="_IDGenTe0xt2461" text="Estimated End Date"/>
+					</Column>
+					<Column id="_IDGenColumn116"  >
+						<Text id="_IDGenText2661"  text="Status"/>
+					</Column>
+					
+				</columns>
+				<items>
+					<ColumnListItem id="_IDGenColumnListItem61" >
+						<cells>
+							<Text id="_IDGenText2761"  text="{delayedProjects>attributes/name}"/>
+							<Text id="_IDGenText281"  text="{delayedProjects>attributes/description}"/>
+							<Text id="_IDGenText291" text="{path:'delayedProjects>attributes/startDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText301" text="{path:'delayedProjects>attributes/actualDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText3001" text="{path:'delayedProjects>attributes/estimatedEndDate', formatter:'.formatter.formattingDate'}"/>
+							<Text id="_IDGenText321"  text="{parts:[{path:'delayedProjects>attributes/status'},{path:'delayedProjects>attributes/startDate'},{path:'delayedProjects>attributes/estimatedEndDate'},{path:'delayedProjects>attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 				<Table id="drillDownTableIdchartprojectprogress" visible="false" inset="false" items="{mreport>/}">
 				<headerToolbar>
 					<Toolbar id="_IDGenTooa5" >

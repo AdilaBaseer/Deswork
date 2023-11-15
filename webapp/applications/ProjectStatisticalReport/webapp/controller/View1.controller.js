@@ -18,7 +18,7 @@ sap.ui.define([
 					this.getView().byId("newprojects").setVisible(false);
 					this.getView().byId("totalCount").setVisible(false);
 					this.getView().byId("InProgress").setVisible(false);
-
+					this.getView().byId("Delayed").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell2").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell5").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell3").setVisible(false);
@@ -32,7 +32,7 @@ sap.ui.define([
 					this.getView().byId("newprojects").setVisible(false);
 					this.getView().byId("totalCount").setVisible(false);
 					this.getView().byId("InProgress").setVisible(false);
-
+					this.getView().byId("Delayed").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell2").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell5").setVisible(false);
 					this.getView().byId("_IDGenBlockLayoutCell3").setVisible(false);
@@ -45,7 +45,7 @@ sap.ui.define([
 
 				}
 				$.get('deswork/api/p-projects?populate=*', function (response) {
-					console.log(response);
+					
 					response = JSON.parse(response);
 					var oModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(oModel, "mprojects");
@@ -56,6 +56,7 @@ sap.ui.define([
 					that.projectNewLength();
 					that.ProjectsSubmitted();
 					that.ProjectsInProgress();
+					that.ProjectsDelayed();
 					that.projectReceivedAll();
 					that.ProjectBudget();
 				});
@@ -65,7 +66,8 @@ sap.ui.define([
 					"taskLength": 0,
 					"projectNewLength": 0,
 					"ProjectsSubmitted": 0,
-					"ProjectsInProgress": 0
+					"ProjectsInProgress": 0,
+					"ProjectsDelayed": 0
 				});
 				this.getView().setModel(oModel, "modelLength");
 
@@ -85,13 +87,13 @@ sap.ui.define([
 					url: "/deswork/api/p-projects",
 					type: "GET",
 					success: function (res) {
-						console.log(response);
+						
 						var status_counts = that.getView().getModel("modelProjectStatus").getData();
 						var response = JSON.parse(res);
-						console.log(response);
+						
 						var reslen = that.getView().getModel("mprojects").getData();
 						var alteredStatus, date;
-                        var today = new Date().toISOString().slice(0, 10);
+						var today = new Date().toISOString().slice(0, 10);
 						for (var i = 0; i < reslen.length; i++) {
 							//var status = reslen[i].attributes.status;
 							var startDate = reslen[i].attributes.startDate;
@@ -172,7 +174,7 @@ sap.ui.define([
 					type: "GET",
 					success: function (res) {
 						var statusCounts = that.getView().getModel("mprojects").getData();
-			
+
 						var chartData = [];
 						statusCounts.forEach(function (project) {
 							if (project.attributes.actual_budget === null) {
@@ -180,42 +182,42 @@ sap.ui.define([
 							} else {
 								that.actualBudget = project.attributes.actual_budget.split(" ")[0];
 							}
-							
+
 							// Split the estimated_budget to get the value and currency code separately
 							var estimatedBudgetParts = project.attributes.estimated_budget.split(" ");
 							var estimatedBudgetValue = estimatedBudgetParts[0];
 							//var estimatedBudgetCurrency = estimatedBudgetParts[1];
-			
+
 							var chartEntry = {
 								"actual_budget": that.actualBudget,
 								"estimated_budget": estimatedBudgetValue,
-							//	"currency_code": estimatedBudgetCurrency, // Add the currency code to the chart entry
+								//	"currency_code": estimatedBudgetCurrency, // Add the currency code to the chart entry
 								"name": project.attributes.name
 							};
 							chartData.push(chartEntry);
 						});
-			
+
 						var oChartModel = new sap.ui.model.json.JSONModel();
 						oChartModel.setData({
 							"chartData": chartData
 						});
 						that.getView().setModel(oChartModel, "mreportchartBudget");
 						that.getView().getModel("mreportchartBudget").updateBindings(true);
-						
+
 					},
 					error: function (err) {
 						console.error(err);
 					}
 				});
 			},
-						
+
 			projectReceivedAll: function () {
 				var that = this;
 				$.ajax({
 					url: "/deswork/api/p-projects?populate=*",
 					type: "GET",
 					success: function (res) {
-						console.log(response);
+						
 						var month_counts = {
 							Jan: 0,
 							Feb: 0,
@@ -232,7 +234,7 @@ sap.ui.define([
 
 						};
 						var response = JSON.parse(res);
-						console.log(response);
+						
 						var reslen = that.getView().getModel("mprojects").getData();
 						var projectData = [];
 						for (var i = 0; i < reslen.length; i++) {
@@ -276,7 +278,7 @@ sap.ui.define([
 					type: "GET",
 					success: function (res) {
 						var response = JSON.parse(res);
-						console.log(response);
+					
 						that.mPrograms = response.data.length;
 						that.getView().getModel("modelLength").getData().projectLength = that.mPrograms;
 						that.getView().getModel("modelLength").updateBindings(true);
@@ -284,7 +286,7 @@ sap.ui.define([
 
 					},
 					error: function (res) {
-						console.log(res);
+						
 					}
 				});
 			},
@@ -295,14 +297,13 @@ sap.ui.define([
 					type: "GET",
 					success: function (res) {
 						var response = JSON.parse(res);
-						console.log(response);
+						
 						that.mTasks = response.data.length;
 						that.getView().getModel("modelLength").getData().taskLength = that.mTasks;
 						that.getView().getModel("modelLength").updateBindings(true);
 						that.getView().setModel(new sap.ui.model.json.JSONModel(response.data));
 					},
 					error: function (res) {
-						console.log(res);
 					}
 				});
 			},
@@ -321,39 +322,24 @@ sap.ui.define([
 							var actualEndDate = project.attributes.actualEndDate;
 							var estimatedEndDate = project.attributes.estimatedEndDate;
 							var status = project.attributes.status;
-			
-							// Check if the project has an actual end date; otherwise, use the estimated end date
 							if (actualEndDate) {
 								date = actualEndDate;
 							} else {
 								date = estimatedEndDate;
 							}
-			
-							// Check the conditions to determine if the project is in the "New" status
 							if (status !== "Completed" && startDate > today) {
 								return true;
 							}
-			
 							return false;
 						});
-			
-						// Get the length of the new projects
 						var newProjectsLength = newProjects.length;
-			
-						// Update the model with the new projects length
 						that.getView().getModel("modelLength").getData().projectNewLength = newProjectsLength;
 						that.getView().getModel("modelLength").updateBindings(true);
-			
-						// If you need to use the newProjects array for other purposes, set it to a model
 						that.getView().setModel(new sap.ui.model.json.JSONModel(newProjects));
 					},
-					error: function (res) {
-						console.log(res);
-					}
 				});
 			},
-			
-			
+
 			ProjectsSubmitted: function () {
 				var that = this;
 				$.ajax({
@@ -361,80 +347,44 @@ sap.ui.define([
 					type: "GET",
 					success: function (res) {
 						var response = JSON.parse(res);
-						console.log(response);
+						
 						that.mCompleted = response.data.length;
 						that.getView().getModel("modelLength").getData().ProjectsSubmitted = that.mCompleted;
 						that.getView().getModel("modelLength").updateBindings(true);
 						that.getView().setModel(new sap.ui.model.json.JSONModel(response.data));
-
 					},
 					error: function (res) {
-						console.log(res);
+						
 					}
 				});
 			},
-			// ProjectsInProgress: function () {
-			// 	// var that = this;
-			// 	// $.ajax({
-			// 	// 	url: "/deswork/api/p-projects?filters[status]=In-progress",
-			// 	// 	type: "GET",
-			// 	// 	success: function (res) {
-			// 	// 		var response = JSON.parse(res);
-			// 	// 		console.log(response);
-			// 	// 		that.mProjectsInProgress = response.data.length;
-			// 	// 		that.getView().getModel("modelLength").getData().ProjectsInProgress = that.mProjectsInProgress;
-			// 	// 		that.getView().getModel("modelLength").updateBindings(true);
-			// 	// 		that.getView().setModel(new sap.ui.model.json.JSONModel(response.data));
+			ProjectsDelayed: function () {
+				var that = this;
+				var today = new Date().toISOString().slice(0, 10);
+				$.ajax({
+					url: "/deswork/api/p-projects",
+					type: "GET",
+					success: function (res) {
+						var response = JSON.parse(res);
+						var projects = response.data;
+						var date;
+						var delayedProjects = projects.filter(function (project) {
+							var actualEndDate = project.attributes.actualEndDate;
+							var estimatedEndDate = project.attributes.estimatedEndDate;
+							var today = new Date().toISOString().slice(0, 10);
+							if (actualEndDate ? date = actualEndDate : date = estimatedEndDate)
+								if (today > date) {
+							return true;
+								}
+						});
+						var delayedProjectsLength = delayedProjects.length;
+						that.getView().getModel("modelLength").getData().ProjectsDelayed = delayedProjectsLength;
+						that.getView().getModel("modelLength").updateBindings(true);
+						that.getView().setModel(new sap.ui.model.json.JSONModel(delayedProjectsLength));
+					},
+				});
+			},
 
-			// 	// 	},
-			// 	// 	error: function (res) {
-			// 	// 		console.log(res);
-			// 	// 	}
-			// 	// });
-			// 	var that = this;
-			// 	var today = new Date().toISOString().slice(0, 10);
-			// 	$.ajax({
-			// 		url: "/deswork/api/p-projects",
-			// 		type: "GET",
-			// 		success: function (res) {
-			// 			var response = JSON.parse(res);
-			// 			var projects = response.data;
-			// 			var date;
-			// 			var InProgress = projects.filter(function (project) {
-			// 				var startDate = project.attributes.startDate;
-			// 				var actualEndDate = project.attributes.actualEndDate;
-			// 				var estimatedEndDate = project.attributes.estimatedEndDate;
-			// 				var status = project.attributes.status;
-			// 				// if (startDate < today ) {
-			// 				// 	return true;
-			// 				// }
-			// 				if (actualEndDate ? date = actualEndDate : date = estimatedEndDate) {
-			// 					 if (startDate > today) {
-			// 						return true;
-			// 					} else if ((startDate <= today) && (today < date)) {
-			// 						return false;
-			// 					} else if (today > date) {
-			// 						return false;
-			// 					} 
-			// 				}
-			// 				return false;
-			// 			});
-			
-			// 			// Get the length of the new projects
-			// 			var inProjectsLength = InProgress.length;
-			
-			// 			// Update the model with the new projects length
-			// 			that.getView().getModel("modelLength").getData().ProjectsInProgress = inProjectsLength;
-			// 			that.getView().getModel("modelLength").updateBindings(true);
-			
-			// 			// If you need to use the newProjects array for other purposes, set it to a model
-			// 			that.getView().setModel(new sap.ui.model.json.JSONModel(InProgress));
-			// 		},
-			// 		error: function (res) {
-			// 			console.log(res);
-			// 		}
-			// 	});
-			// },
 			ProjectsInProgress: function () {
 				var that = this;
 				var today = new Date().toISOString().slice(0, 10);
@@ -450,40 +400,36 @@ sap.ui.define([
 							var actualEndDate = project.attributes.actualEndDate;
 							var estimatedEndDate = project.attributes.estimatedEndDate;
 							var status = project.attributes.status;
-			
 							// Check if the project has an actual end date; otherwise, use the estimated end date
 							if (actualEndDate) {
 								date = actualEndDate;
 							} else {
 								date = estimatedEndDate;
 							}
-			
 							// Check the conditions to determine if the project is in progress
 							if (status !== "Completed" && startDate <= today && today <= date) {
 								return true;
 							}
-			
 							return false;
 						});
-			
+
 						// Get the length of the in-progress projects
 						var inProgressProjectsLength = inProgressProjects.length;
-			
+
 						// Update the model with the in-progress projects length
 						that.getView().getModel("modelLength").getData().ProjectsInProgress = inProgressProjectsLength;
 						that.getView().getModel("modelLength").updateBindings(true);
-			
+
 						// If you need to use the inProgressProjects array for other purposes, set it to a model
 						that.getView().setModel(new sap.ui.model.json.JSONModel(inProgressProjects));
 					},
 					error: function (res) {
-						console.log(res);
+						
 					}
 				});
 			},
-			
-			onKpiLinkPress: function (evt) {
 
+			onKpiLinkPress: function (evt) {
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				var pressedLinkText = evt.getSource().getText();
 				oRouter.navTo("drilldown", {
@@ -492,7 +438,6 @@ sap.ui.define([
 				);
 			},
 			onKpiLinkPressTasks: function (evt) {
-
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 				var pressedLinkText = evt.getSource().getText();
 				oRouter.navTo("drilldown", {
@@ -500,19 +445,6 @@ sap.ui.define([
 				}
 				);
 			},
-			// projectData: function () {
-			// 	var that = this;
-			// 	$.get("/deswork/api/p-projects?populate=*", function (response) {
-			// 		response = JSON.parse(response);
-
-			// 		var oModel = new sap.ui.model.json.JSONModel(response.data);
-			// 		that.getView().setModel(oModel, "mreport");
-			// 	})
-
-
-			// }
-
-
 		});
 	});
 

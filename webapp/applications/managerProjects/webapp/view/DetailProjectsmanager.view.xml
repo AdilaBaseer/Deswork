@@ -57,10 +57,15 @@
 								<m:Text id="_IDGenText9" text="{mprojects>/attributes/priority}" />
 								<m:Label id="_IDGenLabel8" text="Effort" width="90%" />
 								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}%" />
-								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
+								<!-- <m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
 								<m:Text id="_IDGenText8" text="{mprojects>/attributes/estimated_budget}" />
 								<m:Label id="esenddate" text="Actual Budget" width="90%" />
-								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" />
+								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" /> -->
+									<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
+								<m:Text id="_IDGenText8" text="{parts: ['mprojects>/attributes/estimated_budget'],formatter:'.formatter.getCurrencyEB'}" visible="true" />
+								<m:Label id="esenddate" text="Actual Budget" width="90%" />
+								<m:Text id="textesed" text="{parts: ['mprojects>/attributes/actual_budget'], formatter:'.formatter.getCurrencyAB'}" visible="true" />
+							
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>
@@ -132,7 +137,7 @@
 													<m:ObjectIdentifier id="_IDGenObjectIdentifier53b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/phone}" />
 												</m:cells>
 												<m:cells>
-													<m:ObjectIdentifier id="Cellrate" text="{mTeamMember>attributes/users_permissions_user/data/attributes/rate_card}" />
+													<m:ObjectIdentifier id="Cellrate" text="{parts: ['mTeamMember>attributes/users_permissions_user/data/attributes/rate_card'], formatter:'.formatter.getRateCard'}" />
 												</m:cells>
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObject1Identifier53b" text="{mTeamMember>attributes/p_team_role}" />
@@ -208,7 +213,7 @@
 									<x:Column id="_IDGenColu00mn1" width="6rem">
 										<m:Label id="_IDGenLa0be9l11" text="Status" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID0G6enText10" text="{path:'csfData>status'}"  />
+											<m:Text id="_ID0G6enText10"  text="{parts:[{path:'csfData>status'},{path:'csfData>startDate'},{path:'csfData>endDate'},{path:'csfData>extended_end_date'}], formatter:'.formatter.getTaskStatus' }"   />
 										</x:template>
 									</x:Column>
 									<x:Column id="_IDGenColu0mn1" width="6rem">
@@ -232,7 +237,7 @@
 									<x:Column id="_IDGen6Co690lu60mn1" width="8rem">
 										<m:Label id="_ID6Ge690n6La0bel11" text="Approver Status" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID60Gen0T7e6xt610" text="{csfData>p_approver_status}"  />
+											<m:Text id="_ID60Gen0T7e6xt610"  text="{p_approver_status}"  />
 										</x:template>
 									</x:Column>
 								</x:columns>

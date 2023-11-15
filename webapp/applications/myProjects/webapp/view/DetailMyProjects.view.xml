@@ -159,7 +159,7 @@
                 </x:extension>
                 
                 <x:columns>
-                    <x:Column id="_IDGenColumn1" width="8rem">
+                    <x:Column id="_IDGenColumn1" width="7rem">
                         <m:Label id="_IDGenLabel11" text="{i18n>Name}" />
                         <x:template>
                             <m:Text id="_IDGenText10" text="{appointmentsdata>name}" wrapping="false"  />
@@ -201,7 +201,7 @@
                     <x:Column id="_IDGenColu00mn1" width="6rem">
                         <m:Label id="_IDGenLa0be9l11" text="{i18n>Status}"/>
                         <x:template>
-                            <m:Text id="_ID0G6enText10" text="{appointmentsdata>status}"  />
+                            <m:Text id="_ID0G6enText10" text="{parts:[{path:'appointmentsdata>status'},{path:'appointmentsdata>startDate'},{path:'appointmentsdata>endDate'},{path:'appointmentsdata>extended_end_date'}], formatter:'.formatter.getTaskStatus' }"  />
                         </x:template>
                     </x:Column>
                     <x:Column id="_IDGenColu0mn1" width="6rem">

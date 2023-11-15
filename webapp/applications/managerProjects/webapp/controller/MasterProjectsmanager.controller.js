@@ -23,7 +23,6 @@ sap.ui.define([
 				this.getView().setBusy(true);
 				this.getView().byId("productsTable").removeSelections(true);
 				$.get("/deswork/api/p-projects?populate[0]=p_customer&populate[1]=p_tasks&populate[2]=p_project_teams.users_permissions_users&populate[3]=users_permissions_users&filters[users_permissions_users][id]=" + loginId, function (response) {
-					console.log(response);
 					response = JSON.parse(response);
 					var oModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(oModel, "mprojects");
@@ -67,12 +66,10 @@ sap.ui.define([
 				type: "GET",
 				success: function (res) {
 					var response = JSON.parse(res);
-					console.log(response);
 					var theModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(theModel, "customerInfo");
 				},
 				error: function (res) {
-					console.log(res);
 					MessageBox.error(res + "Something went wrong");
 				}
 			});
@@ -98,11 +95,7 @@ sap.ui.define([
 				that.addProject = {
 					name: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[2].getValue(),
 					description: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[4].getValue(),
-					type: this.oAddProjectDialog
-						.getContent()[0]
-						.getItems()[0]
-						.getContent()[6]
-						.getSelectedKey(),
+					type: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[6].getSelectedKey(),
 					startDate: this.oAddProjectDialog
 						.getContent()[0]
 						.getItems()[0]
@@ -131,12 +124,12 @@ sap.ui.define([
 					//   .getContent()[0]
 					//   .getItems()[0]
 					//   .getContent()[14]
-					//   .getValue(),
-					status: this.oAddProjectDialog
-						.getContent()[0]
-						.getItems()[0]
-						.getContent()[16]
-						.getSelectedKey(),
+				   //   .getValue(),
+					// status: this.oAddProjectDialog
+					// 	.getContent()[0]
+					// 	.getItems()[0]
+					// 	.getContent()[16]
+					// 	.getSelectedKey(),
 					p_customer: this.oAddProjectDialog
 						.getContent()[0]
 						.getItems()[0]
@@ -176,7 +169,6 @@ sap.ui.define([
 								that.getView().getModel("mCsfDetails").getData();
 							},
 							error: function (res) {
-								console.log(res);
 								MessageBox.error(res + "Something went wrong");
 							}
 						});
@@ -202,11 +194,9 @@ sap.ui.define([
 							}),
 							success: function (response) {
 								var resValue = JSON.parse(response);
-							//	console.log(resValue.error);
 								if (resValue.error) {
 								  MessageBox.error(resValue.error.message);
 								} else {
-								 // that._onObjectMatched(that.id);
 								 $.ajax({
 									url: "/deswork/api/p-projects/"+  that.projectId +"?populate=*",
 									type: "PUT",
@@ -218,11 +208,9 @@ sap.ui.define([
 									}),
 									success: function (response) {
 										var resValue = JSON.parse(response);
-									//	console.log(resValue.error);
 										if (resValue.error) {
 										  MessageBox.error(resValue.error.message);
 										} else {
-										 // that._onObjectMatched(that.id);
 										}
 									  }
 								});
@@ -272,10 +260,10 @@ sap.ui.define([
 				thisView.getContent()[0].getItems()[0].getContent()[14].setValueState("None");
 				Err++;
 			}
-			if (thisView.getContent()[0].getItems()[0].getContent()[16].getSelectedKey() === "") {
-				thisView.getContent()[0].getItems()[0].getContent()[16].setValueState("None");
-				Err++;
-			}
+			// if (thisView.getContent()[0].getItems()[0].getContent()[16].getSelectedKey() === "") {
+			// 	thisView.getContent()[0].getItems()[0].getContent()[16].setValueState("None");
+			// 	Err++;
+			// }
 			// if (thisView.getContent()[0].getItems()[0].getContent()[18].getSelectedKey() === "") {
 			// 	thisView.getContent()[0].getItems()[0].getContent()[18].setValueState("None");
 			// 	Err++;

@@ -36,15 +36,24 @@ sap.ui.define([], function () {
 			  }
 			
 		},
-		getStatus: function (status) {
-			if (status == "New") return "None";
-			else if (status == "In-progress") return "Warning";
-			else if (status == "Completed") return "Success";
-			else if (status == "Delayed") return "Error";
-			else if (status == "Archived") return "Indication07";
-			else if (status == "Cancelled") return "Indication01";
-			else return "None";
-		},
+		getStatus: function (status, startDate, estimatedEndDate, actualEndDate) {
+			var alteredStatus, date;
+			var today = new Date().toISOString().slice(0, 10);
+			if(actualEndDate?date=actualEndDate:date=estimatedEndDate)
+            if(status==="Completed"){
+                alteredStatus=status;
+            }else if (startDate > today) {
+                alteredStatus = "New";      
+            } else if ((startDate <= today) && (today < date)) {
+                alteredStatus = "In-progress";
+            }else if (today > date) {
+                alteredStatus = "Delayed";      
+            } else if(date=== today){
+                alteredStatus=status;
+            }
+            return alteredStatus;
+        },
+
 		getStatusForNodes: function (status) {
 			if (status == "New") return "Neutral";
 			else if (status == "In-Progress") return "Critical";

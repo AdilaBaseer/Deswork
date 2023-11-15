@@ -234,6 +234,22 @@
                 }
             },
             {
+                "applicationid": "APP100045",
+                "title": "Employee's Leave Tracking",
+                "expanded": false,
+                "key": "managerLeavetracking",
+                "componentName": "vaspp.managerLeavetracking",
+                "permittedRoles": [
+                    "everyone"
+                ],
+                "permissions": {
+                    "create": false,
+                    "read": true,
+                    "update": false,
+                    "delete": false
+                }
+            },
+            {
                 "applicationid": "APP100090",
                 "title": "Leave Tracking ",
                 "expanded": false,

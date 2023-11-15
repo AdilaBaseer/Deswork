@@ -1,0 +1,73 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout">
+	<Dialog   title="PROJECT INFORMATION" draggable="true" resizable="true" afterClose="dialogAfterclose" >
+		<content>
+			<VBox   class="sapUiTinyMarginBeginEnd">
+				<f:SimpleForm  >
+					<core:Title id="_IDGenTitle1" text="" />
+					<Label  text="Project Name" />
+					<Input    required="true"/>
+					<Label  text="Description" />
+					<Input required="true"/>
+					<Label text="Type" required="true" />
+					<Select  forceSelection="false" required="true"   >
+						<core:Item  key="Internal"  text="Internal"/>
+						<core:Item  key="External"  text="External"/>
+					</Select>
+					<Label  required="true" text="Start Date" />
+					<DatePicker  valueFormat="yyyy-MM-dd" required="true"/>
+					<Label  required="true" text="End Date" />
+					<DatePicker  valueFormat="yyyy-MM-dd" required="true" />
+					<Label  text="Actual End Date" />
+					<DatePicker   valueFormat="yyyy-MM-dd" editable="false" />
+					<Label   text="Priority" required="true" />
+					<Select  forceSelection="false" required="true" selectedKey="">
+						<core:Item  key="High" text="High" />
+						<core:Item  key="Critical"  text="Critical" />
+						<core:Item  key="Moderate" text="Moderate" />
+						<core:Item  key="Low"  text="Low"  />
+					</Select>
+					<Label   text="Status"  required="true" />
+					<Select  forceSelection="false" required="true" selectedKey="" >
+						<core:Item   key="New"  text="New"/>
+						<core:Item   key="In-progress"  text="In-progress"/>
+						<core:Item   key="Completed"  text="Completed"/>
+					</Select>
+					<Label   text="Customer Name"  />
+					<Select  forceSelection="false" selectedKey="" items="{customerInfo>/}">
+						<core:Item   key="{customerInfo>id}"  text="{customerInfo>attributes/name}"/>
+					</Select>
+					<Label  text="Estimated Budget" />
+					<!-- <Input id="_IDGenInput3" value="{mproject>/estimated_budget}"  required="true"/> -->
+					 <FlexBox id="_IDGenFlexBox1" direction="Row" alignItems="Center">
+                    <Input value="" width="80%"/>
+                   <Select forceSelection="false" id="currency" selectedKey="" width="100%">
+                        <core:Item key="EUR" text="EUR" />
+                        <core:Item  key="USD" text="USD"/>
+                        <core:Item key="RUPEES" text="RUPEES"/>
+                   </Select>
+               </FlexBox>
+			   <Label   text="Actual Budget" />		
+			   <FlexBox  direction="Row" alignItems="Center">
+               <Input  editable="false" width="80%"/>
+               <Select forceSelection="false" selectedKey="" width="100%" editable="false">
+                     <core:Item  key="EUR" text="EUR" />
+                     <core:Item  key="USD" text="USD"/>
+                    <core:Item  key="RUPEES" text="RUPEES"/>
+               </Select>
+               </FlexBox>
+				</f:SimpleForm>
+			 </VBox>
+		   </content>
+		    <beginButton>
+			  <Button text="Save" press="onSaveProject"/>
+		     </beginButton>
+		    <endButton>
+			   <Button  text="Cancel" press="closeProjectDialog"/>
+		    </endButton>
+	    </Dialog>
+</core:FragmentDefinition>

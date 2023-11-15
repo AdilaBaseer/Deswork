@@ -11,7 +11,6 @@ sap.ui.define([
          */
 
     function (Controller, JSONModel, MessageToast, MessageBox) {
-
         "use strict";
         return Controller.extend("vaspp.dayleavetracking.controller.leaveBalance", {
             onInit: function () {
@@ -23,7 +22,6 @@ sap.ui.define([
                 that.getCurrentDate();
                 //Day
                 that.callDayLeave();
-
             },
             onPressDayTracking: function () {
                 this.getView().byId("_IDGenPage2").setTitle("Day Tracking");
@@ -66,7 +64,7 @@ sap.ui.define([
                 if (date < 10) {
                     date = "0" + date;
                 }
-                if (month) {
+                if (month < 10) {
                     month = "0" + month;
                 }
                 var result = date + "-" + month + "-" + year;
@@ -151,8 +149,6 @@ sap.ui.define([
                             return array.indexOf(value) === index;
                         });
                         that.setWeekData(arr, requestedBy);
-                        //that.getView().setModel(oModel2, "dayLeaveTrack");
-                        //that.getView().getModel("dayLeaveTrack").getData();
                     }
                 });
             },
@@ -236,12 +232,6 @@ sap.ui.define([
                     }
                 });
             },
-            // onPressWeekTracking: function() {
-            //     sap.ui.core.UIComponent.getRouterFor(this).navTo("weekLeave");
-            // },
-            // onPressDayTracking: function() {
-            //     sap.ui.core.UIComponent.getRouterFor(this).navTo("dayLeave");
-            // },
             onObjectMatched: function (oEvent) {
                 var that = this;
                 that.getView().setModel(new JSONModel({}));
@@ -252,18 +242,7 @@ sap.ui.define([
                 var oModel = new sap.ui.model.json.JSONModel(object);
                 that.getView().setModel(oModel, "editableModel");
             },
-            // onPressLeaveBalance: function() {
-            //     var date = new Date();
-            //     var currentYear = date.getFullYear();
-            //     var currentMonth = date.getMonth();
-            //     currentMonth = currentMonth + 1;
-            //     if(currentMonth === 3) {
-            //         var data = that.getView().getModel("userModel").getData();
-            //         that.compareAndPostLeaveBalance(data, currentYear);
-            //     } else {
-            //         MessageBox.error("You can't revise current financial year holidays");
-            //     }
-            // },
+           
             onPressLeaveBalance: function () {
                 var that = this;
                 var date = new Date();
@@ -321,19 +300,16 @@ sap.ui.define([
                                     url: "/deswork/api/p-balance-leaves/" + BLid
                                 });
                             }
-
                             // Recursive function to delete a batch of balance leave records
                             function deleteBalanceLeavesBatch(balanceleaveMD, startIndex) {
                                 var endIndex = Math.min(startIndex + batchSize, balanceleaveMD.length);
 
                                 if (startIndex < endIndex) {
                                     var promises = [];
-
                                     for (var i = startIndex; i < endIndex; i++) {
                                         var BLid = balanceleaveMD[i].id;
                                         promises.push(deleteBalanceLeaveById(BLid));
                                     }
-
                                     $.when.apply($, promises).then(function () {
                                         deleteBalanceLeavesBatch(balanceleaveMD, endIndex);
                                     });
@@ -342,10 +318,7 @@ sap.ui.define([
                                     if (endIndex < balanceleaveMD.length) {
                                         deleteAllBalanceLeavesRecursive(balanceleaveMD, endIndex);
                                     } else {
-                                        // All records deleted
-                                        console.log("All balance leave records deleted successfully.");
-                                        that.callBalanceLeave();
-                                          
+                                        that.callBalanceLeave();               
                                         var url = 'deswork/api/p-balance-leaves?populate=*';
                                         $.ajax({
                                             url: url,
@@ -377,7 +350,6 @@ sap.ui.define([
 
                                     // Start the deletion process
                                     deleteBalanceLeavesBatch(balanceleaveMD, 0);
-
                                     for (i = 0; i < userData.length; i++) {
                                         var settings = {
                                             "url": "/deswork/api/p-balance-leaves",
@@ -390,7 +362,7 @@ sap.ui.define([
                                                 "data": {
                                                     "year": currYear,
                                                     "defaultLeaves": 20,
-                                                    //  "carryForwardLeaves": carryForwardLeaves,
+                                                  "carryForwardLeaves": carryForwardLeaves,
                                                     "balanceLeaves": 20,
                                                     "sickLeaves": 0,
                                                     "paidLeaves": 0,
@@ -406,10 +378,8 @@ sap.ui.define([
                                             if (response.error) {
                                                 MessageBox.error(response.error.message);
                                             }
-                                            else{
-                                             
-                                                that.callBalanceLeave();
-                                                  
+                                            else{             
+                                                that.callBalanceLeave();                                              
                                                     var url = 'deswork/api/p-balance-leaves?populate=*';
                                                     $.ajax({
                                                         url: url,
@@ -422,8 +392,7 @@ sap.ui.define([
                                                             var oModel2 = new sap.ui.model.json.JSONModel(response.data);
                                                             that.getView().setModel(oModel2, "balanceleave");
                                                         }
-                                                    });
-                                             
+                                                    });                                     
                                             }
                                         });
         
@@ -447,7 +416,7 @@ sap.ui.define([
                                         "data": {
                                             "year": currYear,
                                             "defaultLeaves": 20,
-                                            //  "carryForwardLeaves": carryForwardLeaves,
+                                          "carryForwardLeaves": carryForwardLeaves,
                                             "balanceLeaves": 20,
                                             "sickLeaves": 0,
                                             "paidLeaves": 0,
@@ -486,15 +455,9 @@ sap.ui.define([
 
                             }
                         }
-
                     }
                 });
             },
-
-
-
-
-
             onEditleaves: function () {
                 var that = this;
                 that.editableMode(true, false);
@@ -548,7 +511,7 @@ sap.ui.define([
                             "year": parseInt(data.year),
                             "defaultLeaves": parseFloat(data.defaultLeaves),
                             "balanceLeaves": parseFloat(data.balanceLeaves),
-                            // "balanceLeaves": data.defaultLeaves + data.carryForwardLeaves - data.sickLeaves - data.paidLeaves,
+                            //  "balanceLeaves": data.defaultLeaves + data.carryForwardLeaves - data.sickLeaves - data.paidLeaves,
                             "sickLeaves": parseFloat(data.sickLeaves),
                             "paidLeaves": parseFloat(data.paidLeaves),
                             "unPaidLeaves": parseFloat(data.unPaidLeaves),

@@ -67,8 +67,7 @@ sap.ui.define([
 
           },
           error: function (res) {
-            console.log(res);
-            // MessageBox.error(res + "Something went wroung");
+    
           }
 
         });
@@ -82,13 +81,13 @@ sap.ui.define([
 
           success: function (res) {
             var response = JSON.parse(res);
-            console.log(response);
+            
             var theModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(theModel, "myproject");
             var oModel = that.getView().getModel("myproject");
           },
           error: function (res) {
-            console.log(res);
+         
           }
         });
 
@@ -108,7 +107,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mUserSubTask");
           },
           error: function (res) {
-            console.log(res);
+           
             //MessageBox.error(res + "Something went wroung");
           }
         });
@@ -126,7 +125,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mAppointDetails");
           },
           error: function (res) {
-            console.log(res);
+           
             MessageBox.error(res + "Something went wroung");
           }
         });
@@ -145,7 +144,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mAppointDetails");
           },
           error: function (res) {
-            console.log(res);
+          
             MessageBox.error(res + "Something went wroung");
           }
         });
@@ -253,7 +252,7 @@ sap.ui.define([
 
           },
           error: function (res) {
-            console.log(res);
+           
             MessageBox.error(res + "Something went wrong");
           }
         });
@@ -281,7 +280,7 @@ sap.ui.define([
           }),
           success: function (response) {
             var resValue = JSON.parse(response);
-            console.log(resValue.error);
+          
             if (resValue.error) {
               MessageBox.error(resValue.error.message);
             } else {
@@ -325,7 +324,7 @@ sap.ui.define([
           }),
           success: function (response) {
             var resValue = JSON.parse(response);
-            console.log(resValue.error);
+          
             if (resValue.error) {
               //MessageBox.error(resValue.error.message);
             } else {
@@ -380,7 +379,7 @@ sap.ui.define([
                 // Calculate duration in hours
 
                 totalHoursWorked += duration; // Accumulate the duration
-                console.log("Appointment duration: " + duration + " hours");
+        
               }
             }
             this.totalHoursWorked = totalHoursWorked;
@@ -388,7 +387,7 @@ sap.ui.define([
               MessageBox.error("8 hours exceeded");
               that._AddAppointment.close();
             }
-            // console.log("Total hours worked on " + formattedDate + ": " + totalHoursWorked + " hours");
+           
 
             arr.push(response);
             oModel.setData(arr);
@@ -408,7 +407,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+          
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -428,7 +427,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+      
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -446,7 +445,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+        
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -479,7 +478,7 @@ sap.ui.define([
             }),
             success: function (response) {
               var resValue = JSON.parse(response);
-              console.log(resValue.error);
+         
               if (resValue.error) {
                 MessageBox.error(resValue.error.message);
               } else {
@@ -581,7 +580,7 @@ sap.ui.define([
                 that.AppointmentInfo.open();
               },
               error: function (res) {
-                console.log(res);
+       
                 // MessageBox.error(res + "Something went wrong");
               }
             });
@@ -633,7 +632,7 @@ sap.ui.define([
                 type: "DELETE",
                 success: function (response) {
                   var resValue = JSON.parse(response);
-                  console.log(resValue.error);
+                
                   if (resValue.error) {
                     MessageBox.error(resValue.error.message);
                   } else {
@@ -660,7 +659,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+     
         }
         this._AddAppointment.getContent()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
       },
@@ -764,7 +763,6 @@ sap.ui.define([
 
                 totalHoursWorked += duration; // Accumulate the duration
 
-                console.log("Appointment duration: " + duration + " hours");
               }
             }
             this.totalHoursWorked = totalHoursWorked;
@@ -772,7 +770,7 @@ sap.ui.define([
               MessageBox.error("8 hours exceeded");
               that._AddAppointment.close();
             }
-            // console.log("Total hours worked on " + formattedDate + ": " + totalHoursWorked + " hours");
+          
 
             arr.push(response);
             oModel.setData(arr);
@@ -819,7 +817,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -870,7 +868,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -918,7 +916,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          // console.log("Hours taken: " + hours + " hours " + minutes + " minutes");
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -974,8 +972,6 @@ sap.ui.define([
         var oOutOfOfficeForm = that._AppointmentContext.getContent()[3];
         var oInternalForm = that._AppointmentContext.getContent()[4];
         var oTraining = that._AppointmentContext.getContent()[5];
-        console.log(that._AppointmentContext.getContent()[1]); // Check the object in the console
-        console.log(typeof that._AppointmentContext.getContent()[1]); // Check the type of the object
         that._AppointmentContext.getContent()[1].setSelectedKey(),
           oProjectForm.setVisible(false);
         oOutOfOfficeForm.setVisible(false);
@@ -1057,7 +1053,6 @@ sap.ui.define([
                   }),
                   success: function (response) {
                     var resValue = JSON.parse(response);
-                    console.log(resValue.error);
                     if (resValue.error) {
                       MessageBox.error(resValue.error.message);
                     } else {
@@ -1081,7 +1076,6 @@ sap.ui.define([
         else if (that.SelectedButton === "Training") {
           var Err = that.validateCreateTraining();
           if (Err == 0) {
-            console.log("T");
             $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",
@@ -1101,7 +1095,6 @@ sap.ui.define([
               }),
               success: function (response) {
                 var resValue = JSON.parse(response);
-                console.log(resValue.error);
                 if (resValue.error) {
                   MessageBox.error(resValue.error.message);
                 } else {
@@ -1120,8 +1113,7 @@ sap.ui.define([
         else if (that.SelectedButton === "Internal") {
           var Err = that.validateCreateInternal();
           if (Err == 0) {
-            console.log("In");
-            $.ajax({
+              $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",
               headers: {
@@ -1140,7 +1132,7 @@ sap.ui.define([
               }),
               success: function (response) {
                 var resValue = JSON.parse(response);
-                console.log(resValue.error);
+
                 if (resValue.error) {
                   MessageBox.error(resValue.error.message);
                 } else {
@@ -1159,7 +1151,7 @@ sap.ui.define([
         else if (that.SelectedButton === "Projects") {
           var Err = that.validateCreateProjects();
           if (Err == 0) {
-            console.log("Projects");
+        
             $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",

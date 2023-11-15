@@ -724,13 +724,13 @@ sap.ui.define([
 					// else if (oMenuItem.key == 'Manage Employee') {
 					// 	return true;
 					// }
-					else if (oMenuItem.key == 'dayleavetracking') {
+					else if (oMenuItem.key == 'managerLeavetracking') {
 						return true;
 					}
 					else if (oMenuItem.key == 'ApproveLeaveRequests') {
 						return true;
 					}
-					else if (oMenuItem.key == 'publicholiday') {
+					else if (oMenuItem.key == 'mypublicholidayslist') {
 						return true;
 					}
 					else if (oMenuItem.key == 'EmployeeTimesheets') {

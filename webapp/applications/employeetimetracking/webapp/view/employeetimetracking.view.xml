@@ -14,7 +14,7 @@
 			<toolbarContent>
 				<Title text="{i18n>EmployeeTimesheets}" titleStyle="H4" id="Titletimetracking"/>
 				<!-- <Button id="_IDGenButton1" icon="sap-icon://add" press="handleAppointmentCreate" tooltip="Add"/> -->
-				<Button id="_IDGenButtonDwnld" icon="sap-icon://download" press="onDownloadAppointments" tooltip="Download" visible="{= ${designation} === 'Manager' ? true :false}"/>
+				<Button id="_IDGenButtonDwnld" icon="sap-icon://download" press="onDownloadAppointments" tooltip="Download"/>
 			</toolbarContent>
 			<rows >
 				<PlanningCalendarRow id="PlanningCalendarRowtimetracking"

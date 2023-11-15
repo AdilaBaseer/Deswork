@@ -158,7 +158,7 @@ class="viewPadding">
 									<x:Column id="_IDGenColu00mn1" width="6rem">
 										<m:Label id="_IDGenLa0be9l11" text="Status"/>
 										<x:template>
-											<m:Text id="_ID0G6enText10" text="{path:'csfData>status'}"  />
+											<m:Text id="_ID0G6enText10" text="{parts:[{path:'csfData>status'},{path:'csfData>startDate'},{path:'csfData>endDate'},{path:'csfData>extended_end_date'}],formatter:'.formatter.getStatus' }"  />
 										</x:template>
 									</x:Column>
 									<x:Column id="_IDGenColu0mn1" width="6rem">

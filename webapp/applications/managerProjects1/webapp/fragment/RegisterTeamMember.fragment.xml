@@ -1,0 +1,39 @@
+<core:FragmentDefinition 
+xmlns:f="sap.ui.layout.form" 
+xmlns:core="sap.ui.core"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns="sap.m">
+
+    <Dialog title="ADD TEAM MEMBER" draggable="true" resizable="true" afterClose="dialogAfterclose" >
+        <content>
+            <VBox class="sapUiTinyMarginBeginEnd">
+                <f:SimpleForm id="_IDGenSimpleForm1" >
+            
+             <Label text="Select Role" />
+             <Select forceSelection="false"  selectedKey="" change="onSelectedTeam">
+                    <core:Item text="Project Manager" key="Project Manager"/>
+                    <core:Item text="Architect" key="Architect" />
+                    <core:Item text="Senior Developer" key="Senior Developer" />
+                    <core:Item text="Associate Developer" key="Associate Developer" />
+                    <core:Item text="Tester" key="Tester" />
+                </Select>
+
+                <Label text="Name"  />
+                <Input value="{/firstName}" editable="false"/>
+                
+                <Label text="Rate Card" />
+                <Input value="{/rate_card}" editable="false"/> 
+
+                </f:SimpleForm>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Save" press="onSaveTeamMemberDialogs" type="Emphasized"/>
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press="onCloseTeamDialog" type="Emphasized"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
+
