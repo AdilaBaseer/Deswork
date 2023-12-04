@@ -10,11 +10,11 @@
 				<VBox  width="90%">
 					<Label  text="Email:" required="true" />
 					<Input  type="Email" placeholder="Email" tooltip="Email" liveChange="hideErrMsgs" class="sapUiSmallMarginBottom" />
-					<Label  text="password:" required="true" />
+					<Label  text="Password:" required="true" />
 					<Input type="Password" placeholder="Password" tooltip="passwordTooltip" liveChange="hideErrMsgs" submit="performLogin"  />
 					<HBox  justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginTop">
 						<CheckBox  text="Remember Me" selected="true" tooltip="rememberMeChkBxTooltip" />
-						<!-- <Link  text="Forgot your password?"  tooltip="Request new password" press="getOTP" /> -->
+						
 					</HBox>
 				</VBox>
 			</VBox>
@@ -22,8 +22,6 @@
 		<beginButton>
 			<Button  text="Log On" tooltip="Click here to Login" press="performLogin"/>
 		</beginButton>
-		<!-- <endButton>
-			<Button  text="Cancel" tooltip="" press="cancelLogin"/>
-		</endButton> -->
+		
 	</Dialog>
 </core:FragmentDefinition>

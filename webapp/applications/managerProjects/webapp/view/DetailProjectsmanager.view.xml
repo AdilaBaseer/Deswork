@@ -22,6 +22,14 @@
 	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+			<expandedHeading>
+					<m:Title id="_IDGenTitle1" text="{mprojects>/attributes/name}" wrapping="true" class="sapUiSmallMarginEnd" />
+				</expandedHeading>
+				<snappedHeading>
+					<m:FlexBox id="_IDGenFlexBox1" wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox id="_IDGenFlexBox2" wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd"></m:FlexBox>
+					</m:FlexBox>
+				</snappedHeading>
 				<navigationActions>
 					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }" />
 					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }" />
@@ -30,9 +38,9 @@
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 		<headerContent>
-			<m:ObjectHeader id="_IDGenObjectHeader1"  title="{mprojects>/attributes/name}" number="{parts: ['mprojects>/attributes/estimatedEndDate'], formatter: '.formatter.getDueDate'}" class="objHeaderClass">
+			<m:ObjectHeader id="_IDGenObjectHeader1"  title="" class="objHeaderClass">
 				<m:statuses>
-					<m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{mprojects>/attributes/status}" state="{ path: 'mprojects>/attributes/status', formatter: '.formatter.getStatus' }" />
+					<m:ObjectStatus id="_IDGenObjectStatus1" title="Status" text="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path: 'mprojects>/attributes/actualEndDate'}], formatter:'.formatter.getStatus' }" state="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path: 'mprojects>/attributes/actualEndDate'}], formatter:'.formatter.getStatusIndication' }" />
 				</m:statuses>
 				<m:attributes >
 					<m:ObjectAttribute id="_IDGenObjectAttribute1" title="Start Date" text="{path:'mprojects>/attributes/startDate',formatter:'.formatter.formattingDate'}" visible="true" />
@@ -57,10 +65,15 @@
 								<m:Text id="_IDGenText9" text="{mprojects>/attributes/priority}" />
 								<m:Label id="_IDGenLabel8" text="Effort" width="90%" />
 								<m:Text id="_IDGenText7" text="{kpiInfo>/0/totalDays}%" />
-								<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
+								<!-- <m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
 								<m:Text id="_IDGenText8" text="{mprojects>/attributes/estimated_budget}" />
 								<m:Label id="esenddate" text="Actual Budget" width="90%" />
-								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" />
+								<m:Text id="textesed" text="{mprojects>/attributes/actual_budget}" /> -->
+									<m:Label id="_IDGenLabel9" text="Estimated Budget" width="90%" />
+								<m:Text id="_IDGenText8" text="{parts: ['mprojects>/attributes/estimated_budget'],formatter:'.formatter.getCurrencyEB'}" visible="true" />
+								<m:Label id="esenddate" text="Actual Budget" width="90%" />
+								<m:Text id="textesed" text="{parts: ['mprojects>/attributes/actual_budget'], formatter:'.formatter.getCurrencyAB'}" visible="true" />
+							
 							</form:content>
 						</form:SimpleForm>
 					</ObjectPageSubSection>
@@ -110,9 +123,7 @@
 											<m:Column id="_IDGenColumn2b12">
 												<m:Text id="text0044b" text="Contact" />
 											</m:Column>
-											<m:Column id="RateId">
-												<m:Text id="RatetextID" text="Rate Card" />
-											</m:Column>
+											
 											<m:Column id="_IDGenColumn2b16">
 												<m:Text id="text0044d" text="Role" />
 											</m:Column>
@@ -131,9 +142,7 @@
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObjectIdentifier53b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/phone}" />
 												</m:cells>
-												<m:cells>
-													<m:ObjectIdentifier id="Cellrate" text="{mTeamMember>attributes/users_permissions_user/data/attributes/rate_card}" />
-												</m:cells>
+													
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObject1Identifier53b" text="{mTeamMember>attributes/p_team_role}" />
 												</m:cells>
@@ -164,8 +173,8 @@
 										<m:Button id="_IDGenButton2" type="Transparent" text="" icon="sap-icon://edit" press="editSubTaskDailog"/>
 										<m:Button id="_IDGe1nBu1tton11" text="" type="Transparent" icon="sap-icon://add" press="addSubTaskDailog" />
 										<m:Button id="_IDGe1nBu1tton112" text="" type="Transparent" icon="sap-icon://delete" press="deleteTaskDailog" />
-										<m:Button text="Approve Time Extension" id="quotationApproveId" type="Emphasized" visible="true" press="onApproveProjects" />
-										<m:Button text="Reject Time Extension" id="quotationRejectId" type="Emphasized" visible="true" press="OnRejectProjects" />
+										<!-- <m:Button text="Approve Time Extension" id="quotationApproveId" type="Emphasized" visible="true" press="onApproveProjects" />
+										<m:Button text="Reject Time Extension" id="quotationRejectId" type="Emphasized" visible="true" press="OnRejectProjects" /> -->
 									</m:OverflowToolbar>
 								</x:extension>
 								<x:columns>
@@ -208,7 +217,7 @@
 									<x:Column id="_IDGenColu00mn1" width="6rem">
 										<m:Label id="_IDGenLa0be9l11" text="Status" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID0G6enText10" text="{path:'csfData>status'}"  />
+											<m:Text id="_ID0G6enText10"  text="{parts:[{path:'csfData>status'},{path:'csfData>startDate'},{path:'csfData>endDate'},{path:'csfData>extended_end_date'}], formatter:'.formatter.getTaskStatus' }"   />
 										</x:template>
 									</x:Column>
 									<x:Column id="_IDGenColu0mn1" width="6rem">
@@ -220,7 +229,7 @@
 									<x:Column id="_IDGen6Co6lu60mn1" width="6rem">
 										<m:Label id="_ID6Ge6n6La0bel11" text="Responsible" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID60GenTe6xt610" text="{csfData>firstName}"  />
+											<m:Text id="_ID60GenTe6xt610" text="{csfData>firstName} {csfData>lastName}"  />
 										</x:template>
 									</x:Column>
 									<x:Column id="_IDGen6Co69lu60mn1" width="8rem">
@@ -232,7 +241,7 @@
 									<x:Column id="_IDGen6Co690lu60mn1" width="8rem">
 										<m:Label id="_ID6Ge690n6La0bel11" text="Approver Status" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID60Gen0T7e6xt610" text="{csfData>p_approver_status}"  />
+											<m:Text id="_ID60Gen0T7e6xt610"  text="{csfData>p_approver_status}"  />
 										</x:template>
 									</x:Column>
 								</x:columns>

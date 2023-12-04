@@ -24,7 +24,7 @@
 							</VBox>
 						</VBox>
 						
-						<VBox class="kpiTile" width="24rem" id="totaltask">
+						<!-- <VBox class="kpiTile" width="24rem" id="totaltask">
 							<Link id="_IDGeink1" text="Total Tasks" class="link" press="onKpiLinkPressTasks"/>
 							<VBox id="_IDGox8" class="top">
 								<TileContent id="_IDGenTiltent1" unit="">
@@ -33,7 +33,7 @@
 									</content>
 								</TileContent>
 							</VBox>
-						</VBox>
+						</VBox> -->
 						<VBox class="kpiTile" width="24rem" id="newprojects">
 							<Link id="_IDGenLink1" text="New Projects" class="link" press="onKpiLinkPress"/>
 							<VBox id="_IDGenVBox8" class="top">
@@ -60,6 +60,16 @@
 								<TileContent id="_IDGenTileContent4" unit="">
 									<content>
 										<NumericContent id="_IDGenNumericContent4" scale="" value="{modelLength>/ProjectsInProgress}"/>
+									</content>
+								</TileContent>
+							</VBox>
+						</VBox>
+						<VBox class="kpiTile" width="24rem" id="Delayed">
+							<Link id="_IDGenLink41" text="Projects Delayed" class="link" press="onKpiLinkPress"/>
+							<VBox id="_IDGenVBox11" class="top">
+								<TileContent id="_IDGenTileContent41" unit="">
+									<content>
+										<NumericContent id="_IDGenNumericContent41" scale="" value="{modelLength>/ProjectsDelayed}"/>
 									</content>
 								</TileContent>
 							</VBox>

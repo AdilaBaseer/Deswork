@@ -56,6 +56,8 @@ class="viewPadding">
 							<m:Text id="_IDGenText16457" text="{memployee>/department}" />
 							<m:Label id="_ID677" text="Designation " />
 							<m:Text id="_I677" text="{memployee>/designation}" />
+							<m:Label id="_ID67" text="Rate Card " />
+							<m:Text id="_I77" text="{parts:['memployee>/rate_card'],formatter:'.formatter.getCurrencyEB'}" />
 							<m:Label id="_IDGenLabel127" text="Telephone " />
 							<m:Text id="_IDGenText127" text="{memployee>/phone}" />
 							<m:Label id="_IDGenLabel1367" text="Email " />
@@ -111,63 +113,57 @@ class="viewPadding">
 				<subSections>
 					<ObjectPageSubSection id="_IDGenObjectPageSubSection21">
 						<blocks>
-							<x:TreeTable
-                    id="TreeTableBasic"
-                    rows="{path:'csfData>/'}"
-                    selectionMode="None"
-                    enableSelectAll="false"
-                   
-                    ariaLabelledBy="title">
+							<x:TreeTable id="TreeTableBasic" rows="{path:'csfData>/'}" selectionMode="None" enableSelectAll="false"  ariaLabelledBy="title">
 								<x:columns>
-									<x:Column id="_IDGenColumn1" width="10rem" >
-										<m:Label id="_IDGenLabel11" text="Name" />
+									<x:Column id="_IDGenColumn1" width="14rem" >
+										<m:Label id="_IDGenLabel11" text="Task Name" width="10rem" />
 										<x:template>
 											<m:Text id="_IDGenTex8t10" text="{csfData>name}" wrapping="false"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGen8Column2" width="8rem">
+									<x:Column id="_IDGen8Column2" width="15rem">
 										<m:Label id="_IDGenLabel12" text="Description"/>
 										<x:template>
 											<m:Text id="_IDGenCurrency1" text="{csfData>description}" />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGenColu00mn61" width="6rem">
+									<x:Column id="_IDGenColu00mn61" width="8rem" >
 										<m:Label id="_I6DGe6nLa0bel11" text="Start Date"/>
 										<x:template>
 											<m:Text id="_ID0Gen6Text10" text="{path:'csfData>startDate',formatter:'.formatter.formattingDate'}"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGen6Co6lu0mn1" width="6rem">
+									<x:Column id="_IDGen6Co6lu0mn1" width="8rem" >
 										<m:Label id="_ID6Ge6nLa0bel11" text="Actual End Date"/>
 										<x:template>
 											<m:Text id="_ID60GenTe6xt10" text="{path:'csfData>endDate',formatter:'.formatter.formattingDate'}"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGen6Colu0mn1" width="6rem">
+									<x:Column id="_IDGen6Colu0mn1"  width="8rem">
 										<m:Label id="_IDGe6nLa0bel11" text="Extended End Date"/>
 										<x:template>
 											<m:Text id="_ID60GenText10" text="{path:'csfData>extended_end_date',formatter:'.formatter.formattingDate'}"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGen6Colu00mn1" width="6rem">
+									<x:Column id="_IDGen6Colu00mn1" width="5rem" >
 										<m:Label id="_IDGe6nLa70bel11" text="No Of Days"/>
 										<x:template>
 											<m:Text id="_ID60GenT9ext10" text="{path:'csfData>noOfDays'}"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGenColu00mn1" width="6rem">
+									<x:Column id="_IDGenColu00mn1"  width="6rem">
 										<m:Label id="_IDGenLa0be9l11" text="Status"/>
 										<x:template>
-											<m:Text id="_ID0G6enText10" text="{path:'csfData>status'}"  />
+											<m:Text id="_ID0G6enText10" text="{parts:[{path:'csfData>status'},{path:'csfData>startDate'},{path:'csfData>endDate'},{path:'csfData>extended_end_date'}],formatter:'.formatter.getStatus' }"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGenColu0mn1" width="6rem">
+									<x:Column id="_IDGenColu0mn1"  width="6rem" >
 										<m:Label id="_IDGenLa0bel11" text="Priority"/>
 										<x:template>
 											<m:Text id="_ID0GenText10" text="{path:'csfData>priority'}"  />
 										</x:template>
 									</x:Column>
-									<x:Column id="_IDGen6Co6lu60mn1" width="6rem">
+									<!-- <x:Column id="_IDGen6Co6lu60mn1" width="6rem">
 										<m:Label id="_ID6Ge6n6La0bel11" text="Responsible"/>
 										<x:template>
 											<m:Text id="_ID60GenTe6xt610" text="{csfData>users_permissions_user/data/attributes/firstName}"  />
@@ -184,7 +180,7 @@ class="viewPadding">
 										<x:template>
 											<m:Text id="_ID60Gen0T7e6xt610" text="{csfData>p_approver_status}"  />
 										</x:template>
-									</x:Column>
+									</x:Column> -->
 								</x:columns>
 							</x:TreeTable>
 						</blocks>
@@ -257,8 +253,8 @@ class="viewPadding">
 		<footer>
 			<m:OverflowToolbar id="_IDGenOverflowToolbar1">
 				<m:ToolbarSpacer id="_IDGenToolbarSpacer1" />
-				<m:Button id="_IDGenButton6" text="Edit" class="sapUiSmallMargin" press="onEdit"  />
-				<m:Button id="_IDGenButton16" text="Delete" class="sapUiSmallMargin" press="onDetailPageDelete" />
+				<m:Button text="Edit" id="quotationSaveId" type="Emphasized" visible="true" press="onEdit" />
+				<m:Button text="Delete" id="quotationCancelId" type="Emphasized" visible="true" press="onDetailPageDelete" />			
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>

@@ -2,7 +2,7 @@
 	  xmlns="sap.m"
 	  xmlns:f="sap.f"
 	  xmlns:mvc="sap.ui.core.mvc">
-	<f:DynamicPage id="dynamicPageId"
+	<f:DynamicPage id="dynamicPageId" showFooter="true"
 				   toggleHeaderOnTitleClick="false">
 		<!-- DynamicPage Title -->
 		<f:title>
@@ -23,18 +23,13 @@
 				items="{memployee>/}"
 				>
 				<headerToolbar>
-		
-
-					<OverflowToolbar id="_IDGenOverflowToolbar1">
-					
-						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+					<OverflowToolbar id="_IDGenOverflowToolbar1">	
 						<!-- SEARCH,SORT AND ADD BUTTON -->
 						<SearchField id="_IDGenSearchField1" search="onSearch" placeholder="Search" class="sapUiSmallMarginEnd"  width="17.5rem"/>
-							<OverflowToolbarButton id="addid" icon="sap-icon://add" type="Transparent" press="onAddNewEmployee"/>
-						
+							<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+							<!-- <OverflowToolbarButton id="addid" icon="sap-icon://add" type="Transparent" press="onAddNewEmployee"/> -->
 						<OverflowToolbarButton id="_IDGenOverflowToolbarButton2" icon="sap-icon://sort" class="sapUiSmallMarginEnd" type="Transparent" press="onSort"/>
-					</OverflowToolbar>
-					
+					</OverflowToolbar>				
 				</headerToolbar>
 			
 				
@@ -46,6 +41,12 @@
 			<ObjectAttribute id="_IDGenObjectAttribute1" title="" text="{memployee>designation}" />
 			</ObjectListItem>
 			</List>
-		</f:content>	
+		</f:content>
+		<f:footer>
+			<OverflowToolbar id="_IDGenOverflowToolbar2">
+				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+				<Button id="_IDGenButton1"  icon="sap-icon://add" text="Add Employee" type="Emphasized" iconFirst="true" press="onAddNewEmployee" />
+			</OverflowToolbar>
+		</f:footer>	
 	</f:DynamicPage>
 </mvc:View>

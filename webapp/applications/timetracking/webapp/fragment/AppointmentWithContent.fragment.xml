@@ -1,10 +1,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout">
   <Dialog title="{i18n>CreateAppointment}">
     <beginButton>
-      <Button text="{i18n>Save}" type="Emphasized" visible="true" press="handleAppDialogSaveButton"/>
+      <Button text="{i18n>Save}" type="Accept" visible="true" press="handleAppDialogSaveButton"/>
     </beginButton>
     <endButton>
-      <Button text="{i18n>Cancel}" visible="true" press="handleAppDialogCancelButton"/>
+      <Button text="{i18n>Cancel}" type="Reject" visible="true" press="handleAppDialogCancelButton"/>
     </endButton>
     
     <Label class="sapUiSmallMarginBegin" text="{i18n>Time_Entry_type}"  required="true" />
@@ -17,15 +17,15 @@
 <!-- //Project -->
       <f:SimpleForm layout="ResponsiveGridLayout"  visible="false">
        <Label text="{i18n>Project Name}" required="true"/>
-		   <Select  forceSelection="false" width="100%" items="{myproject>/}" >
-			  <core:Item key="{myproject>attributes/name}" text="{myproject>attributes/name}"/>
-			  </Select>
+		   <Select  forceSelection="false" width="100%" items="{myproject>/}"  change="onSelectProject" >
+			   <core:Item key="{myproject>id}" text="{myproject>attributes/name}"/>
+			 </Select>
         <Label text="More Information"  />
          <Input />
          <Label text="{i18n>Task}" required="true"  />
-         	<Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask">
-				<core:Item key="{mUserTasks>id}" text="{mUserTasks>attributes/name}"/>
-			</Select>
+         <Select  forceSelection="false" width="100%" items="{mUserTasks>/}" change="onSelectTask" >
+			   	<core:Item key="{mUserTasks>id}"  text="{mUserTasks>attributes/name}"/>
+			   </Select>
 			<Label text="{i18n>Sub-Task}" />
 			<Select  forceSelection="false" width="100%" items="{mUserSubTask>/}" >
 				<core:Item key="{mUserSubTask>id}" text="{mUserSubTask>attributes/name}"/>

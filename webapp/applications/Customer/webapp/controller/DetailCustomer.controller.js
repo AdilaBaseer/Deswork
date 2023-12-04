@@ -4,7 +4,7 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"vaspp/Customer/utils/formatter",
 	"sap/m/UploadCollectionParameter"
-], function (Controller, MessageBox, MessageToast,formatter, UploadCollectionParameter) {
+], function (Controller, MessageBox, MessageToast, formatter, UploadCollectionParameter) {
 	"use strict";
 	return Controller.extend("vaspp.Customer.controller.DetailCustomer", {
 		formatter: formatter,
@@ -52,7 +52,7 @@ sap.ui.define([
 			}
 			that.getCustomer(this.id);
 		},
-		
+
 		getCustomer: function () {
 			var that = this;
 			if (this.delete) {
@@ -68,7 +68,6 @@ sap.ui.define([
 			} else {
 				var options = {};
 				$.get('/deswork/api/p-customers/' + this.id + '?populate[0]=p_projects', options, function (response) {
-					console.log(response);
 					response = JSON.parse(response);
 					var oModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(oModel, "mcustomer");
@@ -80,12 +79,9 @@ sap.ui.define([
 		//EDIT THE CUSTOMER DETAILS
 		onEdit: function () {
 			var that = this;
-
 			var sendVendordetails = new sap.ui.model.json.JSONModel(this.getView().getModel("mcustomer").getData());
 			this.getOwnerComponent().setModel(sendVendordetails, "custUpdateDetails");
-
 			this.getView().getModel().setProperty("/layout", "OneColumn");
-
 			var sNextLayout = this.getView().getModel().getProperty("/actionButtonsInfo/midColumn/closeColumn");
 			if (sNextLayout == null)
 				sNextLayout = "OneColumn"
@@ -105,7 +101,6 @@ sap.ui.define([
 							url: "/deswork/api/p-customers/" + that.id,
 							success: function (response) {
 								var resv = JSON.parse(response);
-								console.log(resv)
 								if (resv.error) {
 									MessageBox.error(resv.error.message)
 								}
@@ -122,9 +117,6 @@ sap.ui.define([
 			);
 		},
 
-
-
-
 		//UPLOAD DOCUMENTS
 		onChange: function (oEvent) {
 			var that = this;
@@ -137,7 +129,6 @@ sap.ui.define([
 					"FileName": that.fileName,
 					"FileContent": e.currentTarget.result
 				});
-
 			};
 			reader.readAsDataURL(file);
 		},
@@ -147,16 +138,13 @@ sap.ui.define([
 			var oTextArea = this.byId("TextArea");
 			var cFiles = oUploadCollection.getItems().length;
 			var uploadInfo = cFiles + " file(s)";
-
 			if (cFiles > 0) {
 				oUploadCollection.upload();
-
 				if (oTextArea.getValue().length === 0) {
 					uploadInfo = uploadInfo + " without notes";
 				} else {
 					uploadInfo = uploadInfo + " with notes";
 				}
-
 				MessageToast.show("Method Upload is called (" + uploadInfo + ")");
 				MessageBox.information("Uploaded " + uploadInfo);
 				oTextArea.setValue("");
@@ -179,15 +167,12 @@ sap.ui.define([
 			var sUploadedFileName = oEvent.getParameter("files")[0].fileName;
 			setTimeout(function () {
 				var oUploadCollection = this.byId("UploadCollection");
-
 				for (var i = 0; i < oUploadCollection.getItems().length; i++) {
 					if (oUploadCollection.getItems()[i].getFileName() === sUploadedFileName) {
 						oUploadCollection.removeItem(oUploadCollection.getItems()[i]);
 						break;
 					}
 				}
-
-
 				MessageToast.show("Event uploadComplete triggered");
 			}.bind(this), 8000);
 		},
@@ -196,6 +181,5 @@ sap.ui.define([
 			var oUploadCollection = this.byId("UploadCollection");
 			oUploadCollection.setShowSeparators(oEvent.getParameters().selectedItem.getProperty("key"));
 		},
-		
 	});
 });

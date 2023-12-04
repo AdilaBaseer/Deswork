@@ -79,7 +79,6 @@ sap.ui.define([
 
 				},
 				error: function (res) {
-					console.log(res);
 				}
 			});
 
@@ -98,7 +97,6 @@ sap.ui.define([
 
 				},
 				error: function (res) {
-					console.log(res);
 					MessageBox.error(res + "Something went wrong");
 				}
 			});

@@ -1,7 +1,7 @@
 <core:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
-	<SelectDialog id="_IDGenSelectDialog1"
+	<SelectDialog
 
 		
 		noDataText="No Tasks Found"
@@ -12,7 +12,7 @@
 		cancel="onDialogClose"
 		multiSelect="true"
 		items="{/}">
-		<StandardListItem id="_IDGenStandardListItem1"
+		<StandardListItem 
 			title="{attributes/name}"
 			description ="{id}"
 			iconDensityAware="false"

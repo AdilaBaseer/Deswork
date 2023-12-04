@@ -4,14 +4,9 @@ sap.ui.define(
     ],
     function(BaseController) {
       "use strict";
-  
       return BaseController.extend("VASPP.employee.controller.App", {
-       
-
-          onInit: function () {
-            
+          onInit: function () {    
             }
-        
       });
     }
   );

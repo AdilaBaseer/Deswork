@@ -1,0 +1,94 @@
+{
+	"details": [
+		{
+			"_id": "ID0001",
+			"appliedOn": "2022-05-05",
+			"startDate": "2022-05-13",
+			"endDate": "2022-06-13",
+			"reason": "Vacation",
+			
+			"leaveType": "Vacation Leave",
+			"Status": "Applied",
+			"numberOfDays": 1,
+			"leave_info": {
+				"leaves": {
+					"lastleaveapplied":"05/1/2023",
+					"NoofDaysapplied":2,
+					"TypeOfLeaveapplied":"Vacation Leave",
+					"statusofearlierleave":"Rejected",
+					"defaultleaves": 30,
+					"carryforwardleaves": 0,
+					"balanceLeaves": 21,
+					"year": 2022,
+					"unpaidLeaves": 0,
+					"sickLeaves": 0,
+					"vacationLeaves": 9,
+					"takenLeaves": 0,
+					"attachments": "null"
+				}
+				 
+			},
+			"Name": "Anusha"
+		},
+		{
+			"_id": "ID0002",
+			"appliedOn": "2022-05-25",
+			"startDate": "2022-05-27",
+			"endDate": "2022-05-27",
+			"reason": "werwer",
+			
+			"leaveType": "Vacation Leave",
+			"Status": "Applied",
+			"numberOfDays": 1,
+			"leave_info": {
+				"leaves": {
+					"lastleaveapplied":"15/1/2023",
+					"NoofDaysapplied":2,
+					"TypeOfLeaveapplied":"Sick Leave",
+					"statusofearlierleave":"Approved",
+					"defaultleaves": 30,
+					"carryforwardleaves": 0,
+					"balanceLeaves": 30,
+					"year": 2022,
+					"attachments": "null",
+					"unpaidLeaves": 1,
+					"sickLeaves": 1,
+					"vacationLeaves": 3,
+					"takenLeaves": 8
+					
+				}
+			},
+			"Name": "Meronia A"
+		},
+		{
+			"_id": "ID0003",
+			"appliedOn": "2022-06-02",
+			"startDate": "2022-06-02",
+			"endDate": "2022-06-16",
+			"reason": "holiday",
+			
+			"leaveType": "Vacation Leave",
+			"Status": "Applied",
+			"numberOfDays": 11,
+			"leave_info": {
+				"leaves": {
+					"lastleaveapplied":"05/1/2023",
+					"NoofDaysapplied":2,
+					"TypeOfLeaveapplied":"Vacation Leave",
+					"statusofearlierleave":"Rejected",
+					"defaultleaves": 30,
+					"carryforwardleaves": 16,
+					"balanceLeaves": 39,
+					"year": 2022,
+					"unpaidLeaves": 0,
+					"sickLeaves": 0,
+					"attachments": "null",
+					"vacationLeaves": 23,
+					"takenLeaves": 23
+					
+				}
+			},
+			"Name": "Renee  Dominique"
+		}
+	]
+}

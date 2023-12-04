@@ -32,7 +32,7 @@
         <headerContent>
             <m:ObjectHeader id="_IDGenObjectHeader1"  title="{myproject>/attributes/name}" number="{parts: ['myproject>/attributes/estimatedEndDate'], formatter: '.formatter.getDueDate'}" class="objHeaderClass">
                 <m:statuses>
-                    <m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatus' }" state="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatusIndication' }" />
+                    <m:ObjectStatus id="_IDGenObjectStatus1" title="Status" text="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatus' }" state="{parts:[{ path: 'myproject>/attributes/status'},{path:'myproject>/attributes/startDate'},{path:'myproject>/attributes/estimatedEndDate'},{path:'myproject>/attributes/actualEndDate'}], formatter: '.formatter.getStatusIndication' }" />
                 </m:statuses> 
                 	
                 <m:attributes >
@@ -104,9 +104,7 @@
 											<m:Column id="_IDGenColumn2b12">
 												<m:Text id="text0044b" text="Contact" />
 											</m:Column>
-											<m:Column id="RateId">
-												<m:Text id="RatetextID" text="Rate Card" />
-											</m:Column>
+											
 											<m:Column id="_IDGenColumn2b16">
 												<m:Text id="text0044d" text="Role" />
 											</m:Column>
@@ -125,9 +123,7 @@
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObjectIdentifier53b" text="{mTeamMember>attributes/users_permissions_user/data/attributes/phone}" />
 												</m:cells>
-												<m:cells>
-													<m:ObjectIdentifier id="Cellrate" text="{mTeamMember>attributes/users_permissions_user/data/attributes/rate_card}" />
-												</m:cells>
+											
 												<m:cells>
 													<m:ObjectIdentifier id="_IDGenObject1Identifier53b" text="{mTeamMember>attributes/p_team_role}" />
 												</m:cells>
@@ -159,7 +155,7 @@
                 </x:extension>
                 
                 <x:columns>
-                    <x:Column id="_IDGenColumn1" width="8rem">
+                    <x:Column id="_IDGenColumn1" width="7rem">
                         <m:Label id="_IDGenLabel11" text="{i18n>Name}" />
                         <x:template>
                             <m:Text id="_IDGenText10" text="{appointmentsdata>name}" wrapping="false"  />
@@ -201,7 +197,16 @@
                     <x:Column id="_IDGenColu00mn1" width="6rem">
                         <m:Label id="_IDGenLa0be9l11" text="{i18n>Status}"/>
                         <x:template>
-                            <m:Text id="_ID0G6enText10" text="{appointmentsdata>status}"  />
+                            <m:Text id="_ID0G6enText10"  class="{
+        path: 'appointmentsdata>status',
+        formatter: '.formatter.getTaskStatusIndication',
+        parts: [
+            'appointmentsdata>status',
+            'appointmentsdata>startDate',
+            'appointmentsdata>endDate',
+            'appointmentsdata>extended_end_date'
+        ]
+    }"  text="{parts:[{path:'appointmentsdata>status'},{path:'appointmentsdata>startDate'},{path:'appointmentsdata>endDate'},{path:'appointmentsdata>extended_end_date'}], formatter:'.formatter.getTaskStatus' }"  />
                         </x:template>
                     </x:Column>
                     <x:Column id="_IDGenColu0mn1" width="6rem">

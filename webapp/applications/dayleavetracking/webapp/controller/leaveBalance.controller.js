@@ -11,7 +11,6 @@ sap.ui.define([
          */
 
     function (Controller, JSONModel, MessageToast, MessageBox) {
-
         "use strict";
         return Controller.extend("vaspp.dayleavetracking.controller.leaveBalance", {
             onInit: function () {
@@ -23,7 +22,6 @@ sap.ui.define([
                 that.getCurrentDate();
                 //Day
                 that.callDayLeave();
-
             },
             onPressDayTracking: function () {
                 this.getView().byId("_IDGenPage2").setTitle("Day Tracking");
@@ -61,18 +59,35 @@ sap.ui.define([
                 var that = this;
                 var date = today.getDate() + count;
                 var month = today.getMonth() + 1;
+                var month1 = today.getMonth();
                 //  var month1 = today.getMonth();
                 var year = today.getFullYear();
                 if (date < 10) {
                     date = "0" + date;
                 }
-                if (month) {
+                if (month < 10) {
                     month = "0" + month;
                 }
-                var result = date + "-" + month + "-" + year;
+                // var result = date + "-" + month + "-" + year;
+                var result1 = new Date(year, month1, date);
+                var rdate = result1.getDate();
+                var rmonth = result1.getMonth() + 1;
+                var ryear = result1.getFullYear();
+                if (rdate < 10) {
+                    rdate = "0" + rdate
+                }
+                if (rmonth < 10) {
+                    rmonth = "0" + rmonth;
+                }
+                var result = rdate + "-" + rmonth + "-" + ryear;
                 var nextDate = today.getDate() + 1 + count;
-                var nextFullDate = month + "-" + nextDate + "-" + year;
+                var nextFullDate1 = month + "-" + nextDate + "-" + year;
                 //  var nextFullDate = new Date(year, month1, nextDate);
+                nextFullDate1 = new Date(nextFullDate1);
+                var nxtdate = nextFullDate1.getDate();
+                var nxtmonth = nextFullDate1.getMonth() + 1;
+                var nxtyear = nextFullDate1.getFullYear();
+                var nextFullDate = nxtmonth + "-" + nxtdate + "-" + nxtyear;
                 nextFullDate = new Date(nextFullDate);
                 that.day = nextFullDate.getDay();
                 return result;
@@ -151,8 +166,6 @@ sap.ui.define([
                             return array.indexOf(value) === index;
                         });
                         that.setWeekData(arr, requestedBy);
-                        //that.getView().setModel(oModel2, "dayLeaveTrack");
-                        //that.getView().getModel("dayLeaveTrack").getData();
                     }
                 });
             },
@@ -236,12 +249,6 @@ sap.ui.define([
                     }
                 });
             },
-            // onPressWeekTracking: function() {
-            //     sap.ui.core.UIComponent.getRouterFor(this).navTo("weekLeave");
-            // },
-            // onPressDayTracking: function() {
-            //     sap.ui.core.UIComponent.getRouterFor(this).navTo("dayLeave");
-            // },
             onObjectMatched: function (oEvent) {
                 var that = this;
                 that.getView().setModel(new JSONModel({}));
@@ -252,30 +259,20 @@ sap.ui.define([
                 var oModel = new sap.ui.model.json.JSONModel(object);
                 that.getView().setModel(oModel, "editableModel");
             },
-            // onPressLeaveBalance: function() {
-            //     var date = new Date();
-            //     var currentYear = date.getFullYear();
-            //     var currentMonth = date.getMonth();
-            //     currentMonth = currentMonth + 1;
-            //     if(currentMonth === 3) {
-            //         var data = that.getView().getModel("userModel").getData();
-            //         that.compareAndPostLeaveBalance(data, currentYear);
-            //     } else {
-            //         MessageBox.error("You can't revise current financial year holidays");
-            //     }
-            // },
+
             onPressLeaveBalance: function () {
                 var that = this;
                 var date = new Date();
                 var currentYear = date.getFullYear();
                 var currentMonth = date.getMonth();
-                 currentMonth = currentMonth + 1;
-                if (currentMonth === 3) {
+                currentMonth = currentMonth + 1;
+                if (currentMonth === 4) {
                     var data = that.getView().getModel("userModel").getData();
                     that.compareAndPostLeaveBalance(data, currentYear);
                 }
                 else {
-                    MessageBox.error("You can't revise current financial year holidays");
+                    // MessageBox.error("You can't revise current financial year holidays");
+                    MessageBox.error("You can revise current financial year holidays in month of April");
                 }
             },
             getUserDetails: function () {
@@ -294,7 +291,7 @@ sap.ui.define([
                     }
                 });
             },
-            compareAndPostLeaveBalance: function (userData, currYear) {
+            compareAndPostLeaveBalance1: function (userData, currYear) {
                 var that = this;
                 var url = '/deswork/api/p-balance-leaves?populate=*';
                 $.ajax({
@@ -321,19 +318,16 @@ sap.ui.define([
                                     url: "/deswork/api/p-balance-leaves/" + BLid
                                 });
                             }
-
                             // Recursive function to delete a batch of balance leave records
                             function deleteBalanceLeavesBatch(balanceleaveMD, startIndex) {
                                 var endIndex = Math.min(startIndex + batchSize, balanceleaveMD.length);
 
                                 if (startIndex < endIndex) {
                                     var promises = [];
-
                                     for (var i = startIndex; i < endIndex; i++) {
                                         var BLid = balanceleaveMD[i].id;
                                         promises.push(deleteBalanceLeaveById(BLid));
                                     }
-
                                     $.when.apply($, promises).then(function () {
                                         deleteBalanceLeavesBatch(balanceleaveMD, endIndex);
                                     });
@@ -342,10 +336,7 @@ sap.ui.define([
                                     if (endIndex < balanceleaveMD.length) {
                                         deleteAllBalanceLeavesRecursive(balanceleaveMD, endIndex);
                                     } else {
-                                        // All records deleted
-                                        console.log("All balance leave records deleted successfully.");
                                         that.callBalanceLeave();
-                                          
                                         var url = 'deswork/api/p-balance-leaves?populate=*';
                                         $.ajax({
                                             url: url,
@@ -377,7 +368,6 @@ sap.ui.define([
 
                                     // Start the deletion process
                                     deleteBalanceLeavesBatch(balanceleaveMD, 0);
-
                                     for (i = 0; i < userData.length; i++) {
                                         var settings = {
                                             "url": "/deswork/api/p-balance-leaves",
@@ -390,7 +380,7 @@ sap.ui.define([
                                                 "data": {
                                                     "year": currYear,
                                                     "defaultLeaves": 20,
-                                                    //  "carryForwardLeaves": carryForwardLeaves,
+                                                    "carryForwardLeaves": 0,
                                                     "balanceLeaves": 20,
                                                     "sickLeaves": 0,
                                                     "paidLeaves": 0,
@@ -400,40 +390,37 @@ sap.ui.define([
                                                 }
                                             }),
                                         };
-        
+
                                         $.ajax(settings).done(function (response) {
                                             response = JSON.parse(response);
                                             if (response.error) {
                                                 MessageBox.error(response.error.message);
                                             }
-                                            else{
-                                             
+                                            else {
                                                 that.callBalanceLeave();
-                                                  
-                                                    var url = 'deswork/api/p-balance-leaves?populate=*';
-                                                    $.ajax({
-                                                        url: url,
-                                                        method: "GET",
-                                                        headers: {
-                                                            "Content-Type": "application/json"
-                                                        },
-                                                        success: function (response) {
-                                                            response = JSON.parse(response);
-                                                            var oModel2 = new sap.ui.model.json.JSONModel(response.data);
-                                                            that.getView().setModel(oModel2, "balanceleave");
-                                                        }
-                                                    });
-                                             
+                                                var url = 'deswork/api/p-balance-leaves?populate=*';
+                                                $.ajax({
+                                                    url: url,
+                                                    method: "GET",
+                                                    headers: {
+                                                        "Content-Type": "application/json"
+                                                    },
+                                                    success: function (response) {
+                                                        response = JSON.parse(response);
+                                                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                                                        that.getView().setModel(oModel2, "balanceleave");
+                                                    }
+                                                });
                                             }
                                         });
-        
+
                                     }
                                     MessageBox.show("Current Financial Year Leave details has been Revised");
                                 }
                             });
                         }
                         else {
-                           // MessageBox.show("2nd Time")
+                            // MessageBox.show("2nd Time")
                             var i = 0;
                             for (i = 0; i < userData.length; i++) {
                                 var settings = {
@@ -447,7 +434,7 @@ sap.ui.define([
                                         "data": {
                                             "year": currYear,
                                             "defaultLeaves": 20,
-                                            //  "carryForwardLeaves": carryForwardLeaves,
+                                            "carryForwardLeaves": carryForwardLeaves,
                                             "balanceLeaves": 20,
                                             "sickLeaves": 0,
                                             "paidLeaves": 0,
@@ -463,37 +450,86 @@ sap.ui.define([
                                     if (response.error) {
                                         MessageBox.error(response.error.message);
                                     }
-                                    else{
+                                    else {
                                         MessageBox.show("Current Financial Year Leave details has been Revised");
                                         that.callBalanceLeave();
-                                          
-                                            var url = 'deswork/api/p-balance-leaves?populate=*';
-                                            $.ajax({
-                                                url: url,
-                                                method: "GET",
-                                                headers: {
-                                                    "Content-Type": "application/json"
-                                                },
-                                                success: function (response) {
-                                                    response = JSON.parse(response);
-                                                    var oModel2 = new sap.ui.model.json.JSONModel(response.data);
-                                                    that.getView().setModel(oModel2, "balanceleave");
-                                                }
-                                            });
-                                     
+
+                                        var url = 'deswork/api/p-balance-leaves?populate=*';
+                                        $.ajax({
+                                            url: url,
+                                            method: "GET",
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            success: function (response) {
+                                                response = JSON.parse(response);
+                                                var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                                                that.getView().setModel(oModel2, "balanceleave");
+                                            }
+                                        });
+
                                     }
                                 });
 
                             }
                         }
-
                     }
                 });
             },
+            compareAndPostLeaveBalance: function (userData, currYear) {
+                var that = this;
+                var url = '/deswork/api/p-balance-leaves?populate=*';
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+                        that.getView().setModel(oModel2, "balanceleaveMD");
+                        var balanceleaveMD = that.getView().getModel("balanceleaveMD").getData();
+                        // var startIndex = 0;
+                        // var endIndex = balanceleaveMD.length - 1;
+                        for (var i = 0; i < balanceleaveMD.length; i++) {
+                            var BLid = balanceleaveMD[i].id;
+                            var settings = {
+                                "url": "/deswork/api/p-balance-leaves/" + BLid,
+                                "method": "PUT",
+                                "timeout": 0,
+                                "headers": {
+                                    "Content-Type": "application/json"
+                                },
+                                "data": JSON.stringify({
+                                    "data": {
+                                        "year": currYear,
+                                        "defaultLeaves": 20,
+                                        "carryForwardLeaves": 0,
+                                        "balanceLeaves": 20,
+                                        "sickLeaves": 0,
+                                        "paidLeaves": 0,
+                                        "unPaidLeaves": 0,
+                                        "userId": balanceleaveMD[i].attributes.userId,
+                                        "userName": balanceleaveMD[i].attributes.userName
+                                    }
+                                }),
+                            };
 
-
-
-
+                            $.ajax(settings).done(function (response) {
+                                response = JSON.parse(response);
+                                if (response.error) {
+                                    MessageBox.error(response.error.message);
+                                }else{
+                                    that.callBalanceLeave();
+                                }
+                            });
+                          
+                        }
+                        MessageBox.show("Current Financial Year Leave details has been Revised");
+                    }
+                });
+            },
 
             onEditleaves: function () {
                 var that = this;
@@ -547,8 +583,8 @@ sap.ui.define([
                         "data": {
                             "year": parseInt(data.year),
                             "defaultLeaves": parseFloat(data.defaultLeaves),
-                            "balanceLeaves": parseFloat(data.balanceLeaves),
-                            // "balanceLeaves": data.defaultLeaves + data.carryForwardLeaves - data.sickLeaves - data.paidLeaves,
+                            // "balanceLeaves": parseFloat(data.balanceLeaves),
+                            "balanceLeaves": data.defaultLeaves + data.carryForwardLeaves - data.sickLeaves - data.paidLeaves,
                             "sickLeaves": parseFloat(data.sickLeaves),
                             "paidLeaves": parseFloat(data.paidLeaves),
                             "unPaidLeaves": parseFloat(data.unPaidLeaves),
@@ -564,6 +600,7 @@ sap.ui.define([
                         MessageBox.error(response.error.message);
                     } else {
                         MessageBox.success("Leave balance " + mode + " successfully");
+                        that.callBalanceLeave();
                     }
                 });
             },

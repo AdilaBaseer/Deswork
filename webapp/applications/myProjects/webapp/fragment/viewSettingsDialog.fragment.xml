@@ -3,6 +3,7 @@
 		<sortItems >
 			<!-- <ViewSettingsItem text="ID" key="id" selected="true"/> -->
 			<ViewSettingsItem text="Project Name" key="attributes/name"/>
+
 		</sortItems>
 		<filterItems>
 			<ViewSettingsFilterItem text="Status" key="attributes/status" multiSelect="false">

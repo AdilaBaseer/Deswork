@@ -70,7 +70,7 @@
 							forceSelection="false" change="onSelectUserId"  width="60%"
 							selectedKey="{balanceleave>attributes/userId}">
 							<core:Item id="_IDGenItem1"  key="{userModel>id}"  
-								text="{userModel>username}"/> 
+								text="{userModel>firstName} {userModel>lastName}"/> 
 						</Select>
                         <Input id="_IDGenrText2" editable="{editableModel>/editable}" 
 							value="{balanceleave>attributes/defaultLeaves}"/>

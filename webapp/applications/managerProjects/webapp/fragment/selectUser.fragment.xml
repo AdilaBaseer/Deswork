@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog id="_IDGenSelectDialog1" noDataText="No Users Found" title="Select Participants" search="onSearchParticipantValueHelp" confirm="onSelectUser"
+	<SelectDialog noDataText="No Users Found" title="Select Participants" search="onSearchParticipantValueHelp" confirm="onSelectUser"
 		cancel="onDialogCloseParticipant" multiSelect="false" items="{ path: '/' }">
-		<StandardListItem id="_IDGenStandardListItem1" title="{firstName} {lastName}" description="{rate_card}">
+		<StandardListItem title="{firstName} {lastName}" description="{rate_card}">
 			<customData>
 				<core:CustomData key="key" value="{id}"/>
 			</customData>

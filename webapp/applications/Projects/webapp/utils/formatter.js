@@ -37,6 +37,11 @@ sap.ui.define([], function () {
 				return "Billable";
 			}
 		},
+		formattingCurrency:function (estimated_budget) {
+			estimated_budget=estimated_budget + "INR";
+				return estimated_budget;
+
+		},
 	
 		getPriority: function (status) {
 			if (status == "High") return "Error";
@@ -112,6 +117,45 @@ sap.ui.define([], function () {
                 alteredStatus=status;
             }
             return alteredStatus;
+        },
+		getCurrencyEB:function (estimated_budget, currencyCode) {
+            estimated_budget=estimated_budget
+            if (estimated_budget === undefined || estimated_budget === null) {
+                return "";
+            }
+            const numericPart = parseFloat(estimated_budget.replace(/[^\d.]/g, ''));
+        var currencyCode1 = estimated_budget.replace(/[^a-zA-Z]/g, '');
+            switch (currencyCode1) {
+            
+                case "INR":
+                    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(numericPart);
+                case "USD":
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(numericPart);
+                case "EUR":
+                    return new Intl.NumberFormat('en-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(numericPart);
+                default:
+                    return estimated_budget;
+            }
+ 
+        },
+        getCurrencyAB:function (actual_budget, currencyCode) {
+            actual_budget=actual_budget
+            if (actual_budget === undefined || actual_budget === null) {
+                return "";
+            }
+            const numericPart = parseFloat(actual_budget.replace(/[^\d.]/g, ''));
+        var currencyCode1 = actual_budget.replace(/[^a-zA-Z]/g, '');
+            switch (currencyCode1) {
+                case "INR":
+                    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(numericPart);
+                case "USD":
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(numericPart);
+                case "EUR":
+                    return new Intl.NumberFormat('en-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(numericPart);
+                default:
+                    return actual_budget;
+            }
+ 
         },
 	};
 });

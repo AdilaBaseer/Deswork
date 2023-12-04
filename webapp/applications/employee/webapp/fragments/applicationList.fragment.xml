@@ -3,10 +3,10 @@ xmlns="sap.m"
 xmlns:core="sap.ui.core" 
 xmlns:f="sap.ui.layout.form">
 	
-	<SelectDialog id="_IDGenSelectDialog1" title="{i18n>SelectApplications}" confirmButtonText="{i18n>update}" liveChange="handleAppListSearch"
+	<SelectDialog  title="{i18n>SelectApplications}" confirmButtonText="{i18n>update}" liveChange="handleAppListSearch"
 		confirm="handleConfirmAppList" growingThreshold="20" cancel="handleCloseAppList" items="{mapplications>/applications/}"  draggable="true"
 		multiSelect="false" rememberSelections="false">
-		<StandardListItem id="_IDGenStandardListItem1" title="{mapplications>appId}"
+		<StandardListItem title="{mapplications>appId}"
 			description="{mapplications>appName}"/>
 	</SelectDialog>
 	

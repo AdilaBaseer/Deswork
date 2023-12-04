@@ -6,10 +6,8 @@ sap.ui.define([
      */
     function (Controller) {
         "use strict";
-
         return Controller.extend("VASPP.employee.controller.View1", {
             onInit: function () {
-
             }
         });
     });

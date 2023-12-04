@@ -28,7 +28,6 @@ sap.ui.define([
 			  } else {
           var task = oEvent.getParameter("arguments").AddCust;
 			  }
-      // var task = oEvent.getParameter("arguments").AddCust;
       that.isAdd = task;
       if (task !== "Edit") {
         that.getView().setModel(new JSONModel({}));
@@ -90,7 +89,6 @@ sap.ui.define([
             },
             success: function (res) {
               var resValue = JSON.parse(res);
-              console.log(resValue.error);
               if (resValue.error) {
                 MessageBox.error(resValue.error.message);
               } else {

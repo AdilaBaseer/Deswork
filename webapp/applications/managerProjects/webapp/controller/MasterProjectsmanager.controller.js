@@ -23,7 +23,6 @@ sap.ui.define([
 				this.getView().setBusy(true);
 				this.getView().byId("productsTable").removeSelections(true);
 				$.get("/deswork/api/p-projects?populate[0]=p_customer&populate[1]=p_tasks&populate[2]=p_project_teams.users_permissions_users&populate[3]=users_permissions_users&filters[users_permissions_users][id]=" + loginId, function (response) {
-					console.log(response);
 					response = JSON.parse(response);
 					var oModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(oModel, "mprojects");
@@ -67,12 +66,10 @@ sap.ui.define([
 				type: "GET",
 				success: function (res) {
 					var response = JSON.parse(res);
-					console.log(response);
 					var theModel = new sap.ui.model.json.JSONModel(response.data);
 					that.getView().setModel(theModel, "customerInfo");
 				},
 				error: function (res) {
-					console.log(res);
 					MessageBox.error(res + "Something went wrong");
 				}
 			});
@@ -87,22 +84,35 @@ sap.ui.define([
 			this.oAddProjectDialog.open();
 		},
 
+			
 		closeProjectDialog: function () {
-			this.oAddProjectDialog.close();
+			this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[2].setValue()==="",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[4].setValue()==="",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[6].setSelectedKey() === "",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[8].setValue()==="",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[10].setValue()==="",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[12].setValue()==="",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[14].setSelectedKey() === "",
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[16].setSelectedKey() === "",			
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[18].setSelectedKey() === "" 
+		   this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[20].getItems()[0].setValue()==="",
+		   this.oAddProjectDialog.close();
 		},
 
 		onSaveProject: function (oEvent) {
 			var that = this;
+			var thisView = this.oAddProjectDialog;
+			var loginId = that.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
 			var Err = this.ValidateAddProject();
 			if (Err == 0) {
+				if((thisView.getContent()[0].getItems()[0].getContent()[8].getValue() )>(thisView.getContent()[0].getItems()[0].getContent()[10].getValue())){
+					MessageBox.error("End Date of project is less than Start Date ");
+					return;
+				}
 				that.addProject = {
 					name: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[2].getValue(),
 					description: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[4].getValue(),
-					type: this.oAddProjectDialog
-						.getContent()[0]
-						.getItems()[0]
-						.getContent()[6]
-						.getSelectedKey(),
+					type: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[6].getSelectedKey(),
 					startDate: this.oAddProjectDialog
 						.getContent()[0]
 						.getItems()[0]
@@ -131,17 +141,21 @@ sap.ui.define([
 					//   .getContent()[0]
 					//   .getItems()[0]
 					//   .getContent()[14]
-					//   .getValue(),
-					status: this.oAddProjectDialog
-						.getContent()[0]
-						.getItems()[0]
-						.getContent()[16]
-						.getSelectedKey(),
+				   //   .getValue(),
+					// status: this.oAddProjectDialog
+					// 	.getContent()[0]
+					// 	.getItems()[0]
+					// 	.getContent()[16]
+					// 	.getSelectedKey(),
 					p_customer: this.oAddProjectDialog
 						.getContent()[0]
 						.getItems()[0]
 						.getContent()[18]
-						.getSelectedKey(),
+						.getSelectedKey()? this.oAddProjectDialog
+						.getContent()[0]
+						.getItems()[0]
+						.getContent()[18]
+						.getValue() : null,
 					estimated_budget: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[20].getItems()[0].getValue() + " " +
 						this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[20].getItems()[1].getSelectedKey(),
 				}
@@ -164,23 +178,6 @@ sap.ui.define([
 						MessageBox.error(response.error.message);
 					} else {
 						that.oAddProjectDialog.close();
-						//	this.getView().byId("productsTable").refresh();	
-						$.ajax({
-							url: "/deswork/api/p-projects?populate=*",
-							type: "GET",
-							success: function (res) {
-								var response = JSON.parse(res);
-								that.mcsrfLength = response.data.length;
-								var cModel = new sap.ui.model.json.JSONModel(response.data);
-								that.getView().setModel(cModel, "mCsfDetails");
-								that.getView().getModel("mCsfDetails").getData();
-							},
-							error: function (res) {
-								console.log(res);
-								MessageBox.error(res + "Something went wrong");
-							}
-						});
-						MessageBox.success("Project Added Successfully");
 						that.oNewAppointment = {
 							users_permissions_user: that.loginId,
 							p_project: [that.projectId],
@@ -189,7 +186,6 @@ sap.ui.define([
 						that.oUsers = {
 							users_permissions_users: that.loginId,
 							p_project: [that.projectId],
-							//p_team_role: 'Project Manager',
 						};
 						$.ajax({
 							url: "/deswork/api/p-project-teams?populate=*",
@@ -202,11 +198,9 @@ sap.ui.define([
 							}),
 							success: function (response) {
 								var resValue = JSON.parse(response);
-							//	console.log(resValue.error);
 								if (resValue.error) {
 								  MessageBox.error(resValue.error.message);
 								} else {
-								 // that._onObjectMatched(that.id);
 								 $.ajax({
 									url: "/deswork/api/p-projects/"+  that.projectId +"?populate=*",
 									type: "PUT",
@@ -218,18 +212,25 @@ sap.ui.define([
 									}),
 									success: function (response) {
 										var resValue = JSON.parse(response);
-									//	console.log(resValue.error);
 										if (resValue.error) {
 										  MessageBox.error(resValue.error.message);
 										} else {
-										 // that._onObjectMatched(that.id);
+											
+											$.get("/deswork/api/p-projects?populate[0]=p_customer&populate[1]=p_tasks&populate[2]=p_project_teams.users_permissions_users&populate[3]=users_permissions_users&filters[users_permissions_users][id]=" + loginId, function (response) {
+												response = JSON.parse(response);
+												var oModel = new sap.ui.model.json.JSONModel(response.data);
+							                    that.getView().setModel(oModel, "mprojects");
+											});
+											MessageBox.success("Project Added Successfully");
+										
+											that.closeProjectDialog();
 										}
 									  }
-								});
+								  });
 								}
 							  }
 						});
-
+					
 					}
 				});
 			}
@@ -272,10 +273,10 @@ sap.ui.define([
 				thisView.getContent()[0].getItems()[0].getContent()[14].setValueState("None");
 				Err++;
 			}
-			if (thisView.getContent()[0].getItems()[0].getContent()[16].getSelectedKey() === "") {
-				thisView.getContent()[0].getItems()[0].getContent()[16].setValueState("None");
-				Err++;
-			}
+			// if (thisView.getContent()[0].getItems()[0].getContent()[16].getSelectedKey() === "") {
+			// 	thisView.getContent()[0].getItems()[0].getContent()[16].setValueState("None");
+			// 	Err++;
+			// }
 			// if (thisView.getContent()[0].getItems()[0].getContent()[18].getSelectedKey() === "") {
 			// 	thisView.getContent()[0].getItems()[0].getContent()[18].setValueState("None");
 			// 	Err++;

@@ -45,8 +45,6 @@ sap.ui.define([
                         response = JSON.parse(response);
                         var oModel = new sap.ui.model.json.JSONModel(response);
                         that.getView().setModel(oModel, "userModel");
-                        console.log(response.id);
-                        console.log(response);
                         that.callLeaveHistory(response.id);
                         that.callBalanceLeave(response.id);
                     }
@@ -64,17 +62,14 @@ sap.ui.define([
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        console.log(response);
                         var i;
                         for (i = 0; i < response.data.length; i++) {
                             if (parseInt(userId) === parseInt(response.data[i].attributes.requestedById)) {
                                 arr.push(response.data[i]);
-                                console.log(arr);
                             }
                         }
                         var oModel2 = new sap.ui.model.json.JSONModel(arr);
                         that.getView().setModel(oModel2, "leavehistory");
-                        console.log(that.getView().getModel("leavehistory").getData());
                     }
                 });
 
@@ -128,8 +123,6 @@ sap.ui.define([
                                                 response = JSON.parse(response);
                                                 var oModel = new sap.ui.model.json.JSONModel(response);
                                                 that.getView().setModel(oModel, "userModel");
-                                                console.log(response.id);
-                                                console.log(response);
                                                 that.callLeaveHistory(response.id);
                                             }
                                         });
@@ -252,12 +245,10 @@ sap.ui.define([
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        console.log(response);
                         var i;
                         for (i = 0; i < response.data.length; i++) {
                             if (parseInt(userId) === parseInt(response.data[i].attributes.requestedById)) {
                                 arr.push(response.data[i]);
-                                console.log(arr);
                             }
                         }
                         var oModel2 = new sap.ui.model.json.JSONModel(arr);
@@ -413,6 +404,10 @@ sap.ui.define([
                                 k = batches1.length;
                                 l = k - 1;
                                 b2 = batches1[l];
+                                var halfday = that.getView().byId("halfDayCheckBoxId").getProperty("selected");
+                                if(halfday == true){
+                                    k= "0.5";
+                                }
                                 var result = {
                                     "startDate": b1,
                                     "endDate": b2,
@@ -454,7 +449,7 @@ sap.ui.define([
                 if (halfday == true) {
                     if (k == 1) {
                         halfDay = halfday;
-                        return
+                        return halfDay
                     } else {
                         that.getView().byId("halfDayCheckBoxId").setSelected(false);
                         MessageBox.error("Select one day to apply a half day leave");
@@ -463,7 +458,7 @@ sap.ui.define([
 
                 } else {
                     halfDay = halfday;
-                    return;
+                    return ;
                 }
 
             },
@@ -528,10 +523,10 @@ sap.ui.define([
                             "data": result
                         }),
                         success: function (response) {
-                           
+                            MessageBox.success(response);
                         },
                         error: function (error) {
-                            MessageBox.success(error);
+                            MessageBox.error(error);
                         }
                     });
                 }
@@ -716,9 +711,6 @@ sap.ui.define([
                 var that = this;
                 var date = new Date();
                 var currentYear = date.getFullYear();
-                // that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
-                // var url = 'deswork/api/p-leaves?populate=*&filters[year][$eq]=';
-                // url = url + currentYear + '&filters[requestedById][$eq]=' + that.loginId;
                 $.ajax({
                     url: "deswork/api/p-holidays?filters[year][$eq]=" + currentYear,
                     method: "GET",
@@ -737,9 +729,7 @@ sap.ui.define([
                 var date = new Date();
                 var currentYear = date.getFullYear();
                 that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
-                // var url = 'deswork/api/p-leaves?populate=*&filters[year][$eq]=';
-                // url = url + currentYear + '&filters[requestedById][$eq]=' + that.loginId;
-                $.ajax({
+                 $.ajax({
                     url: "deswork/api/p-leaves?populate=*&filters[requestedById][$eq]=" + that.loginId,
                     method: "GET",
                     headers: {
@@ -747,7 +737,6 @@ sap.ui.define([
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        console.log(response);
                         var oModel2 = new sap.ui.model.json.JSONModel(response.data);
                         that.getView().setModel(oModel2, "leave");
                     }

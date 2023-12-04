@@ -29,7 +29,14 @@
 							 <Label id="_IDGenLab1el08" text="Date of Joining" required="true"/>
 							 <DatePicker id="datepickr" value="{/doj}" valueFormat="yyyy-MM-dd" width="50%"  />
 							<Label id="_IDGenLab1el01" text="Rate Card" />
-							<Input value="{/rate_card}" id="idProjectIdrc" width="50%"/>
+					        <FlexBox id="rateid" direction="Row" alignItems="Center">
+                            <Input value="{/rate_card}" type="Number" id="idProjectIdrc" width="80%"/>
+                            <Select forceSelection="false" id="rate1" selectedKey="" width="100%" >
+                              <core:Item key="EUR"  id="rate2" text="EUR" />
+                              <core:Item key="USD"  id="rate3" text="USD"/>
+                              <core:Item key="INR"  id="rate4" text="INR"/>
+                            </Select>
+                            </FlexBox>						
 							<Label id="_IDGenLabe1l110" text="Password"  visible="true" required="true"/>
 							<Input value="{/password}" id="idProjectId" width="50%" editable="true"/>
 							<Label id="_IDGenLabel71" text="Department" required="true"/>
@@ -104,8 +111,8 @@
 		<footer>
 			<OverflowToolbar id="_IDGenOverflowToolbar2">
 				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
-				<Button id="_IDGenButton2" text="Save" press="handleAddUserOkPress"/>
-				<Button id="_IDGenButton3" text="Cancel" press="handleWizardCancel"/>
+				<Button id="_IDGenButton2" text="Save" press="handleAddUserOkPress" type="Accept"/>
+				<Button id="_IDGenButton3" text="Cancel" press="handleWizardCancel" type="Reject"/>
 			</OverflowToolbar>
 		</footer>
 	</Page>

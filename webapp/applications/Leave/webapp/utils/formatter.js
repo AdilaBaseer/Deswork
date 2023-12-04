@@ -13,7 +13,7 @@ sap.ui.define([], function () {
 			}
 		},
 		getDate: function(NoOfDays){
-			if (NoOfDays == 1) {
+			if (NoOfDays <= 1) {
 				var days = NoOfDays + " day";
 			}
 			else {

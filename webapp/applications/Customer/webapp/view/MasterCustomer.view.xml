@@ -2,9 +2,8 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:mvc="sap.ui.core.mvc">
-	<f:DynamicPage id="dynamicPageId"
+	<f:DynamicPage id="dynamicPageId" showFooter="true" 
 				   toggleHeaderOnTitleClick="false">
-		<!-- DynamicPage Title -->
 		<f:title>
 			<f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
 				<f:heading>
@@ -23,9 +22,10 @@
 				>
 				<headerToolbar>
 					<OverflowToolbar id="_IDGenOverflowToolbar1">
-						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+						
 						<SearchField id="_IDGenSearchField1" search="onSearch" placeholder="Search" class="sapUiSmallMarginEnd"  width="17.5rem"/>
-						<OverflowToolbarButton id="_IDGenOverflowToolbarButton3" icon="sap-icon://add" type="Transparent" press="onAddNewCustomer"/>
+						<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+						<!-- <OverflowToolbarButton id="_IDGenOverflowToolbarButton3" icon="sap-icon://add" type="Transparent" press="onAddNewCustomer"/> -->
 						<OverflowToolbarButton id="_IDGenOverflowToolbarButton2" icon="sap-icon://sort" class="sapUiSmallMarginEnd" type="Transparent" press="onSort"/>
 					</OverflowToolbar>
 				</headerToolbar>
@@ -38,6 +38,12 @@
 				</ObjectListItem>
 			</List>
 		</f:content>
-		<!-- DynamicPage Footer -->
+		<f:footer>
+			<OverflowToolbar id="_IDGenOverflowTool">
+				<ToolbarSpacer id="_IDGenToolbar"/>
+				<Button id="_IDGenButton1" text="Add Customer" icon="sap-icon://add" type="Emphasized" press="onAddNewCustomer" iconFirst="true" />
+			</OverflowToolbar>
+		</f:footer>
+		
 	</f:DynamicPage>
 </mvc:View>

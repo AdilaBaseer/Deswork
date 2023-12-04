@@ -229,7 +229,7 @@ sap.ui.define([
                 success: function (response) {
                   var arr = [];
                   response = JSON.parse(response);
-                  var oModel = new sap.ui.model.json.JSONModel();
+                  var oModel = new sap.ui.model.json.JSONModel(response);
                   for (var i = 0; i < response.length; i++) {
                     for (var k = 0; k < response[i].p_appointments.length; k++) {
                       response[i].p_appointments[k].startDate = UI5Date.getInstance(response[i].p_appointments[k].startDate);
@@ -237,6 +237,11 @@ sap.ui.define([
                     }
                   }
                   oModel.setData(response);
+                  var aUsers = oModel.getProperty("/");
+                  var aFilteredUsers = aUsers.filter(function (user) {
+                    return user.designation !== "SuperAdmin";
+                  });
+                  oModel.setProperty("/", aFilteredUsers);
                   that.getView().setModel(oModel);
                 }
               });
@@ -247,8 +252,19 @@ sap.ui.define([
       },
       onObjectMatched: function (oEvent) {
         var that = this;
+        that.loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
         that.getView().setModel(new JSONModel({}));
-        
+        $.ajax({
+          url: "deswork/api/users?populate&filters[id]=" + that.loginId,
+          type: "GET",
+          success: function (res) {
+            var response = JSON.parse(res);
+            var designation = response[0].designation;
+            if (designation == "Manager") {
+              that.getView().byId("_IDGenButtonDwnld").setVisible(false);
+            }
+          }
+        });
       },
       handleAppointmentSelect: function (oEvent) {
         var that = this;
@@ -300,7 +316,6 @@ sap.ui.define([
             that.AppointmentInfo.open();
           },
           error: function (res) {
-            console.log(res);
           }
         });
       },
@@ -355,13 +370,6 @@ sap.ui.define([
 
       },
       handleAppointmentReject: function (oEvent) {
-        // if (!this.Comment) {
-        //   this.Comment = sap.ui.xmlfragment("vaspp.employeetimetracking.fragment.Comment", this);
-        //   this.getView().addDependent(this.Comment);
-        //   that.Comment.open();
-        // }
-
-
         var that = this;
         this.Appointid = oEvent.getSource().getModel("taskModel").oData.id;
         that.updatedProject = {
@@ -391,7 +399,6 @@ sap.ui.define([
                     that.AppointmentInfo.close();
                     MessageToast.show("Time sheet has been Rejected!");
                     that.getUserDetails();
-
                   }
                 },
               });

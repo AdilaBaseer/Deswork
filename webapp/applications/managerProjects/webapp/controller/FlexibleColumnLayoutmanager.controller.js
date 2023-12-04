@@ -4,7 +4,7 @@ sap.ui.define([
 ], function (JSONModel, Controller) {
 	"use strict";
 
-	return Controller.extend("VASPP.managerProjects.controller.FlexibleColumnLayout", {
+	return Controller.extend("VASPP.managerProjects.controller.FlexibleColumnLayoutmanager", {
 		onInit: function () {
 			var that = this;
 			that.oRouter = this.getOwnerComponent().getRouter();

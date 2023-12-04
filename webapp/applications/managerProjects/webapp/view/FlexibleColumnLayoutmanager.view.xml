@@ -1,4 +1,4 @@
-<mvc:View xmlns="sap.f" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" controllerName="VASPP.managerProjects.controller.FlexibleColumnLayout" height="100%">
+<mvc:View xmlns="sap.f" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" controllerName="VASPP.managerProjects.controller.FlexibleColumnLayoutmanager" height="100%">
 	<FlexibleColumnLayout
 		autoFocus="false"
 		id="fcl"

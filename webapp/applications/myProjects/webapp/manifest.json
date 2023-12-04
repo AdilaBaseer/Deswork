@@ -54,6 +54,11 @@
 		"config": {
 			"fullWidth": true
 		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
 		"routing": {
 			"config": {
 				"routerClass": "sap.f.routing.Router",

@@ -1,0 +1,57 @@
+<mvc:View controllerName="vaspp.TimeExtension.controller.detailTimeExtension" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+	<Page id="TimeExtnPage" showNavButton="true" title="Time Extension Requests" navButtonPress="handleNavBack">
+		<content>	
+		 <Table id="timeExt" items="{path: 'csfData>/'}" mode="SingleSelect" visible="true">
+			<columns>
+				<Column id="_IDGenColumn1">
+					<Text id="cdbh" text="Task Name"/>
+				</Column>
+				<Column id="_IDGenColumn11">
+					<Text id="cdb1h" text="Subtask Name"/>
+				</Column>
+				<Column id="_IDGenColumn131">
+					<Text id="cdb13h" text="Start Date"/>
+				</Column>
+				<Column id="_IDGenColumn141">
+					<Text id="cdb14h" text="End Date"/>
+				</Column>	
+				<Column id="_IDGenColumn142">
+					<Text id="ch" text="Extended End Date"/>
+				</Column>
+				<Column id="_IDGenColumn153">
+					<Text id="ch3" text="Responsible"/>
+				</Column>	
+				<Column id="_IDGenColumn143">
+					<Text id="ch1" text="Reason"/>
+				</Column>	
+				<Column id="_IDGenColumn144">
+					<Text id="ch2" text="Status"/>
+				</Column>	
+				</columns>
+			<items>
+				<ColumnListItem id="cloumnListItemId">
+					<cells>
+						<Text id="_IDGenText1" text="{csfData>taskName}"/>
+						<Text id="_IDGenText14" text="{csfData>name}"/>						
+						<Text id="_IDGenText3" text="{path:'csfData>startDate',formatter:'.formatter.formatDate'}"/>
+						<Text id="_IDGenText15" text="{path:'csfData>endDate',formatter:'.formatter.formatDate'}"/>
+						<Text id="_IDGenText16" text="{path:'csfData>extended_end_date',formatter:'.formatter.formatDate'}"/>
+						<Text id="_IDGenText181" text="{csfData>responsible}"/>
+						<Text id="_IDGenText18" text="{csfData>p_task_reason}"/>
+						<Text id="_IDGenText17" text="{csfData>p_approver_status}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>               
+	</content>
+		<footer>
+            <OverflowToolbar id="_IDGenOverflowToolbar1">
+            <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+              <Button text="Approve Time Extension" id="quotationApproveId" type="Accept" visible="true" press="onApproveProjects" />
+			  <Button text="Reject Time Extension" id="quotationRejectId" type="Reject" visible="true" press="OnRejectProjects" />
+            <!-- <ToolbarSpacer id="_IDGenToolbarSpacer2"/> -->
+			</OverflowToolbar>	
+        </footer>	
+	</Page>
+</mvc:View>

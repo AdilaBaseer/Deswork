@@ -1,7 +1,7 @@
 {
 	"_version": "1.42.0",
 	"sap.app": {
-	  "id": "VASPP.managerProjects.view.FlexibleColumnLayout",
+	  "id": "VASPP.managerProjects.view.FlexibleColumnLayoutmanager",
 	  "type": "application",
 	  "i18n": "i18n/i18n.properties",
 	  "applicationVersion": {
@@ -30,7 +30,7 @@
 	"sap.ui5": {
 		"flexEnabled": true,
         "rootView": {
-			"viewName": "VASPP.managerProjects.view.FlexibleColumnLayout",
+			"viewName": "VASPP.managerProjects.view.FlexibleColumnLayoutmanager",
 			"type": "XML",
 			"async": true,
 			"id": "fcl"
