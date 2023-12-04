@@ -2,10 +2,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified">
 	<Dialog title="EDIT" contentWidth="30%" class="sapUiSizeCompact" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
 		<endButton>
-			<Button  text="{i18n>Cancel}" press="handleEditAddTaskCancelS"/>
+			<Button  text="{i18n>Cancel}" press="handleEditAddTaskCancelS"  type="Reject" />
 		</endButton>
 		<beginButton>
-			<Button  text="{i18n>Add}"  press="handleEditAddTaskS"/>
+			<Button  text="{i18n>Save}"  press="handleEditAddTaskS" type="Accept"/>
 		</beginButton>
 		<SegmentedButton   width="100%"  selectionChange="handleSubSelectionChange">
 			<items>
@@ -25,15 +25,15 @@
                 <Input  value="{mTasks>/description}" /> 
 
                 <Label  text="Start Date" required="true"/>
-                <DatePicker   value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker   value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit"/>
 
                 <Label   text="Estimated End Date" required="true"/>
                 <DatePicker  value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit" />
 
                 <Label   text="Actual End Date" required="true"/>
-                <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeTaskEditIfExtended" />
+                <DatePicker   value="{mTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeTaskEdit" />
 
-			    <Label   text="No Of Days" />
+			       <Label   text="No Of Days" />
                 <Input  value="{mTasks>/noOfDays}" editable="false"/>
 
                 <Label text="Status" />
@@ -53,7 +53,7 @@
 
                  <Label   text="Responsible" required="true" />
                 <Select  forceSelection="false" selectedKey=""  items="{pTeams>/}" required="true">
-                <core:Item   key="{pTeams>id}"  text="{pTeams>firstName}"/>
+                <core:Item   key="{pTeams>id}"  text="{pTeams>firstName} {pTeams>lastName}" />
                 </Select>
 				
 			</f:content>
@@ -71,13 +71,13 @@
                 <Input  value="{mSubTasks>/description}" /> 
 
                 <Label    text="Start Date" required="true"/>
-                <DatePicker   value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker   value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
 
                 <Label    text="Estimated End Date" required="true"/>
                 <DatePicker   value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
 
                 <Label  text="Actual End Date" required="true"/>
-                <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEditIfExtended"/>
+                <DatePicker   value="{mSubTasks>/extended_end_date}" valueFormat="yyyy-MM-dd" change="onChangeSubTaskEdit"/>
 
                 <Label text="No Of Days" />
                 <Input  value="{mSubTasks>/noOfDays}" editable="false"/>

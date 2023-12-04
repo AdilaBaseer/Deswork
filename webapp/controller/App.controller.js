@@ -567,16 +567,13 @@ sap.ui.define([
 					}
 					else if (oMenuItem.key == 'Projects') {
 						return true;
-					}
+					}	
 					else if (oMenuItem.key == 'UsersManagement') {
 						return true;
 					}
 					else if (oMenuItem.key == 'LeavesManagement') {
 						return true;
 					}
-					// else if (oMenuItem.key == 'MyProjects') {
-					// 	return true;
-					// }
 					else if (oMenuItem.key == 'Timesheets') {
 						return true;
 					}
@@ -647,7 +644,9 @@ sap.ui.define([
 					else if (oMenuItem.key == 'MyProfile') {
 						return true;
 					}
-					
+					else if (oMenuItem.key == 'TimeExtensionApproval') {
+						return true;
+					}
 					else if (oMenuItem.key == 'dayleavetracking') {
 						return true;
 					}
@@ -718,16 +717,19 @@ sap.ui.define([
 					else if (oMenuItem.key == 'MyProfile') {
 						return true;
 					}
+					else if (oMenuItem.key == 'TimeExtensionApproval') {
+						return true;
+					}
 					else if (oMenuItem.key == 'managerProjects') {
 						return true;
 					}
-					// else if (oMenuItem.key == 'Manage Employee') {
-					// 	return true;
-					// }
 					else if (oMenuItem.key == 'managerLeavetracking') {
 						return true;
 					}
 					else if (oMenuItem.key == 'ApproveLeaveRequests') {
+						return true;
+					}
+					else if (oMenuItem.key == 'LeaveEntry') {
 						return true;
 					}
 					else if (oMenuItem.key == 'mypublicholidayslist') {

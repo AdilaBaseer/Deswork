@@ -143,8 +143,13 @@ sap.ui.define([
 		},
 		onSaveProject: function (oEvent) {
 			var that = this;
-			var Err = this.ValidateAddProject();
+			var thisView = this.oAddProjectDialog;
+			var Err = this.ValidateAddProject();	
 			if (Err == 0) {
+				if((thisView.getContent()[0].getItems()[0].getContent()[8].getValue() )>(thisView.getContent()[0].getItems()[0].getContent()[10].getValue())){
+					MessageBox.error("End Date of project is less than Start Date ");
+					return;
+				}
 				that.addProject = {
 					name: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[2].getValue(),
 					description: this.oAddProjectDialog.getContent()[0].getItems()[0].getContent()[4].getValue(),

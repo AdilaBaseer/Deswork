@@ -8,7 +8,7 @@
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
 				<expandedHeading>
-					<m:Title id="_IDGenTitle1" text="" wrapping="true" class="sapUiSmallMarginEnd"/>
+					<m:Title id="_IDGenTitle1" text="{mleave>/attributes/requestedBy}" wrapping="true" class="sapUiSmallMarginEnd"/>
 				</expandedHeading>
 				<snappedHeading>
 				</snappedHeading>
@@ -26,7 +26,7 @@
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 		<headerContent>
-			<m:ObjectHeader id="_IDGenObjectHeader1" class="objHeaderClass" title="{mleave>/attributes/requestedBy}">
+			<m:ObjectHeader id="_IDGenObjectHeader1" class="objHeaderClass" title="">
                 <m:statuses>
                     <m:ObjectStatus id="_IDGenObjectStatus1" title="Start Date" 
 						text="{mleave>/attributes/startDate}"/>
@@ -34,10 +34,10 @@
 						text="{mleave>/attributes/endDate}"/>    
                 </m:statuses>
                 <m:attributes>
-                    <m:ObjectAttribute id="_IDGenObjectAttribute1" title="Name" 
-						text="{mleave>/attributes/requestedBy}" visible="true"/>
-                    <m:ObjectAttribute id="_IDGenObjectAttribute2" title="Type" 
+                    <m:ObjectAttribute id="_IDGenObjectAttribute1" title="Type" 
 						text="{mleave>/attributes/type}" visible="true"/>
+                    <m:ObjectAttribute id="_IDGenObjectAttribute2" title="Reason" 
+						text="{mleave>/attributes/reason}" visible="true"/>
                 </m:attributes>
             </m:ObjectHeader>
 		</headerContent>		
@@ -174,9 +174,9 @@
 		<footer>
             <m:OverflowToolbar id="_IDGenOverflowToolbar1">
                 <m:ToolbarSpacer id="_IDGenToolbarSpacer1"/>
-                <m:Button id="_IDGenButton6" text="Approve" tooltip="Approve Leave" class="sapUiSmallMargin" 
+                <m:Button id="_IDGenButton6" text="Approve Leave" tooltip="Approve Leave"  type="Accept"
 					press="onInitialFocusOnAccept"/>            
-		        <m:Button id="_IDGenButton8" text="Reject" tooltip="Reject Leave" class="sapUiSmallMargin" 
+		        <m:Button id="_IDGenButton8" text="Reject Leave" tooltip="Reject Leave"   type="Reject"
 					press="onInitialFocusOnReject"/>	
             </m:OverflowToolbar>	
         </footer>	

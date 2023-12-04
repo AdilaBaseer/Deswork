@@ -22,6 +22,14 @@
 	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" isChildPage="true" upperCaseAnchorBar="false" showFooter="true" useIconTabBar="true">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+				<expandedHeading>
+					<m:Title id="_IDGenTitle1" text="{mprojects>/attributes/name}" wrapping="true" class="sapUiSmallMarginEnd" />
+				</expandedHeading>
+				<snappedHeading>
+					<m:FlexBox id="_IDGenFlexBox1" wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox id="_IDGenFlexBox2" wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd"></m:FlexBox>
+					</m:FlexBox>
+				</snappedHeading>
 				<navigationActions>
 					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://full-screen" press="handleFullScreen" id="enterFullScreenBtn" tooltip="Enter Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/fullScreen} !== null }" />
 					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://exit-full-screen" press="handleExitFullScreen" id="exitFullScreenBtn" tooltip="Exit Full Screen Mode" visible="{= ${/actionButtonsInfo/midColumn/exitFullScreen} !== null }" />
@@ -30,9 +38,9 @@
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 		<headerContent>
-			<m:ObjectHeader id="_IDGenObjectHeader1"  title="{mprojects>/attributes/name}" number="{parts: ['mprojects>/attributes/estimatedEndDate'], formatter: '.formatter.getDueDate'}" class="objHeaderClass">
+			<m:ObjectHeader id="_IDGenObjectHeader1"  title="" class="objHeaderClass">
 				<m:statuses>
-					<m:ObjectStatus id="_IDGenObjectStatus1" title="" text="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"
+					<m:ObjectStatus id="_IDGenObjectStatus1" title="Status" text="{parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}],formatter:'.formatter.getStatus' }"
 								state="{ parts:[{path:'mprojects>/attributes/status'},{path:'mprojects>/attributes/startDate'},{path:'mprojects>/attributes/estimatedEndDate'},{path:'mprojects>/attributes/actualEndDate'}], formatter:'.formatter.getStatusIndication' }"/>
 				</m:statuses>
 				<m:attributes >
@@ -175,7 +183,7 @@
 							
 								<x:columns>
 									<x:Column id="_IDGenColumn1" width="10rem"  >
-										<m:Label id="_IDGenLabel11" text="Name" wrapping="true"/>
+										<m:Label id="_IDGenLabel11" text="Task Name" wrapping="true"/>
 										<x:template>
 											<m:Text id="_IDGenText10" text="{csfData>name}" wrapping="true"  />
 										</x:template>
@@ -227,7 +235,7 @@
 									<x:Column id="_IDGen6Co6lu60mn1" width="6rem">
 										<m:Label id="_ID6Ge6n6La0bel11" text="Responsible" wrapping="true"/>
 										<x:template>
-											<m:Text id="_ID60GenTe6xt610" wrapping="true" text="{csfData>firstName}"  />
+											<m:Text id="_ID60GenTe6xt610" wrapping="true" text="{csfData>responsible}"  />
 										</x:template>
 									</x:Column>
 									<x:Column id="_IDGen6Co69lu60mn1" width="8rem">
@@ -244,13 +252,13 @@
 									</x:Column>
 								</x:columns>
 								<!-- <x:footer> -->
-									<x:extension>
+									<!-- <x:extension>
 									<m:OverflowToolbar id="_IDGenOverflowToolba0r3" style="Clear">
 										<m:ToolbarSpacer id="_IDGenToolbarSpac9er3"/>
 										<m:Button text="Approve Time Extension" id="quotationApproveId" type="Emphasized" visible="true" press="onApproveProjects" />
 										<m:Button text="Reject Time Extension" id="quotationRejectId" type="Emphasized" visible="true" press="OnRejectProjects" />
 									</m:OverflowToolbar>
-								</x:extension>								
+								</x:extension>								 -->
 							</x:TreeTable>						
 						</blocks>
 						<blocks>

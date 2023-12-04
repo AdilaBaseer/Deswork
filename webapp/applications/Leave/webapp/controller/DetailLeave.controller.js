@@ -132,7 +132,7 @@ sap.ui.define([
 					"data": {
 						"startDate": data.startDate,
 						"endDate": data.endDate,
-						"NoOfDays": 1,
+						"NoOfDays": data.NoOfDays,
 						"type": data.type,
 						"status": data.status,
 						"reason": data.reason,

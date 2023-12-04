@@ -36,7 +36,7 @@ sap.ui.define(
         }
         if (!that.oEditSubTaskInfo) {
           that.oEditSubTaskInfo = sap.ui.xmlfragment(
-           "VASPP.Projects.fragment.EditSubTask",
+            "VASPP.Projects.fragment.EditSubTask",
             that
           );
           that.getView().addDependent(that.oEditSubTaskInfo);
@@ -70,10 +70,10 @@ sap.ui.define(
       },
       formatCurrency: function (estimatedBudget) {
         if (estimatedBudget) {
-            var oCurrencyFormat = NumberFormat.getCurrencyInstance();
-            return oCurrencyFormat.format(estimatedBudget.split(' ')[0], estimatedBudget.split(' ')[1])
+          var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+          return oCurrencyFormat.format(estimatedBudget.split(' ')[0], estimatedBudget.split(' ')[1])
         }
-    },
+      },
       handleFullScreen: function () {
         this.bFocusFullScreenButton = true;
         var sNextLayout = this.oModel.getProperty("/actionButtonsInfo/midColumn/fullScreen");
@@ -97,7 +97,6 @@ sap.ui.define(
       //OBJECT MATCHED
 
       _onObjectMatched: function (oEvent) {
-        //  debugger;
         var that = this;
         if (typeof oEvent == "number") {
           this.id = oEvent;
@@ -116,12 +115,7 @@ sap.ui.define(
             var oModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(oModel, "mprojects");
             that.getView().getModel("mprojects").getData();
-            // var estimatedBudget = data.attributes.estimated_budget.split(" RUPEES")[0];
-            // data.attributes.estimated_budget = estimatedBudget;
-            // var actualBudget = data.attributes.actual_budget.split(" RUPEES")[0];
-            // data.attributes.actual_budget = actualBudget;
             that.getView().getModel("mprojects").updateBindings("true");
-
             // that.projectsDetails();
             // that.getEffort();
             //   that.getVendorDetails();
@@ -196,7 +190,7 @@ sap.ui.define(
                 }
                 // Assuming the user's first name is available as a property in the users_permissions_user object
                 var userFirstName = usersPermissionsUser.firstName;
-                task.firstName = userFirstName;
+                task.responsible = userFirstName  + " " +  usersPermissionsUser.lastName;
               }
 
               finalCsfSet.push(task);
@@ -298,8 +292,8 @@ sap.ui.define(
           .getView()
           .getModel("mprojects")
           .getData().attributes;
-       
-          if (EditModel.status === "Completed") {
+
+        if (EditModel.status === "Completed") {
           MessageToast.show("Completed Projects can't be Edited")
         }
         else {
@@ -314,23 +308,23 @@ sap.ui.define(
             this.getView().addDependent(this.oAddProjectDialog1);
           }
           this.oAddProjectDialog1
-          .getContent()[0]
-          .getItems()[0]
-          .getContent()[15].setVisible(true);
+            .getContent()[0]
+            .getItems()[0]
+            .getContent()[15].setVisible(true);
           this.oAddProjectDialog1
-          .getContent()[0]
-          .getItems()[0]
-          .getContent()[16].setVisible(true);
-        // that.dynamicStatus=;
+            .getContent()[0]
+            .getItems()[0]
+            .getContent()[16].setVisible(true);
+          // that.dynamicStatus=;
           if (EditModel.p_customer.data === null) {
-           that.idCusto= this.oAddProjectDialog1
+            that.idCusto = this.oAddProjectDialog1
               .getContent()[0]
               .getItems()[0]
               .getContent()[18]
               .setSelectedKey("");
           }
-          else{
-            that.idCusto=this.oAddProjectDialog1.getContent()[0].getItems()[0].getContent()[18].setSelectedKey(EditModel.p_customer.data.id);
+          else {
+            that.idCusto = this.oAddProjectDialog1.getContent()[0].getItems()[0].getContent()[18].setSelectedKey(EditModel.p_customer.data.id);
           }
           var data = {
             name: this.oAddProjectDialog1
@@ -373,14 +367,14 @@ sap.ui.define(
               .getItems()[0]
               .getContent()[14]
               .setSelectedKey(EditModel.priority),
-            
+
             status: this.oAddProjectDialog1
               .getContent()[0]
               .getItems()[0]
               .getContent()[16]
               .setSelectedKey(EditModel.status),
-          
-            p_customer: that.idCusto ,
+
+            p_customer: that.idCusto,
             estimated_budget: this.oAddProjectDialog1
               .getContent()[0]
               .getItems()[0]
@@ -423,32 +417,37 @@ sap.ui.define(
         var that = this;
         that.statusstartdate = oEvent.getParameters().value;
       },
-      
+
       onStatusEnd: function (oEvent) {
         var that = this;
         that.statusenddate = oEvent.getParameters().value;
         var today = new Date().toISOString().slice(0, 10);
-  
+
         if (that.statusstartdate <= today && that.statusenddate >= today) {
           //that.projectStatus.attributes.status = "In-progress";
           this.oAddProjectDialog1
-              .getContent()[0]
-              .getItems()[0]
-              .getContent()[16]
-              .setSelectedKey("In-progress")
+            .getContent()[0]
+            .getItems()[0]
+            .getContent()[16]
+            .setSelectedKey("In-progress")
         } else if (that.statusstartdate > today) {
           this.oAddProjectDialog1
-              .getContent()[0]
-              .getItems()[0]
-              .getContent()[16]
-              .setSelectedKey("New")
+            .getContent()[0]
+            .getItems()[0]
+            .getContent()[16]
+            .setSelectedKey("New")
         }
       },
       onSaveProject: function (oEv) {
         var that = this;
-      
+        var thisView = this.oAddProjectDialog1;
         var Err = this.ValidateEditProject();
+
         if (Err == 0) {
+          if((thisView.getContent()[0].getItems()[0].getContent()[8].getValue() )>(thisView.getContent()[0].getItems()[0].getContent()[10].getValue())){
+            MessageBox.error("End Date of project is less than Start Date ");
+            return;
+          }
           that.updatedProject = {
             name: this.oAddProjectDialog1
               .getContent()[0]
@@ -546,11 +545,8 @@ sap.ui.define(
                 // that.getOwnerComponent().getRouter().navTo();
                 MessageBox.success("Project Updated Successfully");
                 that._onObjectMatched(that.id);
-
                 that.onInit();
                 that.getView().getModel("mprojects").updateBindings(true);
-
-
                 that.getView().getModel("mprojects").updateBindings(true);
                 that.getView().getModel().updateBindings(true);
 
@@ -629,7 +625,7 @@ sap.ui.define(
         else {
           var teamArray = [];
           that.updateTeamData = {
-            "p_project_teams": teamArray ,
+            "p_project_teams": teamArray,
             "p_tasks": teamArray
           };
           MessageBox.confirm("Are you sure you want to Delete  ?", {
@@ -825,7 +821,7 @@ sap.ui.define(
             for (var j = 0; j < user.p_team_role_users.length; j++) {
               if (user.p_team_role_users[j].roleName === that.p_role_team) {
                 filteredUsers.push(user);
-                break; 
+                break;
               }
             }
           }
@@ -876,8 +872,8 @@ sap.ui.define(
               MessageToast.show("Team Member Added successfully!");
               var thatView = that.oAddTeamMember;
               thatView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
-              thatView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
-              thatView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 
+              thatView.getContent()[0].getItems()[0].getContent()[3].setValue() === ""
+              thatView.getContent()[0].getItems()[0].getContent()[5].setValue() === ""
               that.Jid = JSON.parse(that.id)
               that._onObjectMatched(that.Jid);
               that.getView().getModel().updateBindings(true);
@@ -1053,10 +1049,10 @@ sap.ui.define(
         }
       },
       onCloseTeamDialog: function () {
-			var thisView = this.oAddTeamMember;
-      thisView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
-			thisView.getContent()[0].getItems()[0].getContent()[3].setValue() === "" 	
-			thisView.getContent()[0].getItems()[0].getContent()[5].setValue() === "" 	
+        var thisView = this.oAddTeamMember;
+        thisView.getContent()[0].getItems()[0].getContent()[1].setSelectedKey() === ""
+        thisView.getContent()[0].getItems()[0].getContent()[3].setValue() === ""
+        thisView.getContent()[0].getItems()[0].getContent()[5].setValue() === ""
         this.oAddTeamMember.close();
       },
 
@@ -1457,66 +1453,60 @@ sap.ui.define(
         this.table = this.getView().byId("TreeTableBasic");
         var selectedItems = this.table.getSelectedIndices();
         var oModel = this.table.getBinding().getModel();
+        selectedItems.forEach(function (itemIndex) {
+          var oContext = that.table.getContextByIndex(itemIndex);
+          var oData = oContext.getProperty();
+          var sPath = oContext.getPath()
+          var itemId = oData.id;
+          var itemStatus = oData.p_approver_status;
+          if (selectedItems.length > 0) {
+            if (itemStatus == "Requested") {
+              MessageBox.confirm(
+                "Are you sure you want to Approve the Time Extension for selected Task?",
+                {
+                  title: "Confirm Deletion",
+                  icon: MessageBox.Icon.WARNING,
+                  actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                  emphasizedAction: MessageBox.Action.YES,
+                  onClose: function (oAction) {
+                    if (oAction === "YES") {
+                      var updateData = {
+                        p_approver_status: "Approved" // Update the status to "approved"
+                      };
+                      $.ajax({
+                        url: "/deswork/api/p-sub-tasks/" + itemId,
+                        type: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        data: JSON.stringify({
+                          data: updateData,
+                        }),
+                        success: function (res) {
+                          //  resolve(res);
+                          MessageToast.show("Time Extension Approved Successfully!");
+                          that.mCsfData();
+                          that._onObjectMatched(that.id);
+                          that.getView().getModel().updateBindings(true);
+                        },
+                        error: function (err) {
 
-        if (selectedItems.length > 0) {
-          MessageBox.confirm(
-            "Are you sure you want to Approve the Time Extension for selected Task?",
-            {
-              title: "Confirm Deletion",
-              icon: MessageBox.Icon.WARNING,
-              actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-              emphasizedAction: MessageBox.Action.YES,
-              onClose: function (oAction) {
-                if (oAction === "YES") {
-                  //  var deletePromises = [];
-
-                  selectedItems.forEach(function (itemIndex) {
-                    var oContext = that.table.getContextByIndex(itemIndex);
-                    var oData = oContext.getProperty();
-                    var sPath = oContext.getPath()
-                    var itemId = oData.id;
-                    var itemStatus = oData.p_approver_status;
-                    //   if(itemStatus == "Requested"){
-                    var updateData = {
-                      p_approver_status: "Approved" // Update the status to "approved"
-                    };
-                    $.ajax({
-                      url: "/deswork/api/p-sub-tasks/" + itemId,
-                      type: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      data: JSON.stringify({
-                        data: updateData,
-                      }),
-
-                      success: function (res) {
-                        //  resolve(res);
-                        MessageToast.show("Sub-Tasks Approved Successfully!");
-                        that._onObjectMatched(that.id);
-                        that.getView().getModel().updateBindings(true);
-                      },
-                      error: function (err) {
-
-                      },
-                    });
-                    // }
-                    // else{
-                    //   sap.m.MessageToast.show("Please select the Time Extension Requested item only.");
-                    // }
-
-
-                  });
-
-
-                }
-              },
+                        },
+                      });
+                    }
+                  },
+                });
+            } else {
+              sap.m.MessageToast.show("Please select the Time Extension of Requested item only.");
             }
-          );
-        } else {
-          sap.m.MessageToast.show("Please select at least one item.");
-        }
+          }
+          else {
+            sap.m.MessageToast.show("Please select at least one item.");
+
+          }
+        });
       },
+
       OnRejectProjects: function () {
         var that = this;
         that.programRejected("Rejected");
@@ -1526,71 +1516,64 @@ sap.ui.define(
         this.table = this.getView().byId("TreeTableBasic");
         var selectedItems = this.table.getSelectedIndices();
         var oModel = this.table.getBinding().getModel();
+        selectedItems.forEach(function (itemIndex) {
+          var oContext = that.table.getContextByIndex(itemIndex);
+          var oData = oContext.getProperty();
+          var sPath = oContext.getPath()
+          var itemId = oData.id;
+          var itemStatus = oData.p_approver_status;
+          if (selectedItems.length > 0) {
+          if (itemStatus == "Requested") {
+           
+              MessageBox.confirm(
+                "Are you sure you want to Reject the selected Time Extension for  Task?",
+                {
+                  title: "Confirm Deletion",
+                  icon: MessageBox.Icon.WARNING,
+                  actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                  emphasizedAction: MessageBox.Action.YES,
+                  onClose: function (oAction) {
+                    if (oAction === "YES") {
+                      var updateData = {
+                        p_approver_status: "Rejected" // Update the status to "approved"
+                      };
+                      $.ajax({
+                        url: "/deswork/api/p-sub-tasks/" + itemId,
+                        type: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        data: JSON.stringify({
+                          data: updateData,
+                        }),
+                        success: function (res) {
+                          //  resolve(res);
+                          MessageToast.show("Time Extension Rejected Successfully!");
+                          that.mCsfData();
+                          that._onObjectMatched(that.id);
+                          that.getView().getModel().updateBindings(true);
+                        },
+                        error: function (err) {
 
-        if (selectedItems.length > 0) {
-          MessageBox.confirm(
-            "Are you sure you want to Reject the selected Time Extension for  Task?",
-            {
-              title: "Confirm Deletion",
-              icon: MessageBox.Icon.WARNING,
-              actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-              emphasizedAction: MessageBox.Action.YES,
-              onClose: function (oAction) {
-                if (oAction === "YES") {
-                  //  var deletePromises = [];
-
-                  selectedItems.forEach(function (itemIndex) {
-                    var oContext = that.table.getContextByIndex(itemIndex);
-                    var oData = oContext.getProperty();
-                    var sPath = oContext.getPath()
-                    var itemId = oData.id;
-                    var itemStatus = oData.p_approver_status;
-                    //   if(itemStatus == "Requested"){
-                    var updateData = {
-                      p_approver_status: "Rejected" // Update the status to "approved"
-                    };
-                    $.ajax({
-                      url: "/deswork/api/p-sub-tasks/" + itemId,
-                      type: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      data: JSON.stringify({
-                        data: updateData,
-                      }),
-
-                      success: function (res) {
-                        //  resolve(res);
-                        MessageToast.show("Sub-Tasks Approved Successfully!");
-                        that._onObjectMatched(that.id);
-                        that.getView().getModel().updateBindings(true);
-                      },
-                      error: function (err) {
-
-                      },
-                    });
-                    // }
-                    // else{
-                    //   sap.m.MessageToast.show("Please select the Time Extension Requested item only.");
-                    // }
-
-
-                  });
-
-
-                }
-              },
+                        },
+                      });
+                    }
+                  },
+                });
+            } else {
+              sap.m.MessageToast.show("Please select the Time Extension of Requested item only.");
             }
-          );
-        } else {
-          sap.m.MessageToast.show("Please select at least one item.");
-        }
+          }
+          else {
+            sap.m.MessageToast.show("Please select at least one item.");
+         
+          }
+        });
       },
       //from here
       handleSelectionChange: function (oEvent) {
         var that = this;
         var gettingText = oEvent.getParameter("item").getProperty("text");
-
         if (gettingText === 'CREATE TASK') {
           this.oAddSubTaskInfo.getContent()[1].setVisible(true);
           this.oAddSubTaskInfo.getContent()[2].setVisible(false);
@@ -1706,7 +1689,6 @@ sap.ui.define(
             });
             that.addSubCSFPayload = {
               "p_task": this.oAddSubTaskInfo.getContent()[2].getContent()[1].getSelectedKey(),
-
               "name": this.oAddSubTaskInfo
                 .getContent()[2]
                 .getContent()[3]
@@ -1731,6 +1713,10 @@ sap.ui.define(
                 .getContent()[2]
                 .getContent()[13]
                 .getSelectedKey(),
+              // "responsible":this.oAddSubTaskInfo
+              //   .getContent()[2]
+              //   .getContent()[15]
+              //   .getSelectedKey(),
             };
 
             if (new Date(projectData.attributes.startDate) > new Date(this.oAddSubTaskInfo.getContent()[2].getContent()[7].getValue())) {
@@ -1911,8 +1897,28 @@ sap.ui.define(
           }
         });
       },
-
       onPress: function (oEvent) {
+        var that = this;
+        that.selectedIdTask = oEvent.getParameters().selectedItem.mProperties.key;
+        $.ajax({
+          url:
+            "/deswork/api/p-sub-tasks?populate=*&filters[p_task][id][$eq]=" + that.selectedIdTask,
+          type: "GET",
+          success: function (res) {
+            var response = JSON.parse(res);
+            var cModel = new sap.ui.model.json.JSONModel(response.data);
+            that.getView().setModel(cModel, "mSubcsf");     
+            that.oEditSubTaskInfo.getContent()[2].getContent()[3].setSelectedKey("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[5].setValue("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[7].setValue("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[9].setValue("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[13].setValue("");
+            that.oEditSubTaskInfo.getContent()[2].getContent()[15].setSelectedKey("");
+          },
+        });
+      },
+      onPressSubTask: function (oEvent) {
         var that = this;
         that.selectedId = oEvent.getParameters().selectedItem.mProperties.key;
         $.ajax({
@@ -1927,12 +1933,12 @@ sap.ui.define(
             var selected_id = that.getView().getModel("mCsfDetails").getData().id;
 
             var check = that.getView().getModel("mCsfDetails").getData().attributes;
-            that.oEditSubTaskInfo.getContent()[2].getContent()[3].setValue(check.description);
-            that.oEditSubTaskInfo.getContent()[2].getContent()[5].setValue(check.startDate);
-            that.oEditSubTaskInfo.getContent()[2].getContent()[7].setValue(check.endDate);
-            that.oEditSubTaskInfo.getContent()[2].getContent()[9].setValue(check.extended_end_date);
-            that.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue(check.noOfDays);
-            that.oEditSubTaskInfo.getContent()[2].getContent()[13].setSelectedKey(check.status);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[5].setValue(check.description);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[7].setValue(check.startDate);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[9].setValue(check.endDate);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue(check.extended_end_date);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[13].setValue(check.noOfDays);
+            that.oEditSubTaskInfo.getContent()[2].getContent()[15].setSelectedKey(check.status);
 
           },
           error: function (res) {
@@ -1978,12 +1984,12 @@ sap.ui.define(
         that.selectedId;
         that.Subid = JSON.parse(that.selectedId);
         that.upEditSubTaskInfo = {
-          description: that.oEditSubTaskInfo.getContent()[2].getContent()[3].getValue(),
-          startDate: that.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue(),
-          endDate: that.oEditSubTaskInfo.getContent()[2].getContent()[7].getValue(),
-          extended_end_date: that.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue() ? that.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue() : null,
-          noOfDays: that.oEditSubTaskInfo.getContent()[2].getContent()[11].getValue(),
-          status: that.oEditSubTaskInfo.getContent()[2].getContent()[13].getSelectedKey(),
+          description: that.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue(),
+          startDate: that.oEditSubTaskInfo.getContent()[2].getContent()[7].getValue(),
+          endDate: that.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue(),
+          extended_end_date: that.oEditSubTaskInfo.getContent()[2].getContent()[11].getValue() ? that.oEditSubTaskInfo.getContent()[2].getContent()[11].getValue() : null,
+          noOfDays: that.oEditSubTaskInfo.getContent()[2].getContent()[13].getValue(),
+          status: that.oEditSubTaskInfo.getContent()[2].getContent()[15].getSelectedKey(),
         }
         that.taskDetails = that.getView().getModel("mCsfDetails").getData();
         var projectData = this.getView().getModel("mprojects").getData();
@@ -1993,22 +1999,23 @@ sap.ui.define(
           }
           else if (((new Date(that.taskDetails.attributes.endDate)) > (new Date(that.taskDetails.attributes.extended_end_date))) &&
             (new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue()) > new Date(that.taskDetails.attributes.endDate))) {
-            sap.m.MessageBox.error("start date is greater than Task End date");
+            sap.m.MessageBox.error("Start date is greater than Task end date");
           }
           else if (((new Date(that.taskDetails.attributes.endDate)) < (new Date(that.taskDetails.attributes.extended_end_date))) &&
             (new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue()) > new Date(that.taskDetails.attributes.extended_end_date))) {
-            sap.m.MessageBox.error("start date is greater than Task Extended End date");
+            sap.m.MessageBox.error("Start date is greater than Task actual end date");
           }
+          
           else if (((new Date(that.taskDetails.attributes.endDate)) > (new Date(that.taskDetails.attributes.extended_end_date))) &&
             (new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue()) > new Date(that.taskDetails.attributes.endDate))) {
-            sap.m.MessageBox.error("Subtask Extended End date is greater than Task End date");
+            sap.m.MessageBox.error("Subtask actual end date is greater than Task end date");
           }
           else if (((new Date(that.taskDetails.attributes.endDate)) < (new Date(that.taskDetails.attributes.extended_end_date))) &&
             (new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue()) > new Date(that.taskDetails.attributes.extended_end_date))) {
-            sap.m.MessageBox.error("Subtask Extended End date is greater than Task Extended End date");
+            sap.m.MessageBox.error("Subtask actual end date is greater than Task actual end date");
           }
           else if (new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[7].getValue()) > new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue())) {
-            sap.m.MessageBox.error("Estimated End date is greater than Extended End date");
+            sap.m.MessageBox.error("Estimated end date is greater than actual end date");
           }
           else {
             var Err = this.ValidateEditSubTask();
@@ -2028,7 +2035,7 @@ sap.ui.define(
                     MessageBox.error(getValues.error.message);
                   } else {
                     that.oEditSubTaskInfo.close();
-                    MessageToast.show("Sub-Tasks Updated Successfully!");
+                    MessageToast.show("Sub-Task Updated Successfully!");
                     that._onObjectMatched(that.id);
                     that.getView().getModel().updateBindings(true);
                     that.CLearSubInfosubEdit();
@@ -2051,6 +2058,7 @@ sap.ui.define(
             noOfDays: that.oEditSubTaskInfo.getContent()[1].getContent()[11].getValue(),
             status: that.oEditSubTaskInfo.getContent()[1].getContent()[13].getSelectedKey(),
             priority: that.oEditSubTaskInfo.getContent()[1].getContent()[15].getSelectedKey(),
+            // responsible:that.oEditSubTaskInfo.getContent()[1].getContent()[17].getSelectedItems(),
             users_permissions_user: that.oEditSubTaskInfo.getContent()[1].getContent()[17].getSelectedKey(),
           }
           that.taskDetails = that.getView().getModel("mCsfDetails").getData();
@@ -2098,7 +2106,7 @@ sap.ui.define(
                     MessageBox.error(getValues.error.message);
                   } else {
                     that.oEditSubTaskInfo.close();
-                    MessageToast.show("Tasks Updated Successfully!");
+                    MessageToast.show("Task Updated Successfully!");
                     that.id;
                     that.parId = that.id;
                     that.parIds = JSON.parse(that.parId);
@@ -2161,25 +2169,25 @@ sap.ui.define(
           thisView.getContent()[2].getContent()[1].setValueState("None");
         }
 
-        if (thisView.getContent()[2].getContent()[3].getValue() === "") {
+        if (thisView.getContent()[2].getContent()[3].getSelectedKey() === "") {
           thisView.getContent()[2].getContent()[3].setValueState("None");
           Err++;
         }
-        if (thisView.getContent()[2].getContent()[5].getValue() === "") {
-          thisView.getContent()[2].getContent()[5].setValueState("None");
-          Err++;
-        }
+        // if (thisView.getContent()[2].getContent()[5].getValue() === "") {
+        //   thisView.getContent()[2].getContent()[5].setValueState("None");
+        //   Err++;
+        // }
 
         if (thisView.getContent()[2].getContent()[7].getValue() === "") {
           thisView.getContent()[2].getContent()[7].setValueState("None");
           Err++;
         }
-        // if (thisView.getContent()[2].getContent()[9].getValue() === "") {
-        //   thisView.getContent()[2].getContent()[9].setValueState("None");
-        //   Err++;
-        // }
-        if (thisView.getContent()[2].getContent()[13].getSelectedKey() === "") {
-          thisView.getContent()[2].getContent()[13].setValueState("None");
+        if (thisView.getContent()[2].getContent()[9].getValue() === "") {
+          thisView.getContent()[2].getContent()[9].setValueState("None");
+          Err++;
+        }
+        if (thisView.getContent()[2].getContent()[15].getSelectedKey() === "") {
+          thisView.getContent()[2].getContent()[15].setValueState("None");
           Err++;
         }
         return Err;
@@ -2188,13 +2196,14 @@ sap.ui.define(
       },
       CLearSubInfosubEdit: function () {
         this.oEditSubTaskInfo.getContent()[2].getContent()[1].setSelectedKey("");
-        this.oEditSubTaskInfo.getContent()[2].getContent()[3].setValue("");
+        this.oEditSubTaskInfo.getContent()[2].getContent()[3].setSelectedKey("");
         this.oEditSubTaskInfo.getContent()[2].getContent()[5].setValue("");
         this.oEditSubTaskInfo.getContent()[2].getContent()[7].setValue("");
         this.oEditSubTaskInfo.getContent()[2].getContent()[9].setValue("");
-        this.oEditSubTaskInfo.getContent()[2].getContent()[11].setSelectedKey("");
-
+        this.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue("");
         this.oEditSubTaskInfo.getContent()[2].getContent()[13].setSelectedKey("");
+
+        this.oEditSubTaskInfo.getContent()[2].getContent()[15].setSelectedKey("");
         // this.oEditSubTaskInfo.getContent()[1].getContent()[15].setSelectedKey("");
       },
       CLearSubInfoAddEdit: function () {
@@ -2298,14 +2307,14 @@ sap.ui.define(
         that.startDate = this.oAddSubTaskInfo.getContent()[1].getContent()[5].getValue();
         that.endDate = this.oAddSubTaskInfo.getContent()[1].getContent()[7].getValue();
 
-			if (that.startDate <= today && that.endDate >= today) {
-				//that.projectStatus.attributes.status = "In-progress";
-				
-        this.oAddSubTaskInfo.getContent()[1].getContent()[11].setSelectedKey("In-Progress")
-			} else if (that.startDate > today) {
-        this.oAddSubTaskInfo.getContent()[1].getContent()[11].setSelectedKey("New")
-			}
-     },
+        if (that.startDate <= today && that.endDate >= today) {
+          //that.projectStatus.attributes.status = "In-progress";
+
+          this.oAddSubTaskInfo.getContent()[1].getContent()[11].setSelectedKey("In-Progress")
+        } else if (that.startDate > today) {
+          this.oAddSubTaskInfo.getContent()[1].getContent()[11].setSelectedKey("New")
+        }
+      },
       //FOR NO OF DAYS SUB-TASK CAL
       handleChangeSub: function (oEvent) {
         var that = this;
@@ -2317,35 +2326,32 @@ sap.ui.define(
       },
       onChangeSubTaskEdit: function (oEvent) {
         var that = this;
-        var startDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue());
-        var endDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[7].getValue());
-        var businessDays = that.calculateBusinessDays(startDate, endDate);
+        var date="Invalid Date";
+        var startDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[7].getValue());
+        var endDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue());
+        var actualEndDate=new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[11].getValue());
+        if(actualEndDate == date){
+          var businessDays = that.calculateBusinessDays(startDate, endDate);
+        }else{
+          var businessDays = that.calculateBusinessDays(startDate, actualEndDate);
+        }
         var totalDays = businessDays;
-        this.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue(totalDays);
+        this.oEditSubTaskInfo.getContent()[2].getContent()[13].setValue(totalDays);
       },
+     
       onChangeTaskEdit: function (oEvent) {
         var that = this;
+        var date="Invalid Date";
         var startDate = new Date(this.oEditSubTaskInfo.getContent()[1].getContent()[5].getValue());
         var endDate = new Date(this.oEditSubTaskInfo.getContent()[1].getContent()[7].getValue());
-        var businessDays = that.calculateBusinessDays(startDate, endDate);
+        var actualEndDate=new Date(this.oEditSubTaskInfo.getContent()[1].getContent()[9].getValue());
+        if(actualEndDate  == date){
+          var businessDays = that.calculateBusinessDays(startDate, endDate );
+        }else{
+        var businessDays = that.calculateBusinessDays(startDate,actualEndDate);
+        }
         var totalDays = businessDays;
         this.oEditSubTaskInfo.getContent()[1].getContent()[11].setValue(totalDays);
-      },
-      onChangeTaskEditIfExtended: function (oEvent) {
-        var that = this;
-        var startDate = new Date(this.oEditSubTaskInfo.getContent()[1].getContent()[5].getValue());
-        var endDate = new Date(this.oEditSubTaskInfo.getContent()[1].getContent()[9].getValue());
-        var businessDays = that.calculateBusinessDays(startDate, endDate);
-        var totalDays = businessDays;
-        this.oEditSubTaskInfo.getContent()[1].getContent()[11].setValue(totalDays);
-      },
-      onChangeSubTaskEditIfExtended: function (oEvent) {
-        var that = this;
-        var startDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[5].getValue());
-        var endDate = new Date(this.oEditSubTaskInfo.getContent()[2].getContent()[9].getValue());
-        var businessDays = that.calculateBusinessDays(startDate, endDate);
-        var totalDays = businessDays;
-        this.oEditSubTaskInfo.getContent()[2].getContent()[11].setValue(totalDays);
       },
       onSearchParticipantValueHelp: function (evt) {
         this.selectUser.getBinding("items").filter([new sap.ui.model.Filter("firstName", sap.ui.model.FilterOperator.Contains,

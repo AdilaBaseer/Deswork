@@ -59,8 +59,8 @@
 		<footer>
 			<OverflowToolbar id="_IDGenOverflowToolbar2">
 				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
-				<Button id="_IDGenButton2" text="Save" press="handleAddUserOkPress"/>
-				<Button id="_IDGenButton3" text="Cancel" press="handleWizardCancel"/>
+				<Button id="_IDGenButton2" text="Save" press="handleAddUserOkPress" type="Accept"/>
+				<Button id="_IDGenButton3" text="Cancel" press="handleWizardCancel" type="Reject"/>
 			</OverflowToolbar>
 		</footer>
 	</Page>

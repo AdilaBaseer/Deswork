@@ -14,7 +14,7 @@ sap.ui.define([
 				if (design === "IT") {
 					this.getView().byId("_IDGenTitle1").setVisible(false);
 					this.getView().byId("totalCalls").setVisible(false);
-					this.getView().byId("totaltask").setVisible(false);
+					// this.getView().byId("totaltask").setVisible(false);
 					this.getView().byId("newprojects").setVisible(false);
 					this.getView().byId("totalCount").setVisible(false);
 					this.getView().byId("InProgress").setVisible(false);

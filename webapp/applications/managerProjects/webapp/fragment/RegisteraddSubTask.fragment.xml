@@ -2,10 +2,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified">
 	<Dialog  title="ADD" contentWidth="30%" class="sapUiSizeCompact" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
 		<endButton>
-			<Button  text="{i18n>Cancel}" press="handleAddTaskCancelS"/>
+			<Button  text="{i18n>Cancel}" press="handleAddTaskCancelS"  type="Reject" />
 		</endButton>
 		<beginButton>
-			<Button  text="{i18n>Add}"  press="handleAddTaskS"/>
+			<Button  text="{i18n>Add}"  press="handleAddTaskS" type="Accept"/>
 		</beginButton>
 		<SegmentedButton  width="100%"  selectionChange="handleSelectionChange">
 			<items>
@@ -38,6 +38,7 @@
                 <core:Item key="In-Progress"  text="In-Progress"/>
                 <core:Item key="Completed"  text="Completed"/>
                 </Select>
+
                 <Label text="Priority" required="true" />
                 <Select forceSelection="false"  selectedKey="{mTasks>/priority}">
                  <core:Item key="Low"  text="Low"  />
@@ -45,9 +46,10 @@
                 <core:Item key="High" text="High" />
                 <core:Item key="Critical"  text="Critical" />
                 </Select>
+
                  <Label text="Responsible" required="true" />
                 <Select forceSelection="false"  selectedKey="{mTasks>/}" items="{pTeams>/}" required="true">
-                <core:Item key="{pTeams>id}"  text="{pTeams>firstName}"/>
+                <core:Item key="{pTeams>id}"  text="{pTeams>firstName} {pTeams>lastName}"/>
                 </Select>	
 			</f:content>
 		</f:SimpleForm>
@@ -70,6 +72,7 @@
 
                 <Label text="Estimated End Date" required="true"/>
                 <DatePicker value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub"/>
+               
                 <Label text="No of Days" />
                 <Input value="{mSubTasks>/noOfDays}" editable="false" type="Number"  />
 
@@ -79,6 +82,10 @@
                 <core:Item key="In-Progress"  text="In-Progress"/>
                 <core:Item key="Completed"  text="Completed"/>
                 </Select>
+                 <Label text="Responsible" required="true" />
+                <Select forceSelection="false"  selectedKey="{mTasks>/}" items="{pTeams>/}" required="true">
+                <core:Item key="{pTeams>firstName}"  text="{pTeams>firstName} {pTeams>lastName}"/>
+                </Select>	
 
 			</f:content>
 		</f:SimpleForm>

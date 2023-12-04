@@ -44,7 +44,7 @@ sap.ui.define([
                 var that = this;
                 var date = today.getDate() + count;
                 var month = today.getMonth() + 1;
-                //  var month1 = today.getMonth();
+                var month1 = today.getMonth();
                 var year = today.getFullYear();
                 if (date < 10) {
                     date = "0" + date;
@@ -52,13 +52,29 @@ sap.ui.define([
                 if (month < 10) {
                     month = "0" + month;
                 }
-                var result = date + "-" + month + "-" + year;
+                var result1= new Date(year, month1, date);
+                var rdate=result1.getDate();
+                var rmonth=result1.getMonth() + 1;
+                var ryear=result1.getFullYear();
+                if(rdate<10){
+                    rdate="0" + rdate
+                }
+                if(rmonth<10){
+                    rmonth= "0"+ rmonth;
+                }
+                var result = rdate + "-" + rmonth + "-" + ryear;
                 var nextDate = today.getDate() + 1 + count;
-                var nextFullDate = month + "-" + nextDate + "-" + year;
+                var nextFullDate1 = month + "-" + nextDate + "-" + year;
                 //  var nextFullDate = new Date(year, month1, nextDate);
+                nextFullDate1 = new Date(nextFullDate1);
+                var nxtdate=nextFullDate1.getDate();
+                var nxtmonth=nextFullDate1.getMonth() + 1;
+                var nxtyear=nextFullDate1.getFullYear();
+                var nextFullDate = nxtmonth + "-" + nxtdate + "-" + nxtyear;
                 nextFullDate = new Date(nextFullDate);
                 that.day = nextFullDate.getDay();
                 return result;
+              
             },
             getWorkingDates: function (today) {
                 var count = 0, that = this;

@@ -1,1 +1,16 @@
 /* Enter your custom styles here */
+.completedStatus {
+    color: green; /* or the desired color for Completed status */
+}
+
+.newStatus {
+    color: black; /* or the desired color for New status */
+}
+
+.inProgressStatus {
+    color:orangered; /* or the desired color for In-progress status */
+}
+
+.delayedStatus {
+    color: red; /* or the desired color for Delayed status */
+}

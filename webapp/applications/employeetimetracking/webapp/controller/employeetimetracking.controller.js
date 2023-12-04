@@ -229,7 +229,7 @@ sap.ui.define([
                 success: function (response) {
                   var arr = [];
                   response = JSON.parse(response);
-                  var oModel = new sap.ui.model.json.JSONModel();
+                  var oModel = new sap.ui.model.json.JSONModel(response);
                   for (var i = 0; i < response.length; i++) {
                     for (var k = 0; k < response[i].p_appointments.length; k++) {
                       response[i].p_appointments[k].startDate = UI5Date.getInstance(response[i].p_appointments[k].startDate);
@@ -237,6 +237,11 @@ sap.ui.define([
                     }
                   }
                   oModel.setData(response);
+                  var aUsers = oModel.getProperty("/");
+                  var aFilteredUsers = aUsers.filter(function (user) {
+                    return user.designation !== "SuperAdmin";
+                  });
+                  oModel.setProperty("/", aFilteredUsers);
                   that.getView().setModel(oModel);
                 }
               });

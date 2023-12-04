@@ -2,10 +2,10 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified">
 	<Dialog title="ADD" contentWidth="30%" class="sapUiSizeCompact" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
 		<endButton>
-			<Button  text="{i18n>Cancel}" press="handleAddTaskCancelS"/>
+			<Button  text="{i18n>Cancel}" press="handleAddTaskCancelS" type="Reject" />
 		</endButton>
 		<beginButton>
-			<Button  text="{i18n>Add}"  press="handleAddTaskS"/>
+			<Button  text="{i18n>Add}"  press="handleAddTaskS" type="Accept" />
 		</beginButton>
 		<SegmentedButton  width="100%"  selectionChange="handleSelectionChange">
 			<items>
@@ -24,7 +24,7 @@
                 <Input value="{mTasks>/description}" /> 
 
                 <Label  text="Start Date" required="true"/>
-                <DatePicker  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker  value="{mTasks>/startDate}" valueFormat="yyyy-MM-dd" change="handleChange" />
 
                 <Label text="Estimated End Date" required="true"/>
                 <DatePicker value="{mTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChange" />
@@ -50,7 +50,7 @@
                
                  <Label text="Responsible" required="true" />
                 <Select forceSelection="false"  selectedKey="{mTasks>/}" items="{pTeams>/}" required="true">
-                <core:Item key="{pTeams>id}"  text="{pTeams>firstName}"/>
+                <core:Item key="{pTeams>id}"  text="{pTeams>firstName} {pTeams>lastName}"/>
                 </Select>	
 				<!-- <Select items="{projectModel>/}" selectedKey="{/selectedVendor}" width="100%" enabled="true">
 					<items>
@@ -70,10 +70,10 @@
                 <Input value="{mSubTasks>/name}" required="true" />
                 
                 <Label text="Description" />
-                <Input  value="{mSubTasks>/description}" required="true" />
+                <Input  value="{mSubTasks>/description}" required="true"/>
 
                 <Label text="Start Date" required="true"/>
-                <DatePicker value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" />
+                <DatePicker value="{mSubTasks>/startDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub" />
 
                 <Label text="Estimated End Date" required="true"/>
                 <DatePicker value="{mSubTasks>/endDate}" valueFormat="yyyy-MM-dd" change="handleChangeSub"/>
@@ -86,7 +86,10 @@
                 <core:Item key="In-Progress"  text="In-Progress"/>
                 <core:Item key="Completed"  text="Completed"/>
                 </Select>
-                
+             <!-- <Label text="Responsible" required="true" />
+                <Select forceSelection="false"  selectedKey="{mTasks>/}" items="{pTeams>/}" required="true">
+                <core:Item key="{pTeams>firstName}"  text="{pTeams>firstName} {pTeams>lastName}"/>
+                </Select>	    -->
                
           
 			</f:content>

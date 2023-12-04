@@ -19,6 +19,26 @@ sap.ui.define([], function () {
 			}
 			return days;
 		},
+		getCurrencyEB:function (estimated_budget, currencyCode) {
+            estimated_budget=estimated_budget
+            if (estimated_budget === undefined || estimated_budget === null) {
+                return "";
+            }
+            const numericPart = parseFloat(estimated_budget.replace(/[^\d.]/g, ''));
+        var currencyCode1 = estimated_budget.replace(/[^a-zA-Z]/g, '');
+            switch (currencyCode1) {
+            
+                case "INR":
+                    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(numericPart);
+                case "USD":
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(numericPart);
+                case "EUR":
+                    return new Intl.NumberFormat('en-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(numericPart);
+                default:
+                    return estimated_budget;
+            }
+ 
+        },
 		formattingDate: function (date) {
 			if (date) {
 				var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({

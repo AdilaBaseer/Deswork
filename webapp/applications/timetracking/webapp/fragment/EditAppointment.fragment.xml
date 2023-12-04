@@ -2,10 +2,10 @@
 	xmlns:l="sap.ui.layout">
 	<Dialog title="Update Appointment" contentWidth="50%" class="sapUiSizeCompact">
 		<beginButton>
-		<Button  text="Save" visible="true" press="handleDialogEditSaveButton"/>
+		<Button  text="Save" type="Accept" visible="true" press="handleDialogEditSaveButton"/>
 		</beginButton>
 		<endButton>
-		<Button text="{i18n>Cancel}"  press="handleDialogEditCancelButton"/>	
+		<Button text="{i18n>Cancel}" type="Reject"  press="handleDialogEditCancelButton"/>	
 		</endButton>
 			<customHeader>
 			<Bar>

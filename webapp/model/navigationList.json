@@ -51,7 +51,22 @@
             "delete": false
         },
         "items": [
-          
+            {
+                "applicationid": "APP1000767",
+                "title": "Time Extension Approval ",
+                "expanded": false,
+                "key": "TimeExtensionApproval",
+                "componentName": "vaspp.TimeExtension",
+                "permittedRoles": [
+                    "everyone"
+                ],
+                "permissions": {
+                    "create": false,
+                    "read": true,
+                    "update": false,
+                    "delete": false
+                }
+            }
         ]
     },
     {
@@ -71,7 +86,24 @@
             "update": false,
             "delete": false
         },
-        "items": []
+        "items": [
+            {
+                "applicationid": "APP1000767",
+                "title": "Time Extension Approval ",
+                "expanded": false,
+                "key": "TimeExtensionApproval",
+                "componentName": "vaspp.TimeExtension",
+                "permittedRoles": [
+                    "everyone"
+                ],
+                "permissions": {
+                    "create": false,
+                    "read": true,
+                    "update": false,
+                    "delete": false
+                }
+            }
+        ]
     },
     {
         "applicationid": "APP10001",
@@ -314,6 +346,7 @@
                     "delete": false
                 }
             },
+          
             {
                 "applicationid": "APP100080",
                 "title": "Public Holidays List",

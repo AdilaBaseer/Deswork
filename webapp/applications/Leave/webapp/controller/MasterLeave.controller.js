@@ -71,7 +71,7 @@ sap.ui.define([
 								var theModel = new sap.ui.model.json.JSONModel(response.data);
 								that.getView().setModel(theModel, "projectModel");
 								var projects = that.getView().getModel("projectModel").getData();
-								var peopleUnderPrjctManager = [],peopleUnderPrjctManager1 = [];
+								var peopleUnderPrjctManager = [], peopleUnderPrjctManager1 = [];
 								for (var i = 0; i < projects.length; i++) {
 									var projectDatalength = projects[i].attributes.users_permissions_users.data.length;
 									for (var j = 0; j < projectDatalength; j++) {
@@ -99,8 +99,10 @@ sap.ui.define([
 											for (var k = 0; k < leavesLength; k++) {
 												var id = response1[k].attributes.requestedById;
 												for (var m = 0; m < peopleUnderPrjctManagerL; m++) {
-													if (id === peopleUnderPrjctManager[m]) {
-														data.push(response1[k]);
+													if (that.loginId !== peopleUnderPrjctManager[m]) {
+														if (id === peopleUnderPrjctManager[m]) {
+															data.push(response1[k]);
+														}
 													}
 												}
 											}

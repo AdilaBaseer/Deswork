@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TimeExtension Page</title>
+		<script
+				id="sap-ui-bootstrap"
+				src="./resources/sap-ui-core.js"
+				data-sap-ui-theme="sap_belize_plus"
+				data-sap-ui-libs="sap.m"
+				data-sap-ui-bindingSyntax="complex"
+				data-sap-ui-compatVersion="edge"
+				data-sap-ui-resourceroots='{
+					"vaspp.TimeExtension": "./",
+					"sap.ui.demo.mock": "../../../../../../../test-resources/sap/ui/documentation/sdk/"
+				}'>
+		</script>
+
+		<script>
+			sap.ui.getCore().attachInit(function () {
+				sap.ui.require([
+					"sap/ui/core/ComponentContainer"
+				], function (ComponentContainer) {
+
+					new ComponentContainer({
+						name : 'vaspp.TimeExtension',
+						height : "100%",
+						settings : {
+							id : "vaspp.TimeExtension"
+						}
+					}).placeAt('content');
+				});
+			});
+		</script>
+
+	</head>
+	<body class="sapUiBody sapUiSizeCompact" id="content">
+	</body>
+</html>

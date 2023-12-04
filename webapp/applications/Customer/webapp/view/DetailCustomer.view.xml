@@ -139,8 +139,8 @@
 		<footer>
 			<m:OverflowToolbar id="_IDGenOverflowToolbar1">
 				<m:ToolbarSpacer id="_IDGenToolbarSpacer1" />
-				<m:Button id="_IDGenButton6" text="Edit" class="sapUiSmallMargin" press="onEdit" />
-				<m:Button id="_IDGenButton16" text="Delete" class="sapUiSmallMargin" press="onDetailPageDelete" />
+				<m:Button id="_IDGenButton6" text="Edit"  press="onEdit" />
+				<m:Button id="_IDGenButton16" text="Delete"  press="onDetailPageDelete" />
 			</m:OverflowToolbar>
 		</footer>
 	</ObjectPageLayout>

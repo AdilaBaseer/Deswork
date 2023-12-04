@@ -45,6 +45,61 @@ sap.ui.define([], function () {
 				}
 			return alteredStatus;
 		},
+		getTaskStatusIndication: function(status, startDate, estimatedEndDate, actualEndDate) {
+			var alteredStatus, date;
+			var today = new Date().toISOString().slice(0, 10);
+		debugger;
+			if (actualEndDate) {
+				date = actualEndDate;
+			} else {
+				date = estimatedEndDate;
+			}
+		
+			if (status === "Completed") {
+				alteredStatus = status;
+			} else if (startDate > today) {
+				alteredStatus = "New";
+			} else if (startDate <= today && today < date) {
+				alteredStatus = "In-progress";
+			} else if (today > date) {
+				alteredStatus = "Delayed";
+			} else if (date === today) {
+				alteredStatus = status;
+			}
+		
+			var classMap = {
+				"Completed": "completedStatus",
+				"New": "newStatus",
+				"In-progress": "inProgressStatus",
+				"Delayed": "delayedStatus"
+			};
+		
+			// Get the class based on the status
+			var cssClass = classMap[alteredStatus] || "defaultStatus";
+		
+			return cssClass;
+		},
+		
+		getRateCard:function (rate_card, currencyCode) {
+			rate_card=rate_card
+			if (rate_card === undefined || rate_card === null) {
+				return "";
+			}
+			const numericPart = parseFloat(rate_card.replace(/[^\d.]/g, ''));
+		var currencyCode1 = rate_card.replace(/[^a-zA-Z]/g, '');
+			// You can add more cases for other currencies as needed
+			switch (currencyCode1) {
+				case "INR":
+					return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(numericPart);
+				case "USD":
+					return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(numericPart);
+				case "EUR":
+					return new Intl.NumberFormat('en-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(numericPart);
+				default:
+					return rate_card;
+			}
+
+		},
 
 		getStatusIndication: function (status, startDate, estimatedEndDate, actualEndDate) {
 			var date;

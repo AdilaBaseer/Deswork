@@ -24,7 +24,8 @@ sap.ui.define([
         that.getAppointmentDetails();
         that.getUserProject();
         that.checkRepeatedTime();
-        that.getUserTask();
+        // that.getUserTask();
+        that.callHolidays();
       },
 
 
@@ -49,12 +50,13 @@ sap.ui.define([
             arr.push(response);
             oModel.setData(arr);
             that.getView().setModel(oModel);
+
           }
         });
       },
 
       //for select Task
-      getUserTask: function () {
+      getUserTask: function (oEvent) {
         var that = this;
         var url = "deswork/api/p-tasks?populate=*&filters[users_permissions_user][id][$eq]=" + this.loginId;
         $.ajax({
@@ -67,9 +69,30 @@ sap.ui.define([
 
           },
           error: function (res) {
-    
+
           }
 
+        });
+      },
+      onSelectProject: function (oEvent) {
+        var that = this;
+        this.projectid = oEvent.getParameter("selectedItem").mProperties.key;
+        that.projectID = JSON.parse(this.projectid);
+        this._AppointmentContext.getContent()[2].getContent()[5].setSelectedKey() === ""
+        this._AppointmentContext.getContent()[2].getContent()[7].setSelectedKey() === ""
+        var loginId = this.getOwnerComponent().getModel("loggedOnUserModel").getData().id;
+        //  var url: "deswork/api/p-tasks?populate[0]=p_sub_tasks&filters[users_permissions_user][id]=" + loginId + "&filters[p_project][id]=" +  that.projectID,
+        $.ajax({
+          url: "deswork/api/p-tasks?populate[0]=p_sub_tasks&filters[users_permissions_user][id]=" + loginId + "&filters[p_project][id]=" + that.projectID,
+          method: "GET",
+          success: function (res) {
+            var response = JSON.parse(res);
+            var cModel = new sap.ui.model.json.JSONModel(response.data);
+            that.getView().setModel(cModel, "mUserTasks");
+
+          },
+          error: function (res) {
+          }
         });
       },
       getUserProject: function (oEvent) {
@@ -81,13 +104,12 @@ sap.ui.define([
 
           success: function (res) {
             var response = JSON.parse(res);
-            
             var theModel = new sap.ui.model.json.JSONModel(response.data);
             that.getView().setModel(theModel, "myproject");
             var oModel = that.getView().getModel("myproject");
           },
           error: function (res) {
-         
+
           }
         });
 
@@ -97,6 +119,7 @@ sap.ui.define([
         var that = this;
         this.taskid = oEvent.getParameter("selectedItem").mProperties.key;
         that.taskID = JSON.parse(this.taskid);
+        this._AppointmentContext.getContent()[2].getContent()[7].setSelectedKey() === ""
         var url = "deswork/api/p-sub-tasks?populate=*&filters[p_task][id][$eq]=" + that.taskID;
         $.ajax({
           url: url,
@@ -107,7 +130,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mUserSubTask");
           },
           error: function (res) {
-           
+
             //MessageBox.error(res + "Something went wroung");
           }
         });
@@ -125,7 +148,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mAppointDetails");
           },
           error: function (res) {
-           
+
             MessageBox.error(res + "Something went wroung");
           }
         });
@@ -144,7 +167,7 @@ sap.ui.define([
             that.getView().setModel(cModel, "mAppointDetails");
           },
           error: function (res) {
-          
+
             MessageBox.error(res + "Something went wroung");
           }
         });
@@ -186,7 +209,7 @@ sap.ui.define([
           this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[5].setSelectedKey(null);
         }
         if (ch.attributes.p_sub_tasks.data.length > 0) {
-          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].setValue(ch.attributes.name).setSelectedKey(ch.attributes.p_sub_tasks.data[0].id);
+          this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].setValue(ch.attributes.name);
         } else {
           this._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[7].setSelectedKey(null);
         }
@@ -235,7 +258,7 @@ sap.ui.define([
         that.cseltext = oEvent.getParameter("selectedItem").getProperty("key");
         // that.selectedId = oEvent.getParameters().selectedItem.mProperties.key;
         $.ajax({
-          url: "deswork/api/p-appointments/"+ that.cseltext + "?populate=*",
+          url: "deswork/api/p-appointments/" + that.cseltext + "?populate=*",
           type: "GET",
 
           success: function (res) {
@@ -252,7 +275,7 @@ sap.ui.define([
 
           },
           error: function (res) {
-           
+
             MessageBox.error(res + "Something went wrong");
           }
         });
@@ -275,12 +298,12 @@ sap.ui.define([
               "startDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[9].getDateValue(),
               "endDate": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[11].getDateValue(),
               "noOfHours": that._EditAppointment.getContent()[0].mAggregations.items[0]._aElements[13].getValue(),
-              "status":"Applied"
+              "status": "Applied"
             }
           }),
           success: function (response) {
             var resValue = JSON.parse(response);
-          
+
             if (resValue.error) {
               MessageBox.error(resValue.error.message);
             } else {
@@ -324,7 +347,7 @@ sap.ui.define([
           }),
           success: function (response) {
             var resValue = JSON.parse(response);
-          
+
             if (resValue.error) {
               //MessageBox.error(resValue.error.message);
             } else {
@@ -379,7 +402,7 @@ sap.ui.define([
                 // Calculate duration in hours
 
                 totalHoursWorked += duration; // Accumulate the duration
-        
+
               }
             }
             this.totalHoursWorked = totalHoursWorked;
@@ -387,7 +410,7 @@ sap.ui.define([
               MessageBox.error("8 hours exceeded");
               that._AddAppointment.close();
             }
-           
+
 
             arr.push(response);
             oModel.setData(arr);
@@ -407,7 +430,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -418,8 +441,8 @@ sap.ui.define([
         }
       },
       handleCreateChangeEdit: function (oEvent) {
-        var startDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
-        var endDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
+        var startDate = this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
+        var endDate = this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
         if (startDate && endDate) {
           // Calculate the difference in milliseconds
           var timeDiff = endDate.getTime() - startDate.getTime();
@@ -427,7 +450,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-      
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -436,8 +459,8 @@ sap.ui.define([
         this._EditAppointment.getContent()[0].getItems()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
       },
       handleCreateChangeEdit1: function (oEvent) {
-        var startDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
-        var endDate =  this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
+        var startDate = this._EditAppointment.getContent()[0].getItems()[0].getContent()[9].getDateValue()
+        var endDate = this._EditAppointment.getContent()[0].getItems()[0].getContent()[11].getDateValue()
         if (startDate && endDate) {
           // Calculate the difference in milliseconds
           var timeDiff = endDate.getTime() - startDate.getTime();
@@ -445,7 +468,7 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-        
+
         }
         if (hours >= 8) {
           MessageBox.error("8 hours exceeded");
@@ -478,7 +501,7 @@ sap.ui.define([
             }),
             success: function (response) {
               var resValue = JSON.parse(response);
-         
+
               if (resValue.error) {
                 MessageBox.error(resValue.error.message);
               } else {
@@ -516,18 +539,14 @@ sap.ui.define([
       },
       handleAppointmentSelect: function (oEvent) {
         var that = this;
-
         if (!this.AppointmentInfo) {
           this.AppointmentInfo = sap.ui.xmlfragment("idaPPo", "vaspp.timetracking.fragment.AppointmentInfo", this);
           this.getView().addDependent(this.AppointmentInfo);
         }
-
         var bindingContext = oEvent.getParameter("appointment").getBindingContext();
         var taskData = bindingContext.getObject();
         that.SelectedId = taskData.id;
         var userInfo = bindingContext.getModel().oData[0].p_appointments;
-
-
         for (var i = 0; i < userInfo.length; i++) {
           if (taskData.id === userInfo[i].id) {
             var url = "deswork/api/p-appointments/" + userInfo[i].id + "?populate=*";
@@ -557,8 +576,8 @@ sap.ui.define([
                 var startDate = taskData.startDate;
                 var endDate = taskData.endDate;
                 var noOfHours = taskData.noOfHours;
-                var Comment=taskData.Comment;
-                var status=taskData.status;
+                var Comment = taskData.Comment;
+                var status = taskData.status;
                 var taskModel = new sap.ui.model.json.JSONModel();
                 taskModel.setData({
                   id: that.taskId,
@@ -569,8 +588,8 @@ sap.ui.define([
                   noOfHours: noOfHours,
                   p_tasks: p_tasks,
                   p_sub_tasks: p_sub_tasks,
-                  Comment:Comment,
-                   status:status
+                  Comment: Comment,
+                  status: status
                 });
 
                 that.getView().setModel(taskModel, "taskModel");
@@ -580,7 +599,7 @@ sap.ui.define([
                 that.AppointmentInfo.open();
               },
               error: function (res) {
-       
+
                 // MessageBox.error(res + "Something went wrong");
               }
             });
@@ -632,7 +651,7 @@ sap.ui.define([
                 type: "DELETE",
                 success: function (response) {
                   var resValue = JSON.parse(response);
-                
+
                   if (resValue.error) {
                     MessageBox.error(resValue.error.message);
                   } else {
@@ -659,47 +678,96 @@ sap.ui.define([
           // Convert milliseconds to hours
           var hours = Math.floor(timeDiff / (1000 * 60 * 60));
           var minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-     
+
         }
         this._AddAppointment.getContent()[0].getContent()[13].setValue(hours + " hours " + minutes + " minutes");
       },
-
+      callHolidays: function () {
+        var that = this;
+        var date = new Date();
+        var currentYear = date.getFullYear();
+        $.ajax({
+          url: "deswork/api/p-holidays?filters[year][$eq]=" + currentYear,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          success: function (response) {
+            response = JSON.parse(response);
+            var oModel2 = new sap.ui.model.json.JSONModel(response.data);
+            that.getView().setModel(oModel2, "holidays");
+          }
+        });
+      },
 
       handleAppointmentAddWithContext: function (oEvent) {
         var that = this
         var selectedDate = oEvent.getParameters().startDate;
         var selectedDate1 = new Date(selectedDate);
         var today = new Date();
+        var publicHolidaModel = this.getView().getModel("holidays").getData();
         if (!this._AppointmentContext) {
           this._AppointmentContext = sap.ui.xmlfragment("calid", "vaspp.timetracking.fragment.AppointmentWithContent", this);
           this.getView().addDependent(this._AppointmentContext);
         }
-        if (today >= selectedDate1) {
-          this._AppointmentContext.getContent()[2].getContent()[9].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[2].getContent()[9].setMaxDate(today);
+        if (selectedDate1.getDay() == 0 || selectedDate1.getDay() == 6) {
+          MessageBox.error("It is not working Day.");
+          return;
+        } else if (selectedDate1) {
+          for (var j = 0; j < publicHolidaModel.length; j++) {
+            var hol = publicHolidaModel[j].attributes.date;
+            var monthh = publicHolidaModel[j].attributes.date.split("-")[1];
+            var yearh = publicHolidaModel[j].attributes.date.split("-")[0];
+            var dateh = publicHolidaModel[j].attributes.date.split("-")[2];
+            var holidaySelected = dateh + '-' + monthh + '-' + yearh;
+            var dateSelected = selectedDate1.getDate();
+            if (dateSelected < 10) {
+              var dateSelected = '0' + dateSelected;
+            } else {
+              var dateSelected = dateSelected;
+            }
+            var monthSelected = selectedDate1.getMonth() + 1;
+            if (monthSelected < 10) {
+              var monthSelected = '0' + monthSelected;
+            } else {
+              var monthSelected = monthSelected;
+            }
+            var yearSelected = selectedDate1.getFullYear();
+            var alteredDateSelected = dateSelected + '-' + monthSelected + '-' + yearSelected;
+
+            if (holidaySelected === alteredDateSelected) {
+              MessageBox.error("It's a public holiday on " + holidaySelected + " ..");
+              return;
+            }
+          }
+          if (today >= selectedDate1) {
+            this._AppointmentContext.getContent()[2].getContent()[9].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[2].getContent()[9].setMaxDate(today);
 
 
-          this._AppointmentContext.getContent()[2].getContent()[11].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[2].getContent()[11].setMaxDate(today);
+            this._AppointmentContext.getContent()[2].getContent()[11].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[2].getContent()[11].setMaxDate(today);
 
-          this._AppointmentContext.getContent()[3].getContent()[1].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[3].getContent()[1].setMaxDate(today);
+            this._AppointmentContext.getContent()[3].getContent()[1].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[3].getContent()[1].setMaxDate(today);
 
-          this._AppointmentContext.getContent()[5].getContent()[1].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[5].getContent()[1].setMaxDate(today);
+            this._AppointmentContext.getContent()[5].getContent()[1].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[5].getContent()[1].setMaxDate(today);
 
-          this._AppointmentContext.getContent()[5].getContent()[3].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[5].getContent()[3].setMaxDate(today);
+            this._AppointmentContext.getContent()[5].getContent()[3].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[5].getContent()[3].setMaxDate(today);
 
-          this._AppointmentContext.getContent()[4].getContent()[3].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[4].getContent()[3].setMaxDate(today);
+            this._AppointmentContext.getContent()[4].getContent()[3].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[4].getContent()[3].setMaxDate(today);
 
-          this._AppointmentContext.getContent()[4].getContent()[5].setDateValue(selectedDate1);
-          this._AppointmentContext.getContent()[4].getContent()[5].setMaxDate(today);
-          that._AppointmentContext.open();
-        } else {
-          MessageBox.error("Cannot Enter Appointment for Future Date.")
+            this._AppointmentContext.getContent()[4].getContent()[5].setDateValue(selectedDate1);
+            this._AppointmentContext.getContent()[4].getContent()[5].setMaxDate(today);
+            that._AppointmentContext.open();
+          } else {
+            MessageBox.error("Cannot Enter Appointment for Future Date.")
+          }
         }
+
       },
 
       handleCreateChange3: function (oEvent) {
@@ -770,7 +838,7 @@ sap.ui.define([
               MessageBox.error("8 hours exceeded");
               that._AddAppointment.close();
             }
-          
+
 
             arr.push(response);
             oModel.setData(arr);
@@ -781,8 +849,8 @@ sap.ui.define([
 
 
       handleCreateChange4: function (oEvent) {
-        var newStartDate1  = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
-        var  newEndDate1 = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
+        var newStartDate1 = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+        var newEndDate1 = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
         var newStartDate = new Date(newStartDate1);
         var newEndDate = new Date(newEndDate1);
         var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
@@ -834,8 +902,10 @@ sap.ui.define([
         var newEndDate1 = this._AppointmentContext.getContent()[4].getContent()[5].getDateValue();
         var newStartDate = new Date(newStartDate1);
         var newEndDate = new Date(newEndDate1);
-
-
+        // if( newStartDate >= newEndDate){
+        //   MessageBox.error("End time  is less than start time.");
+        //   return
+        // }
         var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
         $.ajax({
           url: url,
@@ -879,11 +949,14 @@ sap.ui.define([
         }
       },
       handleCreateChange6: function (oEvent) {
-        var  newStartDate1 = this._AppointmentContext.getContent()[5].getContent()[1].getDateValue();
-        var  newEndDate1= this._AppointmentContext.getContent()[5].getContent()[3].getDateValue();
+        var newStartDate1 = this._AppointmentContext.getContent()[5].getContent()[1].getDateValue();
+        var newEndDate1 = this._AppointmentContext.getContent()[5].getContent()[3].getDateValue();
         var newStartDate = new Date(newStartDate1);
         var newEndDate = new Date(newEndDate1);
-
+        // if( newStartDate >=newEndDate){
+        //   MessageBox.error("End time  is less than start time.");
+        //   return
+        // }
 
         var url = "deswork/api/users/" + this.loginId + "?populate[0]=p_appointments";
         $.ajax({
@@ -926,13 +999,11 @@ sap.ui.define([
           this._AppointmentContext.getContent()[5].getContent()[7].setValue(hours + " hours " + minutes + " minutes");
         }
       },
-
       handleAppDialogCancelButton: function () {
         var that = this;
         that.clearSave1();
         that._AppointmentContext.close();
       },
-
       onSelectChange: function (oEvent) {
         debugger
         var that = this;
@@ -965,7 +1036,6 @@ sap.ui.define([
           oTraining.setVisible(true);
         }
       },
-
       clearSave1: function () {
         var that = this;
         var oProjectForm = that._AppointmentContext.getContent()[2];
@@ -978,13 +1048,20 @@ sap.ui.define([
         oInternalForm.setVisible(false);
         oTraining.setVisible(false)
         that._AppointmentContext.close(),
-          that._AppointmentContext.getContent()[2].getContent()[1].setSelectedKey(),
-          that._AppointmentContext.getContent()[2].getContent()[3].setValue(),
-          that._AppointmentContext.getContent()[2].getContent()[5].setValue(),
-          that._AppointmentContext.getContent()[2].getContent()[7].setValue(),
-          that._AppointmentContext.getContent()[2].getContent()[9].setDateValue(),
-          that._AppointmentContext.getContent()[2].getContent()[11].setDateValue(),
-          that._AppointmentContext.getContent()[2].getContent()[13].setValue(),
+        that._AppointmentContext.getContent()[2].getContent()[1].setSelectedKey() === "",
+        that._AppointmentContext.getContent()[2].getContent()[3].setValue() === "",
+        that._AppointmentContext.getContent()[2].getContent()[5].setSelectedKey() === "",
+        that._AppointmentContext.getContent()[2].getContent()[7].setSelectedKey() === "",     
+          that._AppointmentContext.getContent()[2].getContent()[9].setValue() === "",
+          that._AppointmentContext.getContent()[2].getContent()[11].setValue() === "",
+          that._AppointmentContext.getContent()[2].getContent()[13].setValue() === "",
+          this._AppointmentContext.getContent()[3].getContent()[5].setValue() === "",
+          this._AppointmentContext.getContent()[5].getContent()[5].setValue() === "",
+          this._AppointmentContext.getContent()[5].getContent()[7].setValue() === "",
+          that._AppointmentContext.getContent()[4].getContent()[1].setValue() === "",
+          that._AppointmentContext.getContent()[4].getContent()[7].setValue() === "",
+
+
           oProjectForm.setVisible(false);
         oOutOfOfficeForm.setVisible(false);
         oInternalForm.setVisible(false);
@@ -1014,18 +1091,14 @@ sap.ui.define([
         that._AppointmentContext.close()
 
       },
-
       onHalfDaySelect1: function () {
         var that = this;
         that.Selected = "FirstHalf Leave";
       },
-
       onHalfDaySelect2: function () {
         var that = this;
         that.Selected = "SecondHalf Leave";
       },
-
-
       handleAppDialogSaveButton: function () {
         var that = this;
 
@@ -1049,6 +1122,7 @@ sap.ui.define([
                       "endDate": this._AppointmentContext.getContent()[3].getContent()[1].getDateValue(),
                       "halfDay": that.Selected,
                       "noOfHours": "04 Hours",
+                      "status": "Applied"
                     }
                   }),
                   success: function (response) {
@@ -1076,6 +1150,17 @@ sap.ui.define([
         else if (that.SelectedButton === "Training") {
           var Err = that.validateCreateTraining();
           if (Err == 0) {
+            var newStartDate1 = this._AppointmentContext.getContent()[5].getContent()[1].getDateValue();
+            var newEndDate1 = this._AppointmentContext.getContent()[5].getContent()[3].getDateValue();
+            var newStartDate = new Date(newStartDate1);
+            var newEndDate = new Date(newEndDate1);
+            if( newStartDate > newEndDate){
+              MessageBox.error("End time  is less than start time.");
+              return
+            }else  if( newStartDate.getTime() === newEndDate.getTime()){
+              MessageBox.error("Please select time.");
+              return
+            }else{
             $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",
@@ -1091,6 +1176,7 @@ sap.ui.define([
                   "startDate": this._AppointmentContext.getContent()[5].getContent()[1].getDateValue(),
                   "endDate": this._AppointmentContext.getContent()[5].getContent()[3].getDateValue(),
                   "noOfHours": that._AppointmentContext.getContent()[5].getContent()[7].getValue(),
+                  "status": "Applied"
                 }
               }),
               success: function (response) {
@@ -1106,6 +1192,7 @@ sap.ui.define([
                 }
               }
             });
+          }
           } else {
             MessageBox.error("Mandatory Fields are Required");
           }
@@ -1113,7 +1200,17 @@ sap.ui.define([
         else if (that.SelectedButton === "Internal") {
           var Err = that.validateCreateInternal();
           if (Err == 0) {
-              $.ajax({
+            var newStartDate1 = this._AppointmentContext.getContent()[4].getContent()[3].getDateValue();
+        var newEndDate1 = this._AppointmentContext.getContent()[4].getContent()[5].getDateValue();
+        var newStartDate = new Date(newStartDate1);
+        var newEndDate = new Date(newEndDate1);
+        if( newStartDate > newEndDate){
+          MessageBox.error("End time  is less than start time.");
+        }else  if( newStartDate.getTime() === newEndDate.getTime()){
+          MessageBox.error("Please select time.");
+          return
+        }else{
+            $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",
               headers: {
@@ -1127,6 +1224,7 @@ sap.ui.define([
                   "startDate": this._AppointmentContext.getContent()[4].getContent()[3].getDateValue(),
                   "endDate": this._AppointmentContext.getContent()[4].getContent()[5].getDateValue(),
                   "noOfHours": that._AppointmentContext.getContent()[4].getContent()[7].getValue(),
+                  "status": "Applied"
 
                 }
               }),
@@ -1144,6 +1242,7 @@ sap.ui.define([
                 }
               }
             });
+          }
           } else {
             MessageBox.error("Mandatory Fields are Required");
           }
@@ -1151,7 +1250,17 @@ sap.ui.define([
         else if (that.SelectedButton === "Projects") {
           var Err = that.validateCreateProjects();
           if (Err == 0) {
-        
+            var newStartDate1 = this._AppointmentContext.getContent()[2].getContent()[9].getDateValue();
+            var newEndDate1 = this._AppointmentContext.getContent()[2].getContent()[11].getDateValue();
+            var newStartDate = new Date(newStartDate1);
+            var newEndDate = new Date(newEndDate1);
+            if( newStartDate > newEndDate){
+              MessageBox.error("End time of task is less than start time.");
+              return
+            }else  if( newStartDate.getTime() === newEndDate.getTime()){
+              MessageBox.error("Please select time.");
+              return
+            }else{
             $.ajax({
               url: "/deswork/api/p-appointments?populate=*",
               type: "POST",
@@ -1162,27 +1271,29 @@ sap.ui.define([
                 "data": {
                   "users_permissions_users": this.loginId,
                   "name": this._AppointmentContext.getContent()[1].getSelectedKey(),
-                  "description": this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey(),
+                  "description": this._AppointmentContext.getContent()[2].getContent()[3].getValue(),
                   "project_Information": this._AppointmentContext.getContent()[2].getContent()[3].getValue(),
                   // "p_projects":this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey()?this._AppointmentContext.getContent()[2].getContent()[1].getSelectedKey() : null,
                   "p_tasks": this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() ? this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() : null,
-                  "p_sub_tasks": this._AppointmentContext.getContent()[2].getContent()[7].getSelectedKey() ? this._AppointmentContext.getContent()[2].getContent()[5].getSelectedKey() : null,
+                  "p_sub_tasks": this._AppointmentContext.getContent()[2].getContent()[7].getSelectedKey() ? this._AppointmentContext.getContent()[2].getContent()[7].getSelectedKey() : null,
                   "startDate": this._AppointmentContext.getContent()[2].getContent()[9].getDateValue(),
                   "endDate": this._AppointmentContext.getContent()[2].getContent()[11].getDateValue(),
                   "noOfHours": that._AppointmentContext.getContent()[2].getContent()[13].getValue(),
+                  "status": "Applied"
 
                 }
               }),
               success: function (response) {
                 var resValue = JSON.parse(response);
-                  that._AppointmentContext.close();
-                  that.getAppointmentDetails();
-                  MessageBox.success("Added Successfully"),
+                that._AppointmentContext.close();
+                that.getAppointmentDetails();
+                MessageBox.success("Added Successfully"),
                   that.getUserDetails();
-                  that.clearSave1();  
-                
+                that.clearSave1();
+
               }
             });
+          }
           } else {
             MessageBox.error("Mandatory Fields are Required");
           }
@@ -1259,6 +1370,59 @@ sap.ui.define([
           Err++;
         }
         return Err;
+      },
+      handleDateSelection: function (evt) {
+        var that = this;
+        var applyLeaveThis = this;
+        that.applyLeaveThis = applyLeaveThis;
+        var oCalendar = evt.getSource(),
+          aSelectedDates = oCalendar.getSelectedDates();
+        applyLeaveThis.calendar = oCalendar;
+
+        // If a new date is selected
+        if (aSelectedDates.length > applyLeaveThis.lastSelecetedDatesCount) {
+          var lastSelectedDate = aSelectedDates[aSelectedDates.length - 1].getStartDate(),
+            selectedLeaveType = applyLeaveThis.getView().byId("leaveTypeSelectId").getSelectedKey();
+
+          if (selectedLeaveType == "Select") {
+            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+            MessageToast.show("Please select leave type");
+            return;
+          }
+
+          //... Monitoring each date selection and guiding the user ...///
+          var isHalfDayLeave = applyLeaveThis.getView().byId("halfDayCheckBoxId").getSelected();
+          if (isHalfDayLeave && aSelectedDates.length > 1) {
+            oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+            return;
+          } else {
+            var publicHolidaModel = this.getView().getModel("holidays").getData();
+            if (lastSelectedDate.getDay() == 0 || lastSelectedDate.getDay() == 6) {
+              MessageToast.show("It is not working Day..");
+              oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+              return;
+            }
+            else if (aSelectedDates) {
+              var datesArr = this.getRandomDates(aSelectedDates);
+              for (var i = 0; i < datesArr.length; i++) {
+                for (var j = 0; j < publicHolidaModel.length; j++) {
+                  var hol = publicHolidaModel[j].attributes.date;
+                  var monthh = publicHolidaModel[j].attributes.date.split("-")[1];
+                  var yearh = publicHolidaModel[j].attributes.date.split("-")[0];
+                  var dateh = publicHolidaModel[j].attributes.date.split("-")[2];
+                  var holidaySelected = dateh + '-' + monthh + '-' + yearh;
+
+                  if (holidaySelected === datesArr[i]) {
+                    MessageToast.show("It's a public holiday on " + holidaySelected + " ..");
+                    oCalendar.removeSelectedDate(aSelectedDates[aSelectedDates.length - 1]);
+                    return;
+                  } else { }
+                }
+              }
+            }
+
+          }
+        }
       },
     });
   });    

@@ -72,10 +72,11 @@
                     <Label text="Status"/>
 					<Text text="{taskModel>/status}" visible="true" />	
 
-					<Label text="Comments"/>
-					<!-- <Text text="{taskModel>/noOfHours}" visible="true"/> -->
-					<!-- <Input value="{taskModel>/Comment}" visible="true" ></Input>	 -->
-					<Input value="{taskModel>/Comment}" visible="true" ></Input>
+					<Label text="Comments" visible="{= ${taskModel>/status} === 'Applied' ? true : false}"/>
+					<Input value="{taskModel>/Comment}" visible="{= ${taskModel>/status} === 'Applied' ? true : false}" ></Input>
+
+					<Label text="Comments"  visible="{= ${taskModel>/status} === 'Approved' ? true : (${taskModel>/status} === 'Rejected' ? true:false)}"/>
+					<Text text="{taskModel>/Comment}" visible="{= ${taskModel>/status} === 'Approved' ? true : (${taskModel>/status} === 'Rejected' ? true:false)}"/>
 
 						<!-- <Label text="status"/>
 					<Text text="{taskModel>/Status}" visible="true"/>	 -->

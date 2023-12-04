@@ -1,0 +1,13 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:grid="sap.ui.layout.cssgrid"
+  controllerName="vaspp.TimeExtension.controller.masterTimeExtension">
+ <Page title="PROJECTS" id="p">
+    <!-- <HBox id="tileContainer" /> -->
+    <grid:CSSGrid id="tileContainer" gridTemplateColumns="repeat(auto-fit, minmax(174px,174px))" class="gridPadding" gridTemplateRows=" 174px"
+			gridGap="2rem" >
+
+		</grid:CSSGrid>
+  </Page>
+</mvc:View>

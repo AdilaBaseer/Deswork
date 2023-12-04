@@ -404,6 +404,10 @@ sap.ui.define([
                                 k = batches1.length;
                                 l = k - 1;
                                 b2 = batches1[l];
+                                var halfday = that.getView().byId("halfDayCheckBoxId").getProperty("selected");
+                                if(halfday == true){
+                                    k= "0.5";
+                                }
                                 var result = {
                                     "startDate": b1,
                                     "endDate": b2,
@@ -445,7 +449,7 @@ sap.ui.define([
                 if (halfday == true) {
                     if (k == 1) {
                         halfDay = halfday;
-                        return
+                        return halfDay
                     } else {
                         that.getView().byId("halfDayCheckBoxId").setSelected(false);
                         MessageBox.error("Select one day to apply a half day leave");
@@ -454,7 +458,7 @@ sap.ui.define([
 
                 } else {
                     halfDay = halfday;
-                    return;
+                    return ;
                 }
 
             },
@@ -519,10 +523,10 @@ sap.ui.define([
                             "data": result
                         }),
                         success: function (response) {
-                           
+                            MessageBox.success(response);
                         },
                         error: function (error) {
-                            MessageBox.success(error);
+                            MessageBox.error(error);
                         }
                     });
                 }
